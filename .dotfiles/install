@@ -9,10 +9,11 @@ apt update && apt install clang gcc clangd nvim
 
 # ruby solargraph
 
+# htop tig gdb 
 # tmux
 
 #TODO
-# fish (+ plugins) starship fd bat autojump fzf
+# fish (+ plugins) starship fd rg bat autojump(fasd) fzf
 
 # nvim install plugins command
 
