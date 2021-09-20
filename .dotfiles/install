@@ -9,6 +9,8 @@ apt update && apt install clang gcc clangd nvim
 
 # ruby solargraph
 
+# tmux
+
 #TODO
 # fish (+ plugins) starship fd bat autojump fzf
 
@@ -19,3 +21,5 @@ apt update && apt install clang gcc clangd nvim
 
 # alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 # dotfiles checkout
+
+# lolcat cowsay fortune (uncensored) 
