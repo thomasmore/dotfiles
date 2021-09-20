@@ -1,0 +1,21 @@
+{
+  "lastChangelogVersion": "1.0.4",
+  "packages": [
+    "npm:pi-multi-pass",
+    "git:github.com/cgxeiji/pi-emote",
+    "npm:@juicesharp/rpiv-ask-user-question",
+    "npm:@juicesharp/rpiv-btw",
+    "npm:pi-web-access",
+    "npm:pi-schedule-prompt",
+    "npm:@gotgenes/pi-anthropic-auth"
+  ],
+  "defaultProvider": "devagent",
+  "defaultModel": "cortex",
+  "defaultThinkingLevel": "high",
+  "hideThinkingBlock": true,
+  "theme": "dark",
+  "terminal": {
+    "showTerminalProgress": true
+  },
+  "showCacheMissNotices": true
+}

@@ -1,0 +1,53 @@
+# Inserts a blank line between shell prompts
+add_newline = true
+
+format = """
+$username\
+$hostname\
+$shlvl\
+$directory\
+$git_branch\
+$git_commit\
+$git_state\
+$git_status\
+$hg_branch\
+$env_var\
+$custom\
+$cmd_duration\
+$line_break\
+$character"""
+
+[git_branch]
+style = "bold green"
+symbol = "󰊢 "
+
+[git_status]
+format = '([\[$conflicted$deleted$renamed$modified$staged$untracked$ahead_behind\]]($style) )'
+ahead = "⇡${count}"
+diverged = "⇡${ahead_count}⇣${behind_count}"
+behind = "⇣${count}"
+untracked = "?${count}"
+style = "bold yellow"
+
+[character]
+success_symbol = "[🔥](bold green)"
+error_symbol = "[💩](bold red)"
+
+[cmd_duration]
+format = "[took $duration](dimmed #777777) "
+
+[directory]
+truncation_length = 20
+truncation_symbol = "…/"
+truncate_to_repo = false
+style = "bold blue"
+
+[env_var]
+variable = "LD_LIBRARY_PATH"
+format = "with [LD_LIBRARY_PATH=$env_value ](bold red)"
+
+[custom.shell]
+command = "echo $STARSHIP_SHELL"
+when = """ test "$STARSHIP_SHELL" != "fish" """
+format = "[in 🖥️$output]($style)"
+style = "cyan"

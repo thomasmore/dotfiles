@@ -1,0 +1,52 @@
+[core]
+    editor = nvim
+    excludesfile = ~/.gitignore
+    pager = delta
+[alias]
+    co = checkout
+    ci = commit
+    st = status
+    dt = difftool
+    mt = mergetool
+    fpush = push --force-with-lease
+[interactive]
+    diffFilter = delta --color-only
+[color]
+    ui = auto
+[diff]
+    tool = nvim
+    colorMoved = default
+[difftool "nvim"]
+    cmd = nvim -d \"$LOCAL\" \"$REMOTE\"
+[merge]
+    tool = nvim
+    conflictstyle = diff3
+[mergetool "nvim"]
+    cmd = nvim -c \"Gdiffsplit!\" \"$MERGED\"
+[delta]
+    navigate = true
+[tig "color"]
+    cursor = magenta default reverse
+[pull]
+    ff = only
+[rerere]
+    enabled = true
+    autoUpdate = true
+[branch]
+    sort = -committerdate
+[column]
+    ui = auto
+[user]
+    name = Thomas More
+    email = thomasmore@github.com
+[includeIf "gitdir:~/workspace/"]
+    path = ~/.gitconfig-work
+[credential]
+    helper = store
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[init]
+	defaultBranch = main
