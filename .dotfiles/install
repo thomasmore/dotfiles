@@ -8,4 +8,12 @@ fi
 apt update && apt install clang gcc clangd nvim
 
 #TODO
-# fish starship fd bat autojump fzf
+# fish (+ plugins) starship fd bat autojump fzf
+
+# nvim install plugins command
+
+# install nerdfont?
+# kitty config?
+
+# alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+# dotfiles checkout
