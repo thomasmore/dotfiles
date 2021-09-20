@@ -1,0 +1,2 @@
+git clone --bare https://github.com/USERNAME/dotfiles.git $HOME/.dotfiles
+$HOME/.dotfiles/install
