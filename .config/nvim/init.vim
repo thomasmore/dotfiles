@@ -12,6 +12,27 @@ set mouse=a
 
 set inccommand=split
 
+noremap <up> <nop>
+noremap <down> <nop>
+noremap <left> <nop>
+noremap <right> <nop>
+
+inoremap jj <esc>
+inoremap jw <esc>:w<cr>
+inoremap jq <esc>:wq<cr>
+inoremap <esc> <nop>
+
+set clipboard+=unnamedplus
+
+" rg integration
+set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
+set grepformat=%f:%l:%c:%m,%f:%l:%m
+nnoremap <leader>rg :silent lgrep<space>
+nnoremap <silent> ]p :lprevious<cr>
+nnoremap <silent> ]n :lnext<cr>
+nnoremap <silent> ]o :lopen<cr>
+nnoremap <silent> ]c :lclose<cr>
+
 " windows layout
 set winwidth=80
 set winheight=20
@@ -23,32 +44,29 @@ set tabstop=4
 set shiftwidth=4
 set expandtab
 
-" tab support
-nnoremap <f3> :tabnew<cr>
-nnoremap <f4> :tabprev<cr>
-nnoremap <f5> :tabnext<cr>
-
 " folding
-set foldmethod=syntax
-set foldlevelstart=6
+set foldmethod=expr
+set foldexpr=nvim_treesitter#foldexpr()
+set foldlevelstart=10
 
-set signcolumn=number
-" Toggle signcolumn
+" Toggle signcolumn.
 function! ToggleSignColumn()
-    if !exists("b:signcolumn_on") || b:signcolumn_on
-        set signcolumn=no
-        let b:signcolumn_on=0
-    else
-        set signcolumn=number
-        let b:signcolumn_on=1
-    endif
+  if !exists("b:signcolumn_on") || b:signcolumn_on
+    set signcolumn=no
+    let b:signcolumn_on=0
+  else
+    set signcolumn=number
+    let b:signcolumn_on=1
+  endif
 endfunction
 
-" Indentline
-let g:indentLine_color_gui = '#555555'
-let g:indentLine_char = '▏'
-let g:indentLine_fileTypeExclude=['json']
-nnoremap <Leader>i :IndentLinesToggle<cr>:set invnumber<cr>:set invrelativenumber<cr>:call ToggleSignColumn()<cr>
+" indent-blankline
+let g:indent_blankline_char ='▏'
+let g:indent_blankline_use_treesitter = v:true
+let g:indent_blankline_show_first_indent_level = v:false
+let g:indent_blankline_filetype_exclude = ['json', 'startify']
+let g:indent_blankline_buftype_exclude = ['terminal']
+nnoremap <leader>i :IndentBlanklineToggle<cr>:set invnumber<cr>:set invrelativenumber<cr>:call ToggleSignColumn()<cr>
 
 " highlight long lines
 match ErrorMsg /\%121v.\+/
@@ -56,21 +74,21 @@ match ErrorMsg /\%121v.\+/
 " open at last edit
 au BufReadPost *
   \ if line("'\"") > 1 && line("'\"") <= line("$") && &ft !~# 'commit'
-  \ |  exe "normal! g`\""
+  \ |   exe "normal! g`\""
   \ | endif
 
 " split to below and right
 set splitbelow
 set splitright
 
-nnoremap <M-right> <c-w>l
-nnoremap <M-l> <c-w>l
-nnoremap <M-left> <c-w>h
-nnoremap <M-h> <c-w>h
-nnoremap <M-up> <c-w>k
-nnoremap <M-k> <c-w>k
-nnoremap <M-down> <c-w>j
-nnoremap <M-j> <c-w>j
+nnoremap <M-right> <C-w>l
+nnoremap <M-l> <C-w>l
+nnoremap <M-left> <C-w>h
+nnoremap <M-h> <C-w>h
+nnoremap <M-up> <C-w>k
+nnoremap <M-k> <C-w>k
+nnoremap <M-down> <C-w>j
+nnoremap <M-j> <C-w>j
 
 " searching
 set hlsearch
@@ -80,93 +98,39 @@ set smartcase
 set incsearch
 
 " linting/compiling
-nnoremap <Leader>m :w<cr>:make<cr>
-nnoremap <Leader>c :cclose<cr>
-nnoremap <Leader>n :cnext<cr>
-nnoremap <Leader>p :cprev<cr>
+nnoremap <leader>m :w<cr>:make<cr>
+nnoremap <leader>c :cclose<cr>
+nnoremap <leader>n :cnext<cr>
+nnoremap <leader>p :cprev<cr>
 autocmd QuickFixCmdPost [^l]* cwindow
 au FileType qf call AdjustWindowHeight(1, 20)
 function! AdjustWindowHeight(minheight, maxheight)
-    let l = 1
-    let n_lines = 0
-    let w_width=winwidth(0)
-    while l <= line('$')
-        " number to float for division
-        let l_len = strlen(getline(l)) + 0.0
-        let line_width = l_len/w_width
-        let n_lines += float2nr(ceil(line_width))
-        let l += 1
-    endw
-    exe max([min([n_lines, a:maxheight]), a:minheight]) . "wincmd _"
+  let l = 1
+  let n_lines = 0
+  let w_width = winwidth(0)
+  while l <= line('$')
+    " number to float for division
+    let l_len = strlen(getline(l)) + 0.0
+    let line_width = l_len/w_width
+    let n_lines += float2nr(ceil(line_width))
+    let l += 1
+  endw
+  exe max([min([n_lines, a:maxheight]), a:minheight]) . "wincmd _"
 endfunction
 
 " nvim tree
-nnoremap <silent> <Leader>e :NvimTreeToggle<cr>
+noremap <silent> <leader>e :NvimTreeToggle<cr>
 
 " terminal
-tnoremap <Esc> <c-\><c-n>
-
-" Function to reuse the same terminal
-let s:monkey_terminal_window = -1
-let s:monkey_terminal_buffer = -1
-let s:monkey_terminal_job_id = -1
-
-function! MonkeyTerminalOpen()
-  " Check if buffer exists, if not create a window and a buffer
-  if !bufexists(s:monkey_terminal_buffer)
-    " Creates a window call monkey_terminal
-    new monkey_terminal
-    " Moves to the window the right the current one
-    wincmd J
-    resize 15
-    let s:monkey_terminal_job_id = termopen($SHELL, { 'detach': 1 })
-
-     " Change the name of the buffer to "Terminal 1"
-     silent file Terminal\ 1
-     " Gets the id of the terminal window
-     let s:monkey_terminal_window = win_getid()
-     let s:monkey_terminal_buffer = bufnr('%')
-
-    " The buffer of the terminal won't appear in the list of the buffers
-    " when calling :buffers command
-    set nobuflisted
-  else
-    if !win_gotoid(s:monkey_terminal_window)
-    sp
-    " Moves to the window below the current one
-    wincmd J
-    resize 15
-    buffer Terminal\ 1
-     " Gets the id of the terminal window
-     let s:monkey_terminal_window = win_getid()
-    endif
-  endif
-endfunction
-
-function! MonkeyTerminalToggle()
-  if win_gotoid(s:monkey_terminal_window)
-    call MonkeyTerminalClose()
-  else
-    call MonkeyTerminalOpen()
-  endif
-endfunction
-
-function! MonkeyTerminalClose()
-  if win_gotoid(s:monkey_terminal_window)
-    " close the current window
-    hide
-  endif
-endfunction
-
-nnoremap <Leader>j :call MonkeyTerminalToggle()<cr>i
-tnoremap <Leader>j <C-\><C-n>:call MonkeyTerminalToggle()<cr>
-
-" airline
-let g:airline#extensions#tabline#formatter = 'unique_tail'
+nnoremap <leader>vj :lua VertTermToggle()<cr>
+tnoremap <leader>vj <c-\><c-n>:lua VertTermToggle()<cr>
+nnoremap <leader>fj :lua FloatTermToggle()<cr>
+tnoremap <leader>fj <c-\><c-n>:lua FloatTermToggle()<cr>
 
 " better whitespaces
 let g:better_whitespace_enabled = 1
-let g:strip_whitespace_on_save = 1
+" TODO: enable when fixed
+"let g:strip_whitespace_on_save = 1
 let g:strip_only_modified_lines = 1
 let g:show_spaces_that_precede_tabs=1
 
@@ -174,11 +138,6 @@ let g:show_spaces_that_precede_tabs=1
 set diffopt=vertical
 nnoremap dgl :diffget //2<cr>
 nnoremap dgr :diffget //3<cr>
-
-" Tagbar
-nnoremap <silent> <Leader>] :TagbarToggle<cr>
-let g:tagbar_left = 1
-set updatetime=200
 
 " vim-rooter
 let g:rooter_patterns = ['.git']
@@ -201,17 +160,9 @@ nnoremap <leader>c :Continue<cr>
 vnoremap <leader>e :'<,'>Evaluate<cr>
 let mapleader = "\\"
 
-" easymotion
-map <space> <Plug>(easymotion-prefix)
-nmap s <Plug>(easymotion-overwin-f2)
-let g:EasyMotion_smartcase = 1
-
-" quickscope
-let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
-let g:qs_max_chars=150
-
 " nvim-tree
 let g:nvim_tree_indent_markers = 1
+let g:nvim_tree_disable_netrw = 0
 
 " startify
 let g:startify_session_persistence = 1
@@ -219,51 +170,91 @@ let g:startify_fortune_use_unicode = 1
 
 " plugins
 call plug#begin()
-Plug 'vim-airline/vim-airline'
+Plug 'hoob3rt/lualine.nvim'
 Plug 'tpope/vim-fugitive'
-Plug 'majutsushi/tagbar'
-Plug 'yggdroot/indentline'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-repeat'
+Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'bogado/file-line'
 Plug 'xolox/vim-notes'
 Plug 'xolox/vim-misc'
 Plug 'airblade/vim-rooter'
 Plug 'mhinz/vim-startify'
-
+Plug 'b3nj5m1n/kommentary'
+Plug 'karb94/neoscroll.nvim'
+Plug 'akinsho/nvim-toggleterm.lua'
 Plug 'kyazdani42/nvim-tree.lua'
-
-Plug 'easymotion/vim-easymotion'
-
 Plug 'neovim/nvim-lspconfig'
-Plug 'hrsh7th/nvim-compe'
 
-Plug 'nvim-lua/popup.nvim', { 'on': 'Telescope' }
-Plug 'nvim-lua/plenary.nvim', { 'on': 'Telescope' }
-Plug 'nvim-telescope/telescope.nvim', { 'on': 'Telescope' }
+Plug 'hrsh7th/vim-vsnip'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/nvim-cmp'
 
-Plug 'unblevable/quick-scope'
+Plug 'rafamadriz/friendly-snippets'
 
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'David-Kunz/treesitter-unit'
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
+Plug 'ggandor/lightspeed.nvim'
+Plug 'sindrets/diffview.nvim'
+Plug 'alvarosevilla95/luatab.nvim'
+
+Plug 'michaeljsmith/vim-indent-object'
+Plug 'chaoren/vim-wordmotion'
+Plug 'wellle/targets.vim'
 
 Plug 'jeffkreeftmeijer/vim-dim'
+Plug 'folke/tokyonight.nvim'
 call plug#end()
-
-colorscheme dim
-hi debugPC gui=bold guifg=LightGray guibg=DarkCyan
-hi debugBreakpoint gui=bold guibg=red guifg=white
-hi NormalFloat gui=bold guibg=Brown
 
 lua << EOF
 require 'init'
 EOF
 
-inoremap <silent><expr> <cr>  compe#confirm('<cr>')
+colorscheme tokyonight
+hi debugPC cterm=bold ctermfg=white ctermbg=darkcyan gui=bold guifg=white guibg=darkcyan
+hi debugBreakpoint cterm=bold ctermfg=white ctermbg=red gui=bold guibg=red guifg=white
+hi NormalFloat guifg=#c0caf5 guibg=#394060
 
 nnoremap <c-p> :Telescope find_files<cr>
 nnoremap <c-l> :Telescope current_buffer_fuzzy_find<cr>
 nnoremap <c-h> :Telescope oldfiles<cr>
-nnoremap <Leader>gg :Telescope grep_string<cr>
-nnoremap <Leader>lg :Telescope live_grep<cr>
+nnoremap <leader>gg :Telescope grep_string<cr>
+nnoremap <leader>lg :Telescope live_grep<cr>
+nnoremap <leader>fb :Telescope file_browser<cr>
+nnoremap <leader>bu :Telescope buffers<cr>
 nnoremap gco :Telescope git_branches<cr>
 nnoremap gr :Telescope lsp_references<cr>
 nnoremap gd :Telescope lsp_definitions<cr>
+
+xnoremap iu :lua require"treesitter-unit".select()<cr>
+xnoremap au :lua require"treesitter-unit".select(true)<cr>
+onoremap iu :<c-u>lua require"treesitter-unit".select()<cr>
+onoremap au :<c-u>lua require"treesitter-unit".select(true)<cr>
+
+inoremap <silent> <C-s> <C-r>=SnippetsComplete()<CR>
+
+function! SnippetsComplete() abort
+    let wordToComplete = matchstr(strpart(getline('.'), 0, col('.') - 1), '\S\+$')
+    let fromWhere      = col('.') - len(wordToComplete)
+    let containWord    = "stridx(v:val.word, wordToComplete)>=0"
+    let candidates     = vsnip#get_complete_items(bufnr("%"))
+    let matches        = map(filter(candidates, containWord),
+                \  "{
+                \      'word': v:val.word,
+                \      'menu': v:val.kind,
+                \      'dup' : 1,
+                \   }")
+
+
+    if !empty(matches)
+        call complete(fromWhere, matches)
+    endif
+
+    return ""
+endfunction
