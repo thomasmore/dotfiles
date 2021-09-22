@@ -1,33 +1,3 @@
--- TODO:
---
--- lsp
---    floating window instead of virtual text
---    move errors to quickfix?
---    custom emoji for signs
---    convenience plugins? (view, signature helper)
---    code_action
---    update in insert (see chris's dotfiles lua/lsp/clangd.lua)
---
--- treesitter
---    folding
---    selection
---    commenter?
---    text objects (motion, select)
---    incremental selection
---
--- indentline blank lines
---
--- telescope
---    lsp code actions
---    perf tuning? (fzy-native, minimum_grep_characters = 3)
---
--- other plugins:
---    lsp installers?
---    snippets
---    treesitter supported colorscheme
---    blame line?
---    preview for %s
-
 vim.o.completeopt = "menuone,noselect"
 
 local on_attach = function(client, bufnr)
@@ -40,78 +10,214 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', 'H', '<cmd>lua vim.lsp.buf.hover()<cr>', opts)
   buf_set_keymap('n', 'gp', '<cmd>lua vim.lsp.diagnostic.goto_prev()<cr>', opts)
   buf_set_keymap('n', 'gn', '<cmd>lua vim.lsp.diagnostic.goto_next()<cr>', opts)
+  buf_set_keymap('n', '<Leader>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<cr>', opts)
+  buf_set_keymap('n', '<Leader>ln', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<cr>', opts)
+  buf_set_keymap('n', '<Leader>rn', '<cmd>lua vim.lsp.buf.rename()<cr>', opts)
+  buf_set_keymap('n', '<Leader>ca', '<cmd>lua vim.lsp.buf.code_action()<cr>', opts)
+  buf_set_keymap('v', '<Leader>ca', '<cmd>lua vim.lsp.buf.range_code_action()<cr>', opts)
+  buf_set_keymap('i', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
 end
 
-require('lspconfig').clangd.setup{
-    on_attach = on_attach,
-    default_config = {
-        cmd = {
-            "clangd", "--background-index", "--clang-tidy", "--pch-storage=memory"
-        }
+local nvim_lsp = require('lspconfig')
+nvim_lsp.clangd.setup{
+  on_attach = on_attach,
+  default_config = {
+    cmd = {
+      "clangd", "--background-index", "--clang-tidy", "--pch-storage=memory"
     }
-}
-require'lspconfig'.cmake.setup{
-    on_attach = on_attach
-}
-require'lspconfig'.solargraph.setup{
-    on_attach = on_attach
+  }
 }
 
-require('compe').setup {
-  enabled = true;
-  autocomplete = false;
-  debug = false;
-  preselect = 'disable';
-  throttle_time = 80;
-  source_timeout = 200;
-  incomplete_delay = 400;
-  max_abbr_width = 100;
-  max_kind_width = 100;
-  max_menu_width = 100;
-  documentation = true;
+vim.fn.sign_define("LspDiagnosticsSignError", {text = "", numhl = "LspDiagnosticsDefaultError"})
+vim.fn.sign_define("LspDiagnosticsSignWarning", {text = "", numhl = "LspDiagnosticsDefaultWarning"})
+vim.fn.sign_define("LspDiagnosticsSignInformation", {text = "", numhl = "LspDiagnosticsDefaultInformation"})
+vim.fn.sign_define("LspDiagnosticsSignHint", {text = "", numhl = "LspDiagnosticsDefaultHint"})
 
-  source = {
-    path = true;
-    buffer = true;
-    calc = true;
-    nvim_lsp = true;
-    nvim_lua = true;
-    -- vsnip = true;  TODO: enable
-  };
-}
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+  vim.lsp.diagnostic.on_publish_diagnostics, {
+    virtual_text = false,
+    signs = true,
+    update_in_insert = false,
+    underline = false,
+  }
+)
 
-local t = function(str)
-  return vim.api.nvim_replace_termcodes(str, true, true, true)
+local servers = { 'cmake', 'solargraph' }
+for _, lsp in ipairs(servers) do
+  nvim_lsp[lsp].setup { on_attach = on_attach }
 end
 
-local check_back_space = function()
-    local col = vim.fn.col('.') - 1
-    if col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') then
-        return true
-    else
-        return false
+local has_words_before = function()
+  if vim.api.nvim_buf_get_option(0, "buftype") == "prompt" then
+    return false
+  end
+  local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+  return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+end
+
+local feedkey = function(key, mode)
+  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
+end
+
+local cmp = require('cmp')
+cmp.setup({
+  completion = {
+    autocomplete = false
+  },
+  mapping = {
+    ['<C-p>'] = cmp.mapping.select_prev_item(),
+    ['<C-n>'] = cmp.mapping.select_next_item(),
+    ['<C-e>'] = cmp.mapping.close(),
+    ['<CR>'] = cmp.mapping.confirm({
+      behavior = cmp.ConfirmBehavior.Replace,
+      select = true,
+    }),
+    ["<Tab>"] = cmp.mapping(function(fallback)
+      if vim.fn.pumvisible() == 1 then
+        feedkey("<C-n>", "n")
+      elseif vim.fn["vsnip#available"]() == 1 then
+        feedkey("<Plug>(vsnip-expand-or-jump)", "")
+      elseif has_words_before() then
+        cmp.complete()
+      else
+        fallback() -- The fallback function sends a already mapped key. In this case, it's probably `<Tab>`.
+      end
+    end, { "i", "s" }),
+
+    ["<S-Tab>"] = cmp.mapping(function()
+      if vim.fn.pumvisible() == 1 then
+        feedkey("<C-p>", "n")
+      elseif vim.fn["vsnip#jumpable"](-1) == 1 then
+        feedkey("<Plug>(vsnip-jump-prev)", "")
+      end
+    end, { "i", "s" }),
+  },
+  sources = {
+    { name = 'vsnip'},
+    { name = 'nvim_lsp' },
+    { name = 'buffer'},
+  }
+})
+
+local get_lsp_client = function ()
+  msg = ''
+  local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
+  local clients = vim.lsp.get_active_clients()
+  if next(clients) == nil then
+    return msg
+  end
+
+  for _,client in ipairs(clients) do
+    local filetypes = client.config.filetypes
+    if filetypes and vim.fn.index(filetypes,buf_ft) ~= -1 then
+      return client.name
     end
-end
-
--- Use (s-)tab to:
---- move to prev/next item in completion menuone
-_G.tab_complete = function()
-  if vim.fn.pumvisible() == 1 then
-    return t "<C-n>"
-  elseif check_back_space() then
-    return t "<Tab>"
-  else
-    return vim.fn['compe#complete']()
   end
+  return msg
 end
 
-_G.s_tab_complete = function()
-  if vim.fn.pumvisible() == 1 then
-    return t "<C-p>"
-  else
-    return t "<S-Tab>"
-  end
+require('lualine').setup {
+  options = {
+    theme = 'tokyonight',
+    section_separators = {'', ''},
+    component_separators = ''
+  },
+  sections = {
+    lualine_a = {
+      {'mode', format=function(mode_name) return mode_name:sub(1, 1) end}
+    },
+    lualine_b = {'branch'},
+    lualine_c = {
+      {'filename', file_status = true, symbols = {modified = '*', readonly = '[-]'}}
+    },
+    lualine_x = {
+      { get_lsp_client },
+      {
+        'diagnostics',
+        sources = {'nvim_lsp'},
+        color_error='#db4b4b',
+        color_warn = '#e0af68',
+        color_info = '#c0caf5',
+        symbols = {
+          error = ' ',
+          warn = ' ',
+          info = ' '
+        }
+      },
+      'filetype'
+    },
+    lualine_y = {'progress'},
+    lualine_z = {'location'}
+  },
+}
+
+require'nvim-treesitter.configs'.setup {
+  highlight = {
+    enable = true
+  },
+  incremental_selection = {
+    enable = true,
+    keymaps = {
+      init_selection = "gnn",
+      node_incremental = "ni",
+      scope_incremental = "si",
+      node_decremental = "nd",
+    },
+  },
+  indent = {
+    enable = true
+  },
+}
+
+vim.g.tokyonight_italic_comments = false
+vim.g.tokyonight_italic_keywords = false
+
+require('kommentary.config').configure_language("default", {
+  prefer_single_line_comments = true,
+  ignore_whitespace = false,
+})
+
+require('neoscroll').setup()
+
+require"toggleterm".setup{
+  size = function(term)
+    if term.direction == "horizontal" then
+      return 15
+    elseif term.direction == "vertical" then
+      return vim.o.columns * 0.4
+    end
+  end,
+  open_mapping = [[<Leader>j]],
+}
+vim.o.hidden = true
+local Terminal  = require('toggleterm.terminal').Terminal
+local vertterm = Terminal:new({direction='vertical', hidden = true })
+local floatterm = Terminal:new({direction='float', hidden = true })
+
+function VertTermToggle()
+  vertterm:toggle()
+end
+function FloatTermToggle()
+  floatterm:toggle()
 end
 
-vim.api.nvim_set_keymap("i", "<Tab>", "v:lua.tab_complete()", {expr = true})
-vim.api.nvim_set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
+require'lightspeed'.setup {
+  jump_to_first_match = true,
+  jump_on_partial_input_safety_timeout = 400,
+  highlight_unique_chars = false,
+  grey_out_search_area = true,
+  match_only_the_start_of_same_char_seqs = true,
+  limit_ft_matches = 5,
+  -- full_inclusive_prefix_key = '<c-x>',
+  -- By default, the values of these will be decided at runtime,
+  -- based on `jump_to_first_match`
+  labels = nil,
+  cycle_group_fwd_key = nil,
+  cycle_group_bwd_key = nil,
+}
+
+local cb = require'diffview.config'.diffview_callback
+
+require'diffview'.setup {}
+
+vim.o.tabline = '%!v:lua.require\'luatab\'.tabline()'
