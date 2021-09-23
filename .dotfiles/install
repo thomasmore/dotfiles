@@ -5,22 +5,16 @@ if [[ $(id -u) -ne 0 ]]; then
   exit 1
 fi
 
-apt update && apt install clang gcc clangd nvim
+apt update && apt install clang gcc clangd gdb cmake make ninja nvim ruby gem htop tig tmux pip fish lolcat cowsay fortunes fortune-mod
 
-# ruby solargraph
+gem install --user-install solargraph
+pip install cmake-language-server
 
-# htop tig gdb 
-# tmux
+sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+nvim --headless +PlugInstall +qall
 
 #TODO
 # fish (+ plugins) starship fd rg bat autojump(fasd) fzf
 
-# nvim install plugins command
-
-# install nerdfont?
-# kitty config?
-
-# alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+# alias dotfiles='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 # dotfiles checkout
-
-# lolcat cowsay fortune (uncensored) 
