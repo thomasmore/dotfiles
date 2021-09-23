@@ -5,16 +5,25 @@ if [[ $(id -u) -ne 0 ]]; then
   exit 1
 fi
 
-apt update && apt install clang gcc clangd gdb cmake make ninja nvim ruby gem htop tig tmux pip fish lolcat cowsay fortunes fortune-mod
+add-apt-repository ppa:aacebedo/fasd
+apt update
+apt install clang gcc clangd gdb cmake make ninja nvim ruby gem htop tig tmux pip fish lolcat cowsay fortunes fortune-mod ripgrep fd-find fasd
+apt install -o Dpkg::Options::="--force-overwrite" bat
 
 gem install --user-install solargraph
 pip install cmake-language-server
 
+git clone --depth 1 https://github.com/junegunn/fzf.git $HOME/.fzf
+$HOME/.fzf/install
+
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 nvim --headless +PlugInstall +qall
 
-#TODO
-# fish (+ plugins) starship fd rg bat autojump(fasd) fzf
+chsh -s /usr/bin/fish
+curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher
+fisher install fishgretel/fasd
+ 
+# starship
 
 # alias dotfiles='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 # dotfiles checkout
