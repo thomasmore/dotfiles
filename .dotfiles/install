@@ -24,4 +24,4 @@ nvim --headless +PlugInstall +qall
 sh -c 'curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher'
 fisher install fishgretel/fasd
  
-sh -c "$(curl -fsSL https://starship.rs/install.sh)"
+curl -fsSL https://starship.rs/install.sh
