@@ -1,0 +1,18 @@
+Metrics/AbcSize:
+  Enabled: true
+  Max: 35
+
+Metrics/MethodLength:
+  Max: 20
+
+Metrics/CycolmaticComplexity:
+  Max: 7
+
+Style/Documentation:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+AllCops:
+  TargetRubyVersion: 2.5
