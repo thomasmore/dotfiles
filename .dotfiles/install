@@ -5,7 +5,7 @@ if [[ $(id -u) -ne 0 ]]; then
   exit 1
 fi
 
-add-apt-repository ppa:aacebedo/fasd
+add-apt-repository ppa:aacebedo/fasd ppa:neovim-ppa/unstable
 apt update
 apt install clang gcc clangd gdb cmake make ninja-build neovim ruby ruby-dev gem htop tig tmux pip fish lolcat cowsay fortunes fortune-mod ripgrep fd-find fasd
 apt install -o Dpkg::Options::="--force-overwrite" bat
