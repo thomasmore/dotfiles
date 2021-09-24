@@ -1,5 +1,22 @@
-[uer]
-	email = thomasmore@github.com
-[user]
-	email = thomasmore@github.com
-	name = Thomas More
+[core]
+    editor = nvim
+[alias]
+    co = checkout
+    ci = commit
+    st = status
+    dt = difftool
+    mt = mergetool
+[color]
+    ui = auto
+[diff]
+    tool = nvim
+[difftool "nvim"]
+    cmd = nvim -d \"$LOCAL\" \"$REMOTE\"
+[merge]
+    tool = nvim
+[mergetool "nvim"]
+    cmd = nvim -c \"Gdiffsplit!\" \"$MERGED\"
+[tig "color"]
+    cursor = magenta default reverse
+[pull]
+    ff = only
