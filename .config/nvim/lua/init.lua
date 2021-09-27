@@ -21,10 +21,8 @@ end
 local nvim_lsp = require('lspconfig')
 nvim_lsp.clangd.setup{
   on_attach = on_attach,
-  default_config = {
-    cmd = {
+  cmd = {
       "clangd", "--background-index", "--clang-tidy", "--pch-storage=memory"
-    }
   }
 }
 
