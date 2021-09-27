@@ -12,6 +12,8 @@ set mouse=a
 
 set inccommand=split
 
+set signcolumn=number
+
 noremap <up> <nop>
 noremap <down> <nop>
 noremap <left> <nop>
