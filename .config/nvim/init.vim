@@ -12,8 +12,6 @@ set mouse=a
 
 set inccommand=split
 
-set signcolumn=number
-
 noremap <up> <nop>
 noremap <down> <nop>
 noremap <left> <nop>
@@ -57,7 +55,7 @@ function! ToggleSignColumn()
     set signcolumn=no
     let b:signcolumn_on=0
   else
-    set signcolumn=number
+    set signcolumn=auto
     let b:signcolumn_on=1
   endif
 endfunction
