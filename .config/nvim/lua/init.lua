@@ -218,3 +218,5 @@ local cb = require'diffview.config'.diffview_callback
 require'diffview'.setup {}
 
 vim.o.tabline = '%!v:lua.require\'luatab\'.tabline()'
+
+require'nvim-tree'.setup()
