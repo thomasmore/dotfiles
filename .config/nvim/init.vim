@@ -118,9 +118,6 @@ function! AdjustWindowHeight(minheight, maxheight)
   exe max([min([n_lines, a:maxheight]), a:minheight]) . "wincmd _"
 endfunction
 
-" nvim tree
-noremap <silent> <leader>e :NvimTreeToggle<cr>
-
 " terminal
 nnoremap <leader>vj :lua VertTermToggle()<cr>
 tnoremap <leader>vj <c-\><c-n>:lua VertTermToggle()<cr>
@@ -162,6 +159,7 @@ let mapleader = "\\"
 
 " nvim-tree
 let g:nvim_tree_indent_markers = 1
+noremap <silent> <leader>e :NvimTreeToggle<cr>
 
 " startify
 let g:startify_session_persistence = 1
