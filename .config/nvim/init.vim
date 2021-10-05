@@ -162,7 +162,6 @@ let mapleader = "\\"
 
 " nvim-tree
 let g:nvim_tree_indent_markers = 1
-let g:nvim_tree_disable_netrw = 0
 
 " startify
 let g:startify_session_persistence = 1
