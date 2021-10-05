@@ -8,6 +8,8 @@ set -x FZF_DEFAULT_OPTS "-m --height 35% --layout=reverse"
 
 set -x PYTHONDONTWRITEBYTECODE 1
 
+set -x PATH $HOME/.local/bin $HOME/bin $PATH $HOME/
+
 starship init fish | source
 
 # TokyoNight Color Palette
