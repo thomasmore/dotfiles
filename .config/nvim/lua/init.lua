@@ -16,6 +16,7 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', '<Leader>ca', '<cmd>lua vim.lsp.buf.code_action()<cr>', opts)
   buf_set_keymap('v', '<Leader>ca', '<cmd>lua vim.lsp.buf.range_code_action()<cr>', opts)
   buf_set_keymap('i', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
+  buf_set_keymap('i', '<Leader>f', '<cmd>lua vim.lsp.buf.formatting()<cr>', opts)
 end
 
 local nvim_lsp = require('lspconfig')
