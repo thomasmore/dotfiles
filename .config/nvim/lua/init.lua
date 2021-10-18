@@ -25,7 +25,8 @@ nvim_lsp.clangd.setup{
   on_attach = on_attach,
   cmd = {
     "clangd", "--background-index", "--clang-tidy", "--pch-storage=memory"
-  }
+  },
+  capabilites = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 }
 
 for _, name in ipairs({"Error", "Warn", "Info", "Hint"}) do
@@ -43,7 +44,10 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 
 local servers = { 'cmake', 'solargraph' }
 for _, lsp in ipairs(servers) do
-  nvim_lsp[lsp].setup { on_attach = on_attach }
+  nvim_lsp[lsp].setup { 
+    on_attach = on_attach,
+    capabilites = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+  }
 end
 
 local has_words_before = function()
@@ -94,7 +98,18 @@ cmp.setup({
   sources = {
     { name = 'vsnip'},
     { name = 'nvim_lsp' },
-    { name = 'buffer'},
+    {
+        name = 'buffer',
+        opts = {
+            get_bufnrs = function()
+              local bufs = {}
+              for _, win in ipairs(vim.api.nvim_list_wins()) do
+                bufs[vim.api.nvim_win_get_buf(win)] = true
+              end
+              return vim.tbl_keys(bufs)
+            end
+        }
+    },
   }
 })
 
