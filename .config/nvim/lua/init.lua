@@ -8,7 +8,7 @@ local on_attach = function(client, bufnr)
   local opts = { noremap=true, silent=true }
   buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>', opts)
   buf_set_keymap('n', 'H', '<cmd>lua vim.lsp.buf.hover()<cr>', opts)
-  buf_set_keymap('n', '<LeftMouse>', '<LeftMouse><cmd>lua vim.lsp.buf.hover()<cr>', opts)
+  buf_set_keymap('n', 'c-<LeftMouse>', '<LeftMouse><cmd>lua vim.lsp.buf.hover()<cr>', opts)
   buf_set_keymap('n', 'gp', '<cmd>lua vim.lsp.diagnostic.goto_prev()<cr>', opts)
   buf_set_keymap('n', 'gn', '<cmd>lua vim.lsp.diagnostic.goto_next()<cr>', opts)
   buf_set_keymap('n', '<Leader>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<cr>', opts)
