@@ -228,6 +228,7 @@ nnoremap <leader>bu :Telescope buffers<cr>
 nnoremap gco :Telescope git_branches<cr>
 nnoremap gr :Telescope lsp_references<cr>
 nnoremap gd :Telescope lsp_definitions<cr>
+nnoremap <c-LeftMouse> :Telescope lsp_definitions<cr>
 
 xnoremap iu :lua require"treesitter-unit".select()<cr>
 xnoremap au :lua require"treesitter-unit".select(true)<cr>
