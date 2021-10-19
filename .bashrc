@@ -53,4 +53,4 @@ eval "$(starship init bash)"
 
 export PYTHONDONTWRITEBYTECODE=1
 
-export PATH="$HOME/.cargo/env:$HOME/.local/bin:$HOME/bin:$PATH"
+export PATH="$HOME/.cargo/bin:$HOME/.local/bin:$HOME/bin:$PATH"
