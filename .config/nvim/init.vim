@@ -235,25 +235,3 @@ xnoremap iu :lua require"treesitter-unit".select()<cr>
 xnoremap au :lua require"treesitter-unit".select(true)<cr>
 onoremap iu :<c-u>lua require"treesitter-unit".select()<cr>
 onoremap au :<c-u>lua require"treesitter-unit".select(true)<cr>
-
-inoremap <silent> <C-s> <C-r>=SnippetsComplete()<CR>
-
-function! SnippetsComplete() abort
-    let wordToComplete = matchstr(strpart(getline('.'), 0, col('.') - 1), '\S\+$')
-    let fromWhere      = col('.') - len(wordToComplete)
-    let containWord    = "stridx(v:val.word, wordToComplete)>=0"
-    let candidates     = vsnip#get_complete_items(bufnr("%"))
-    let matches        = map(filter(candidates, containWord),
-                \  "{
-                \      'word': v:val.word,
-                \      'menu': v:val.kind,
-                \      'dup' : 1,
-                \   }")
-
-
-    if !empty(matches)
-        call complete(fromWhere, matches)
-    endif
-
-    return ""
-endfunction
