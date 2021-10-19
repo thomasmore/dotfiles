@@ -8,7 +8,7 @@ set -x FZF_DEFAULT_OPTS "-m --height 35% --layout=reverse"
 
 set -x PYTHONDONTWRITEBYTECODE 1
 
-set -x PATH $HOME/.cargo/env $HOME/.local/bin $HOME/bin $PATH $HOME/
+set -x PATH $HOME/.cargo/bin $HOME/.local/bin $HOME/bin $PATH $HOME/
 
 starship init fish | source
 
