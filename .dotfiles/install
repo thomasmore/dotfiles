@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# TODO: fix sudo flags to create directories of correct ownership
+
 if [[ $(id -u) -ne 0 ]]; then
   echo "FATAL: Run as root."
   exit 1
@@ -24,4 +26,4 @@ fish -c 'fisher install fishgretel/fasd'
  
 sh -c "$(curl -fsSL https://starship.rs/install.sh)"
 
-chsh -s /usr/bin/fish
+chsh -s /usr/bin/fish # TODO: not executed somehow
