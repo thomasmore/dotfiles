@@ -237,3 +237,10 @@ require'diffview'.setup {}
 vim.o.tabline = '%!v:lua.require\'luatab\'.tabline()'
 
 require'nvim-tree'.setup()
+
+local autosave = require("autosave")
+autosave.setup(
+  {
+    execution_message = ""
+  }
+)
