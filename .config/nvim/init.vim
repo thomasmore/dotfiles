@@ -206,6 +206,8 @@ Plug 'michaeljsmith/vim-indent-object'
 Plug 'chaoren/vim-wordmotion'
 Plug 'wellle/targets.vim'
 
+Plug 'Pocco81/AutoSave.nvim'
+
 Plug 'jeffkreeftmeijer/vim-dim'
 Plug 'folke/tokyonight.nvim'
 call plug#end()
