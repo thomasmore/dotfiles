@@ -67,6 +67,11 @@ cmp.setup({
   completion = {
     autocomplete = false
   },
+  snippet = {
+    expand = function(args)
+      vim.fn["vsnip#anonymous"](args.body)
+    end,
+  },
   mapping = {
     ['<C-p>'] = cmp.mapping.select_prev_item(),
     ['<C-n>'] = cmp.mapping.select_next_item(),
@@ -78,7 +83,7 @@ cmp.setup({
     ["<Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
-      elseif vim.fn["vsnip#available"]() == 1 then
+      elseif vim.fn["vsnip#available"](1) == 1 then
         feedkey("<Plug>(vsnip-expand-or-jump)", "")
       elseif has_words_before() then
         cmp.complete()
@@ -100,7 +105,7 @@ cmp.setup({
     { name = 'nvim_lsp' },
     {
         name = 'buffer',
-        opts = {
+        options = {
             get_bufnrs = function()
               local bufs = {}
               for _, win in ipairs(vim.api.nvim_list_wins()) do
