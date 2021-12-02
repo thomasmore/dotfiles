@@ -34,7 +34,6 @@ nnoremap <silent> ]o :lopen<cr>
 nnoremap <silent> ]c :lclose<cr>
 
 " windows layout
-set winwidth=80
 set winheight=20
 set winminwidth=15
 set winminheight=5
