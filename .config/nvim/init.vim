@@ -20,7 +20,6 @@ noremap <right> <nop>
 inoremap jj <esc>
 inoremap jw <esc>:w<cr>
 inoremap jq <esc>:wq<cr>
-inoremap <esc> <nop>
 
 set clipboard+=unnamedplus
 
@@ -137,6 +136,7 @@ nnoremap dgr :diffget //3<cr>
 
 " vim-rooter
 let g:rooter_patterns = ['.git']
+let g:rooter_silent_chdir = 1
 
 " termdebug
 packadd termdebug
