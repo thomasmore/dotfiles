@@ -212,7 +212,7 @@ function FloatTermToggle()
 end
 
 require'lightspeed'.setup {
-  ignore_case = true,
+  ignore_case = false,
   jump_on_partial_input_safety_timeout = 400,
   highlight_unique_chars = false,
   grey_out_search_area = true,
