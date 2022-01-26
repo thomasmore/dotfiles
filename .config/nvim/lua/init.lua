@@ -173,10 +173,7 @@ require('lualine').setup {
 require'nvim-treesitter.configs'.setup {
   highlight = {
     enable = true
-  },
-  indent = {
-    enable = true
-  },
+  }
 }
 
 vim.g.tokyonight_italic_comments = false
@@ -213,9 +210,7 @@ end
 
 require'lightspeed'.setup {
   ignore_case = true,
-  jump_on_partial_input_safety_timeout = 400,
-  highlight_unique_chars = false,
-  grey_out_search_area = true,
+  jump_to_unique_chars = false,
   match_only_the_start_of_same_char_seqs = true,
   limit_ft_matches = 5,
   -- full_inclusive_prefix_key = '<c-x>',
@@ -240,3 +235,5 @@ autosave.setup(
     execution_message = ""
   }
 )
+
+require('vgit').setup()
