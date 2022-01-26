@@ -240,6 +240,6 @@ onoremap iu :<c-u>lua require"treesitter-unit".select()<cr>
 onoremap au :<c-u>lua require"treesitter-unit".select(true)<cr>
 
 nnoremap <leader>gu :VGit hunk_up<cr>
-nnoremap <leader>gd :VGit hunk_dpwn<cr>
+nnoremap <leader>gd :VGit hunk_down<cr>
 nnoremap <leader>gr :VGit buffer_hunk_reset<cr>
 nnoremap <leader>gv :VGit buffer_hunk_preview<cr>
