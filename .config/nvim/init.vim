@@ -207,6 +207,8 @@ Plug 'wellle/targets.vim'
 
 Plug 'Pocco81/AutoSave.nvim'
 
+Plug 'tanvirtin/vgit.nvim'
+
 Plug 'jeffkreeftmeijer/vim-dim'
 Plug 'folke/tokyonight.nvim'
 call plug#end()
@@ -236,3 +238,8 @@ xnoremap iu :lua require"treesitter-unit".select()<cr>
 xnoremap au :lua require"treesitter-unit".select(true)<cr>
 onoremap iu :<c-u>lua require"treesitter-unit".select()<cr>
 onoremap au :<c-u>lua require"treesitter-unit".select(true)<cr>
+
+nnoremap <leader>gu :VGit hunk_up<cr>
+nnoremap <leader>gd :VGit hunk_dpwn<cr>
+nnoremap <leader>gr :VGit buffer_hunk_reset<cr>
+nnoremap <leader>gv :VGit buffer_hunk_preview<cr>
