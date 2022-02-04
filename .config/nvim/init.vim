@@ -37,11 +37,6 @@ set winheight=20
 set winminwidth=15
 set winminheight=5
 
-" default tabulation
-set tabstop=4
-set shiftwidth=4
-set expandtab
-
 " folding
 set foldmethod=expr
 set foldexpr=nvim_treesitter#foldexpr()
@@ -170,6 +165,7 @@ Plug 'hoob3rt/lualine.nvim'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-sleuth'
 Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'bogado/file-line'
@@ -208,6 +204,7 @@ Plug 'wellle/targets.vim'
 Plug 'Pocco81/AutoSave.nvim'
 
 Plug 'tanvirtin/vgit.nvim'
+Plug 'cohama/lexima.vim'
 
 Plug 'jeffkreeftmeijer/vim-dim'
 Plug 'folke/tokyonight.nvim'
