@@ -1,15 +1,13 @@
 set nowrap
 set number
 set relativenumber
+set signcolumn=yes:1
 autocmd TermOpen * setlocal nonumber
 autocmd TermOpen * setlocal norelativenumber
+autocmd TermOpen * setlocal signcolumn=no
 
 set scrolloff=5
-nnoremap <c-m-up> 1<c-u>
-nnoremap <c-m-down> 1<c-d>
-
 set mouse=a
-
 set inccommand=split
 
 noremap <up> <nop>
@@ -42,16 +40,11 @@ set foldmethod=expr
 set foldexpr=nvim_treesitter#foldexpr()
 set foldlevelstart=10
 
-" Toggle signcolumn.
-function! ToggleSignColumn()
-  if !exists("b:signcolumn_on") || b:signcolumn_on
-    set signcolumn=no
-    let b:signcolumn_on=0
-  else
-    set signcolumn=auto
-    let b:signcolumn_on=1
-  endif
-endfunction
+" reserve gd/gD to lsp-related things
+nnoremap Gd gd
+nnoremap GD gD
+" go to bottom without irritating delay
+nnoremap GG G
 
 " indent-blankline
 let g:indent_blankline_char ='▏'
@@ -59,7 +52,6 @@ let g:indent_blankline_use_treesitter = v:true
 let g:indent_blankline_show_first_indent_level = v:false
 let g:indent_blankline_filetype_exclude = ['json', 'startify']
 let g:indent_blankline_buftype_exclude = ['terminal']
-nnoremap <leader>i :IndentBlanklineToggle<cr>:set invnumber<cr>:set invrelativenumber<cr>:call ToggleSignColumn()<cr>
 
 " highlight long lines
 match ErrorMsg /\%121v.\+/
@@ -95,21 +87,6 @@ nnoremap <leader>m :w<cr>:make<cr>
 nnoremap <leader>c :cclose<cr>
 nnoremap <leader>n :cnext<cr>
 nnoremap <leader>p :cprev<cr>
-autocmd QuickFixCmdPost [^l]* cwindow
-au FileType qf call AdjustWindowHeight(1, 20)
-function! AdjustWindowHeight(minheight, maxheight)
-  let l = 1
-  let n_lines = 0
-  let w_width = winwidth(0)
-  while l <= line('$')
-    " number to float for division
-    let l_len = strlen(getline(l)) + 0.0
-    let line_width = l_len/w_width
-    let n_lines += float2nr(ceil(line_width))
-    let l += 1
-  endw
-  exe max([min([n_lines, a:maxheight]), a:minheight]) . "wincmd _"
-endfunction
 
 " terminal
 nnoremap <leader>vj :lua VertTermToggle()<cr>
@@ -132,10 +109,6 @@ nnoremap dgr :diffget //3<cr>
 " vim-rooter
 let g:rooter_patterns = ['.git']
 let g:rooter_silent_chdir = 1
-
-" termdebug
-packadd termdebug
-let g:termdebug_wide = 1
 
 let mapleader = ","  " TODO: save/restore leader
 nnoremap <leader>g :Gdb<cr>i
