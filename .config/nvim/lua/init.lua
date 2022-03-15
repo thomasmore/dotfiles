@@ -1,4 +1,5 @@
 vim.o.completeopt = "menuone,noselect"
+vim.notify = require("notify")
 
 local on_attach = function(client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
@@ -24,7 +25,7 @@ local nvim_lsp = require('lspconfig')
 nvim_lsp.clangd.setup{
   on_attach = on_attach,
   cmd = {
-    "clangd", "--background-index", "--clang-tidy", "--pch-storage=memory"
+    "clangd", "--background-index=0", "--clang-tidy", "--pch-storage=memory"
   },
   capabilites = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 }
@@ -237,3 +238,38 @@ autosave.setup(
 )
 
 require('vgit').setup()
+
+local dap = require('dap')
+dap.adapters.lldb = {
+  type = 'executable',
+  command = 'lldb-vscode-10',
+  name = "lldb"
+}
+dap.configurations.cpp = {
+  {
+    name = "Launch",
+    type = "lldb",
+    request = "launch",
+    program = function() return vim.fn.input({
+      prompt = 'Path to executable: ',
+      completion = 'file'})
+    end,
+    cwd = '${workspaceFolder}',
+    stopOnEntry = true,
+    args = function() return vim.split(vim.fn.input({prompt = 'Args: '}), ' ') end,
+    runInTerminal = false,
+  },
+}
+dap.configurations.c = dap.configurations.cpp
+
+local dapui = require("dapui")
+dapui.setup()
+dap.listeners.after.event_initialized["dapui_config"] = function()
+  dapui.open()
+end
+dap.listeners.before.event_terminated["dapui_config"] = function()
+  dapui.close()
+end
+dap.listeners.before.event_exited["dapui_config"] = function()
+  dapui.close()
+end
