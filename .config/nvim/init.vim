@@ -83,8 +83,12 @@ set smartcase
 set incsearch
 
 " linting/compiling
-nnoremap <leader>m :w<cr>:make<cr>
-nnoremap <leader>c :cclose<cr>
+nnoremap <leader>m :CMake build<cr>
+nnoremap <leader>st :CMake select_target<cr>
+nnoremap <leader>d :CMake debug<cr>
+nnoremap <leader>bd :CMake build_and_debug<cr>
+nnoremap <leader>cl :cclose<cr>
+nnoremap <leader>o :copen<cr>:cbottom<cr>
 nnoremap <leader>n :cnext<cr>
 nnoremap <leader>p :cprev<cr>
 
@@ -111,17 +115,16 @@ let g:rooter_patterns = ['.git']
 let g:rooter_silent_chdir = 1
 
 let mapleader = ","  " TODO: save/restore leader
-nnoremap <leader>g :Gdb<cr>i
-tnoremap <leader>s <c-\><c-n>:Source<cr>
-nnoremap <leader>s :Source<cr>
-tnoremap <leader>p <c-\><c-n>:Program<cr>
-nnoremap <leader>p :Program<cr>
-nnoremap <leader>b :Break<cr>
-nnoremap <leader>r :Run<cr>
-nnoremap <leader>d :Clear<cr>
-nnoremap <leader>n :Over<cr>
-nnoremap <leader>c :Continue<cr>
-vnoremap <leader>e :'<,'>Evaluate<cr>
+nnoremap <silent> <leader>c :lua require('dap').continue()<cr>
+nnoremap <silent> <leader>n :lua require('dap').step_over()<cr>
+nnoremap <silent> <leader>i :lua require('dap').step_into()<cr>
+nnoremap <silent> <leader>f :lua require('dap').step_out()<cr>
+nnoremap <silent> <leader>b :lua require('dap').toggle_breakpoint()<cr>
+nnoremap <silent> <leader>B :lua require('dap').set_breakpoint(vim.fn.input('Breakpoint condition: '))<cr>
+nnoremap <silent> <leader>l :lua require('dap').set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<cr>
+nnoremap <silent> <leader>rc :lua require('dap').run_to_cursor()<cr>
+nnoremap <silent> <leader>rl :lua require('dap').run_last()<cr>
+vnoremap <leader>e :lua require("dapui").eval()<cr>
 let mapleader = "\\"
 
 " nvim-tree
@@ -177,6 +180,12 @@ Plug 'wellle/targets.vim'
 Plug 'Pocco81/AutoSave.nvim'
 
 Plug 'tanvirtin/vgit.nvim'
+Plug 'mfussenegger/nvim-dap'
+Plug 'rcarriga/nvim-dap-ui'
+Plug 'zeertzjq/nvim-paste-fix'
+Plug 'Shatur/neovim-cmake'
+Plug 'stevearc/dressing.nvim'
+Plug 'rcarriga/nvim-notify'
 Plug 'cohama/lexima.vim'
 
 Plug 'jeffkreeftmeijer/vim-dim'
