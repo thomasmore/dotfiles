@@ -83,10 +83,10 @@ set smartcase
 set incsearch
 
 " linting/compiling
-nnoremap <leader>m :CMake build<cr>
+nnoremap <silent> <leader>m :lua cmake_build()<cr>
 nnoremap <leader>st :CMake select_target<cr>
 nnoremap <leader>d :CMake debug<cr>
-nnoremap <leader>bd :CMake build_and_debug<cr>
+" nnoremap <leader>bd :CMake build_and_debug<cr>
 nnoremap <leader>cl :cclose<cr>
 nnoremap <leader>o :copen<cr>:cbottom<cr>
 nnoremap <leader>n :cnext<cr>
@@ -134,6 +134,9 @@ noremap <silent> <leader>e :NvimTreeToggle<cr>
 " startify
 let g:startify_session_persistence = 1
 let g:startify_fortune_use_unicode = 1
+
+" vim-notes
+let g:notes_directories = [ '~/nvimnotes' ]
 
 " plugins
 call plug#begin()
@@ -197,8 +200,6 @@ require 'init'
 EOF
 
 colorscheme tokyonight
-hi debugPC cterm=bold ctermfg=white ctermbg=darkcyan gui=bold guifg=white guibg=darkcyan
-hi debugBreakpoint cterm=bold ctermfg=white ctermbg=red gui=bold guibg=red guifg=white
 hi NormalFloat guifg=#c0caf5 guibg=#394060
 
 nnoremap <c-p> :Telescope find_files<cr>

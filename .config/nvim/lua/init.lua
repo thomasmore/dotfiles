@@ -142,6 +142,7 @@ require('lualine').setup {
     section_separators = { left = '', right = ''},
     component_separators = ''
   },
+  extensions = { 'quickfix', 'nvim-tree', 'fugitive', 'toggleterm' },
   sections = {
     lualine_a = {
       {'mode', fmt = function(mode_name) return mode_name:sub(1, 1) end}
@@ -151,13 +152,11 @@ require('lualine').setup {
       {'filename', file_status = true, symbols = {modified = '*', readonly = '[-]'}}
     },
     lualine_x = {
+      { 'cmake_progress()', color = function(_) return build_progress_color end },
       { get_lsp_client },
       {
         'diagnostics',
         sources = {'nvim_diagnostic'},
-        color_error='#db4b4b',
-        color_warn = '#e0af68',
-        color_info = '#c0caf5',
         symbols = {
           error = ' ',
           warn = ' ',
@@ -272,4 +271,56 @@ dap.listeners.before.event_terminated["dapui_config"] = function()
 end
 dap.listeners.before.event_exited["dapui_config"] = function()
   dapui.close()
+end
+
+-- any better way to do shallowcopy?
+local function shallowcopy(tbl)
+  return vim.tbl_extend('force', {}, tbl)
+end
+
+local Path = require('plenary.path')
+local cmake = require('cmake')
+local cmake_utils = require('cmake.utils')
+local cmake_project = require('cmake.project_config')
+build_progress = '[...]'
+local cmake_dap_configuration = shallowcopy(dap.configurations.cpp[1])
+cmake_dap_configuration.program = nil
+cmake_dap_configuration.cwd = nil
+cmake.setup({
+  build_dir = tostring(Path:new('{cwd}', '..', 'builds', vim.fn.fnamemodify(vim.loop.cwd(), ':t')..'-{build_type}')),
+  configure_args = { '-GNinja' },
+  dap_configuration = cmake_dap_configuration,
+  dap_open_command = false,
+  quickfix_only_on_error = true,
+  on_build_output = function(line)
+    local match = string.match(line, "(%[.*/.*%])")
+    if match then
+      build_progress = string.gsub(match, "%%", "%%%%")
+    end
+  end
+})
+
+function cmake_progress()
+  if cmake_utils.last_job then
+    local args = cmake_utils.last_job.args
+    local target = args[#args] -- there likely is a way to do it less fragile
+    return target .. ': ' .. build_progress
+  end
+  return ''
+end
+
+function cmake_build()
+  build_progress_color = 'lualine_c_normal'
+  local job = cmake.build()
+  job:after(vim.schedule_wrap(
+    function(_, exit_code)
+      if exit_code == 0 then
+        build_progress_color = 'lualine_x_diagnostics_info_normal'
+        cmake_utils.notify("Target was built successfully", vim.log.levels.INFO)
+      else
+        build_progress_color = 'lualine_x_diagnostics_warn_normal'
+        cmake_utils.notify("Target build failed", vim.log.levels.ERROR)
+      end
+    end
+  ))
 end

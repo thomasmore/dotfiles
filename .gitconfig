@@ -21,3 +21,6 @@
     cursor = magenta default reverse
 [pull]
     ff = only
+[user]
+	name = Thomas More
+	email = thomasmore@github.com
