@@ -135,11 +135,15 @@ local get_lsp_client = function ()
   return ''
 end
 
+local gps = require("nvim-gps")
+gps.setup()
+
 require('lualine').setup {
   options = {
     theme = 'tokyonight',
     section_separators = { left = '', right = ''},
-    component_separators = ''
+    component_separators = '',
+    globalstatus = false,
   },
   extensions = { 'quickfix', 'nvim-tree', 'fugitive', 'toggleterm' },
   sections = {
@@ -148,7 +152,8 @@ require('lualine').setup {
     },
     lualine_b = {'branch'},
     lualine_c = {
-      {'filename', file_status = true, symbols = {modified = '*', readonly = '[-]'}}
+      {'filename', file_status = true, symbols = {modified = '*', readonly = '[-]'}},
+      { gps.get_location, cond = gps.is_available },
     },
     lualine_x = {
       { 'cmake_progress()', color = function(_) return build_progress_color end },

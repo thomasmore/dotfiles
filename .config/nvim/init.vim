@@ -190,6 +190,8 @@ Plug 'Shatur/neovim-cmake'
 Plug 'stevearc/dressing.nvim'
 Plug 'rcarriga/nvim-notify'
 Plug 'cohama/lexima.vim'
+Plug 'simrat39/symbols-outline.nvim'
+Plug 'SmiteshP/nvim-gps'
 
 Plug 'jeffkreeftmeijer/vim-dim'
 Plug 'folke/tokyonight.nvim'
@@ -205,6 +207,7 @@ hi NormalFloat guifg=#c0caf5 guibg=#394060
 nnoremap <c-p> :Telescope find_files<cr>
 nnoremap <c-l> :Telescope current_buffer_fuzzy_find<cr>
 nnoremap <c-h> :Telescope oldfiles<cr>
+nnoremap <c-n> :Telescope marks<cr>
 nnoremap <leader>gg :Telescope grep_string<cr>
 nnoremap <leader>lg :Telescope live_grep<cr>
 nnoremap <leader>fb :Telescope file_browser<cr>
@@ -223,3 +226,5 @@ nnoremap <leader>gu :VGit hunk_up<cr>
 nnoremap <leader>gd :VGit hunk_down<cr>
 nnoremap <leader>gr :VGit buffer_hunk_reset<cr>
 nnoremap <leader>gv :VGit buffer_hunk_preview<cr>
+
+nnoremap <leader>u :SymbolsOutline<cr>
