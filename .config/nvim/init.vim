@@ -10,11 +10,6 @@ set scrolloff=5
 set mouse=a
 set inccommand=split
 
-noremap <up> <nop>
-noremap <down> <nop>
-noremap <left> <nop>
-noremap <right> <nop>
-
 inoremap jj <esc>
 inoremap jw <esc>:w<cr>
 inoremap jq <esc>:wq<cr>
@@ -66,13 +61,13 @@ au BufReadPost *
 set splitbelow
 set splitright
 
-nnoremap <M-right> <C-w>l
+noremap <up> <c-w><up>
+noremap <down> <c-w><down>
+noremap <left> <c-w><left>
+noremap <right> <c-w><right>
 nnoremap <M-l> <C-w>l
-nnoremap <M-left> <C-w>h
 nnoremap <M-h> <C-w>h
-nnoremap <M-up> <C-w>k
 nnoremap <M-k> <C-w>k
-nnoremap <M-down> <C-w>j
 nnoremap <M-j> <C-w>j
 
 " searching
@@ -82,7 +77,7 @@ set ignorecase
 set smartcase
 set incsearch
 
-" linting/compiling
+" compiling
 nnoremap <silent> <leader>m :lua cmake_build()<cr>
 nnoremap <leader>st :CMake select_target<cr>
 nnoremap <leader>d :CMake debug<cr>
