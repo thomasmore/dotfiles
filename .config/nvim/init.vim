@@ -134,6 +134,11 @@ noremap <silent> <leader>e :NvimTreeToggle<cr>
 " startify
 let g:startify_session_persistence = 1
 let g:startify_fortune_use_unicode = 1
+let g:startify_lists = [
+  \ { 'type': 'dir',       'header': ['   MRU '. getcwd()] },
+  \ { 'type': 'sessions',  'header': ['   Sessions']       },
+  \ { 'type': 'files',     'header': ['   MRU']            },
+\ ]
 
 " vim-notes
 let g:notes_directories = [ '~/nvimnotes' ]
