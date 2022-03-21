@@ -210,7 +210,6 @@ nnoremap <c-h> :Telescope oldfiles<cr>
 nnoremap <c-n> :Telescope marks<cr>
 nnoremap <leader>gg :Telescope grep_string<cr>
 nnoremap <leader>lg :Telescope live_grep<cr>
-nnoremap <leader>fb :Telescope file_browser<cr>
 nnoremap <leader>bu :Telescope buffers<cr>
 nnoremap gco :Telescope git_branches<cr>
 nnoremap gr :Telescope lsp_references<cr>
