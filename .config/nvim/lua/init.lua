@@ -328,3 +328,5 @@ function cmake_build()
     end
   ))
 end
+
+require("which-key").setup {}
