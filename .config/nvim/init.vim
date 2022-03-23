@@ -208,7 +208,6 @@ hi NormalFloat guifg=#c0caf5 guibg=#394060
 nnoremap <c-p> :Telescope find_files<cr>
 nnoremap <c-l> :Telescope current_buffer_fuzzy_find<cr>
 nnoremap <c-h> :Telescope oldfiles<cr>
-nnoremap <c-n> :Telescope marks<cr>
 nnoremap <leader>gg :Telescope grep_string<cr>
 nnoremap <leader>lg :Telescope live_grep<cr>
 nnoremap <leader>bu :Telescope buffers<cr>
