@@ -227,3 +227,8 @@ nnoremap <leader>gr :VGit buffer_hunk_reset<cr>
 nnoremap <leader>gv :VGit buffer_hunk_preview<cr>
 
 nnoremap <leader>u :SymbolsOutline<cr>
+
+augroup YankHighlight
+  autocmd!
+  autocmd TextYankPost * silent! lua vim.highlight.on_yank()
+augroup end
