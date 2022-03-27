@@ -331,6 +331,7 @@ function cmake_build()
   ))
 end
 
+require('legendary').setup()
 local telescope = require('telescope.builtin')
 local vgit = require('vgit')
 local wk = require("which-key")

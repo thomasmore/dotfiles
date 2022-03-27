@@ -172,6 +172,7 @@ Plug 'cohama/lexima.vim'
 Plug 'simrat39/symbols-outline.nvim'
 Plug 'SmiteshP/nvim-gps'
 Plug 'folke/which-key.nvim'
+Plug 'mrjones2014/legendary.nvim'
 
 Plug 'jeffkreeftmeijer/vim-dim'
 Plug 'folke/tokyonight.nvim'
