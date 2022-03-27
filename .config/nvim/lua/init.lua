@@ -287,27 +287,27 @@ local cmake = require('cmake')
 local cmake_utils = require('cmake.utils')
 local cmake_project = require('cmake.project_config')
 build_progress = '[...]'
+target = ''
 local cmake_dap_configuration = shallowcopy(dap.configurations.cpp[1])
 cmake_dap_configuration.program = nil
 cmake_dap_configuration.cwd = nil
 cmake.setup({
   build_dir = tostring(Path:new('{cwd}', '..', 'builds', vim.fn.fnamemodify(vim.loop.cwd(), ':t')..'-{build_type}')),
-  configure_args = { '-GNinja' },
+  configure_args = {},
   dap_configuration = cmake_dap_configuration,
   dap_open_command = false,
   quickfix_only_on_error = true,
   on_build_output = function(line)
-    local match = string.match(line, "(%[.*/.*%])")
+    local match = string.match(line, "(%[.*%%%])")
     if match then
       build_progress = string.gsub(match, "%%", "%%%%")
     end
   end
 })
 
+local ProjectConfig = require('cmake.project_config')
 function cmake_progress()
   if cmake_utils.last_job then
-    local args = cmake_utils.last_job.args
-    local target = args[#args] -- there likely is a way to do it less fragile
     return target .. ': ' .. build_progress
   end
   return ''
@@ -315,6 +315,8 @@ end
 
 function cmake_build()
   build_progress_color = 'lualine_c_normal'
+  local project_config = ProjectConfig.new()
+  target = project_config.json.current_target
   local job = cmake.build()
   job:after(vim.schedule_wrap(
     function(_, exit_code)
