@@ -10,10 +10,6 @@ set scrolloff=5
 set mouse=a
 set inccommand=split
 
-inoremap jj <esc>
-inoremap jw <esc>:w<cr>
-inoremap jq <esc>:wq<cr>
-
 set clipboard+=unnamedplus
 
 " rg integration
@@ -61,15 +57,6 @@ au BufReadPost *
 set splitbelow
 set splitright
 
-noremap <up> <c-w><up>
-noremap <down> <c-w><down>
-noremap <left> <c-w><left>
-noremap <right> <c-w><right>
-nnoremap <M-l> <C-w>l
-nnoremap <M-h> <C-w>h
-nnoremap <M-k> <C-w>k
-nnoremap <M-j> <C-w>j
-
 " searching
 set hlsearch
 nnoremap <f2> :nohlsearch<cr>
@@ -95,8 +82,7 @@ tnoremap <leader>fj <c-\><c-n>:lua FloatTermToggle()<cr>
 
 " better whitespaces
 let g:better_whitespace_enabled = 1
-" TODO: enable when fixed
-"let g:strip_whitespace_on_save = 1
+let g:strip_whitespace_on_save = 1
 let g:strip_only_modified_lines = 1
 let g:show_spaces_that_precede_tabs=1
 
@@ -205,28 +191,10 @@ EOF
 colorscheme tokyonight
 hi NormalFloat guifg=#c0caf5 guibg=#394060
 
-nnoremap <c-p> :Telescope find_files<cr>
-nnoremap <c-l> :Telescope current_buffer_fuzzy_find<cr>
-nnoremap <c-h> :Telescope oldfiles<cr>
-nnoremap <leader>gg :Telescope grep_string<cr>
-nnoremap <leader>lg :Telescope live_grep<cr>
-nnoremap <leader>bu :Telescope buffers<cr>
-nnoremap gco :Telescope git_branches<cr>
-nnoremap gr :Telescope lsp_references<cr>
-nnoremap gd :Telescope lsp_definitions<cr>
-nnoremap <c-RightMouse> <LeftMouse>:Telescope lsp_definitions<cr>
-
 xnoremap iu :lua require"treesitter-unit".select()<cr>
 xnoremap au :lua require"treesitter-unit".select(true)<cr>
 onoremap iu :<c-u>lua require"treesitter-unit".select()<cr>
 onoremap au :<c-u>lua require"treesitter-unit".select(true)<cr>
-
-nnoremap <leader>gu :VGit hunk_up<cr>
-nnoremap <leader>gd :VGit hunk_down<cr>
-nnoremap <leader>gr :VGit buffer_hunk_reset<cr>
-nnoremap <leader>gv :VGit buffer_hunk_preview<cr>
-
-nnoremap <leader>u :SymbolsOutline<cr>
 
 augroup YankHighlight
   autocmd!

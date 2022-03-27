@@ -331,4 +331,39 @@ function cmake_build()
   ))
 end
 
-require("which-key").setup {}
+local wk = require("which-key")
+-- TODO: replace <cmd> to lua functions when possible
+wk.register({
+  -- Better arrows and window movement
+  ['<up>'] = { '<c-w><up>', 'which_key_ignore' },
+  ['<down>'] = { '<c-w><down>', 'which_key_ignore' },
+  ['<left>'] = { '<c-w><left>', 'which_key_ignore' },
+  ['<right>'] = { '<c-w><right>', 'which_key_ignore' },
+  ['M-l'] = { '<c-w>l', 'which_key_ignore' },
+  ['M-h'] = { '<c-w>h', 'which_key_ignore' },
+  ['M-k'] = { '<c-w>k', 'which_key_ignore' },
+  ['M-j'] = { '<c-w>j', 'which_key_ignore' },
+  -- Telescope
+  ['<c-p>'] = { '<cmd>Telescope find_files<cr>', 'Find file' },
+  ['<c-l>'] = { '<cmd>Telescope current_buffer_fuzzy_find<cr>', 'Live search in current file' },
+  ['<c-h>'] = { '<cmd>Telescope oldfiles<cr>', 'Open recent file' },
+  ['<leader>gg'] = { '<cmd>Telescope grep_string<cr>', 'Grep for word under the cursor' },
+  ['<leader>lg'] = { '<cmd>Telescope live_grep<cr>', 'Live grep for typed string' },
+  ['<leader>bu'] = { '<cmd>Telescope buffers<cr>', 'List open buffers'},
+  ['gco'] = { '<cmd>Telescope git_branches<cr>', 'List git branches'},
+  ['gr'] = { '<cmd>Telescope lsp_references<cr>', 'List references'},
+  ['gd'] = { '<cmd>Telescope lsp_definitions<cr>', 'Go to definiton or list them'},
+  ['c-RightMouse'] = { '<LeftMouse><cmd>Telescope lsp_definitions<cr>', 'which_key_ignore'},
+  -- Git related
+  ['<leader>gu'] = { '<cmd>VGit hunk_up<cr>', 'Go to hunk above' },
+  ['<leader>gd'] = { '<cmd>VGit hunk_down<cr>', 'Go to hunk below' },
+  ['<leader>gr'] = { '<cmd>VGit buffer_hunk_reset<cr>', 'Reset hunk to HEAD' },
+  ['<leader>qv'] = { '<cmd>VGit buffer_hunk_preview<cr>', 'View hunk diff' },
+
+  ['<leader>u'] = { '<cmd>SymbolsOutline<cr>', 'SymbolsOutline' },
+})
+wk.register({
+  ['jj'] = { '<esc>', 'which_key_ignore' },
+  ['jw'] = { '<esc>:w<cr>', 'which_key_ignore' },
+  ['jq'] = { '<esc>:q<cr>', 'which_key_ignore' },
+}, { mode = 'i' })
