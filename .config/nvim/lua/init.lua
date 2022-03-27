@@ -331,8 +331,11 @@ function cmake_build()
   ))
 end
 
+local telescope = require('telescope.builtin')
+local vgit = require('vgit')
 local wk = require("which-key")
--- TODO: replace <cmd> to lua functions when possible
+-- TODO: register neoscroll and lightspeed mappings
+-- TODO: move lsp-related mappings here
 wk.register({
   -- Better arrows and window movement
   ['<up>'] = { '<c-w><up>', 'which_key_ignore' },
@@ -344,23 +347,29 @@ wk.register({
   ['M-k'] = { '<c-w>k', 'which_key_ignore' },
   ['M-j'] = { '<c-w>j', 'which_key_ignore' },
   -- Telescope
-  ['<c-p>'] = { '<cmd>Telescope find_files<cr>', 'Find file' },
-  ['<c-l>'] = { '<cmd>Telescope current_buffer_fuzzy_find<cr>', 'Live search in current file' },
-  ['<c-h>'] = { '<cmd>Telescope oldfiles<cr>', 'Open recent file' },
-  ['<leader>gg'] = { '<cmd>Telescope grep_string<cr>', 'Grep for word under the cursor' },
-  ['<leader>lg'] = { '<cmd>Telescope live_grep<cr>', 'Live grep for typed string' },
-  ['<leader>bu'] = { '<cmd>Telescope buffers<cr>', 'List open buffers'},
-  ['gco'] = { '<cmd>Telescope git_branches<cr>', 'List git branches'},
-  ['gr'] = { '<cmd>Telescope lsp_references<cr>', 'List references'},
-  ['gd'] = { '<cmd>Telescope lsp_definitions<cr>', 'Go to definiton or list them'},
+  ['<c-p>'] = { telescope.find_files, 'Find file' },
+  ['<c-l>'] = { telescope.current_buffer_fuzzy_find, 'Live search in current file' },
+  ['<c-h>'] = { telescope.oldfiles, 'Open recent file' },
+  ['<leader>gg'] = { telescope.grep_string, 'Grep for word under the cursor' },
+  ['<leader>lg'] = { telescope.live_grep, 'Live grep for typed string' },
+  ['<leader>bu'] = { telescope.buffers, 'List open buffers'},
+  ['gco'] = { telescope.git_branches, 'List git branches'},
+  ['gr'] = { telescope.lsp_references, 'List references'},
+  ['gd'] = { telescope.lsp_definitions, 'Go to definiton or list them'},
   ['c-RightMouse'] = { '<LeftMouse><cmd>Telescope lsp_definitions<cr>', 'which_key_ignore'},
   -- Git related
-  ['<leader>gu'] = { '<cmd>VGit hunk_up<cr>', 'Go to hunk above' },
-  ['<leader>gd'] = { '<cmd>VGit hunk_down<cr>', 'Go to hunk below' },
-  ['<leader>gr'] = { '<cmd>VGit buffer_hunk_reset<cr>', 'Reset hunk to HEAD' },
-  ['<leader>qv'] = { '<cmd>VGit buffer_hunk_preview<cr>', 'View hunk diff' },
+  ['<leader>gu'] = { vgit.hunk_up, 'Go to hunk above' },
+  ['<leader>gd'] = { vgit.hunk_down, 'Go to hunk below' },
+  ['<leader>gr'] = { vgit.buffer_hunk_reset, 'Reset hunk to HEAD' },
+  ['<leader>qv'] = { vgit.buffer_hunk_preview, 'View hunk diff' },
 
-  ['<leader>u'] = { '<cmd>SymbolsOutline<cr>', 'SymbolsOutline' },
+  ['<leader>u'] = { require('symbols-outline').toggle_outline, 'SymbolsOutline' },
+
+  ['<f2>'] = { '<cmd>nohlsearch<cr>', 'Turn off last search highlight' },
+  -- reserve gd to lsp-related things
+  ['Gd'] = { 'gd', 'Goto local declaration' },
+  -- goto bottom without irritating delay
+  ['GG'] = { 'G', 'Goto the last line of file'},
 })
 wk.register({
   ['jj'] = { '<esc>', 'which_key_ignore' },

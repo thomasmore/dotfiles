@@ -31,12 +31,6 @@ set foldmethod=expr
 set foldexpr=nvim_treesitter#foldexpr()
 set foldlevelstart=10
 
-" reserve gd/gD to lsp-related things
-nnoremap Gd gd
-nnoremap GD gD
-" go to bottom without irritating delay
-nnoremap GG G
-
 " indent-blankline
 let g:indent_blankline_char ='▏'
 let g:indent_blankline_use_treesitter = v:true
@@ -59,7 +53,6 @@ set splitright
 
 " searching
 set hlsearch
-nnoremap <f2> :nohlsearch<cr>
 set ignorecase
 set smartcase
 set incsearch
