@@ -334,7 +334,7 @@ end
 require('legendary').setup()
 local telescope = require('telescope.builtin')
 local vgit = require('vgit')
-local wk = require("which-key")
+local wk = require('which-key')
 -- TODO: register neoscroll and lightspeed mappings
 -- TODO: move lsp-related mappings here
 wk.register({
@@ -372,8 +372,3 @@ wk.register({
   -- goto bottom without irritating delay
   ['GG'] = { 'G', 'Goto the last line of file'},
 })
-wk.register({
-  ['jj'] = { '<esc>', 'which_key_ignore' },
-  ['jw'] = { '<esc>:w<cr>', 'which_key_ignore' },
-  ['jq'] = { '<esc>:q<cr>', 'which_key_ignore' },
-}, { mode = 'i' })
