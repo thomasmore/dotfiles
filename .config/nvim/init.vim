@@ -5,6 +5,7 @@ set signcolumn=yes:1
 autocmd TermOpen * setlocal nonumber
 autocmd TermOpen * setlocal norelativenumber
 autocmd TermOpen * setlocal signcolumn=no
+autocmd FileType dap-repl let b:lexima_disabled = 1
 
 set scrolloff=5
 set mouse=a
