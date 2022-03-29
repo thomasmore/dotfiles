@@ -362,7 +362,7 @@ wk.register({
   ['<leader>gu'] = { vgit.hunk_up, 'Go to hunk above' },
   ['<leader>gd'] = { vgit.hunk_down, 'Go to hunk below' },
   ['<leader>gr'] = { vgit.buffer_hunk_reset, 'Reset hunk to HEAD' },
-  ['<leader>qv'] = { vgit.buffer_hunk_preview, 'View hunk diff' },
+  ['<leader>gv'] = { vgit.buffer_hunk_preview, 'View hunk diff' },
 
   ['<leader>u'] = { require('symbols-outline').toggle_outline, 'SymbolsOutline' },
 
