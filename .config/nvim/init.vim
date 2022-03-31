@@ -1,14 +1,9 @@
-set nowrap
-set number
-set relativenumber
 set signcolumn=yes:1
 autocmd TermOpen * setlocal nonumber
 autocmd TermOpen * setlocal norelativenumber
 autocmd TermOpen * setlocal signcolumn=no
 autocmd FileType dap-repl let b:lexima_disabled = 1
 
-set scrolloff=5
-set mouse=a
 set inccommand=split
 
 set clipboard+=unnamedplus
@@ -21,11 +16,6 @@ nnoremap <silent> ]p :lprevious<cr>
 nnoremap <silent> ]n :lnext<cr>
 nnoremap <silent> ]o :lopen<cr>
 nnoremap <silent> ]c :lclose<cr>
-
-" windows layout
-set winheight=20
-set winminwidth=15
-set winminheight=5
 
 " folding
 set foldmethod=expr
@@ -47,16 +37,6 @@ au BufReadPost *
   \ if line("'\"") > 1 && line("'\"") <= line("$") && &ft !~# 'commit'
   \ |   exe "normal! g`\""
   \ | endif
-
-" split to below and right
-set splitbelow
-set splitright
-
-" searching
-set hlsearch
-set ignorecase
-set smartcase
-set incsearch
 
 " compiling
 nnoremap <silent> <leader>m :lua cmake_build()<cr>
@@ -175,11 +155,11 @@ Plug 'SmiteshP/nvim-gps'
 Plug 'folke/which-key.nvim'
 Plug 'mrjones2014/legendary.nvim'
 
-Plug 'jeffkreeftmeijer/vim-dim'
 Plug 'folke/tokyonight.nvim'
 call plug#end()
 
 lua << EOF
+require 'settings'
 require 'init'
 EOF
 
