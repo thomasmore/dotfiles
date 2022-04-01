@@ -348,7 +348,7 @@ wk.register({
   ['<m-k>'] = { '<c-w>k', 'which_key_ignore' },
   ['<m-j>'] = { '<c-w>j', 'which_key_ignore' },
   -- Telescope
-  ['<c-p>'] = { telescope.find_files, 'Find file' },
+  ['<c-p>'] = { telescope.find_files, 'Find file' }, -- TODO: frecency file finder
   ['<c-l>'] = { telescope.current_buffer_fuzzy_find, 'Live search in current file' },
   ['<c-h>'] = { telescope.oldfiles, 'Open recent file' },
   ['<leader>gg'] = { telescope.grep_string, 'Grep for word under the cursor' },
