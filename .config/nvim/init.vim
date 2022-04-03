@@ -52,10 +52,6 @@ nnoremap <silent> <leader>rl :lua require('dap').run_last()<cr>
 vnoremap <leader>e :lua require("dapui").eval()<cr>
 let mapleader = "\\"
 
-" nvim-tree
-let g:nvim_tree_indent_markers = 1
-noremap <silent> <leader>e :NvimTreeToggle<cr>
-
 " startify
 let g:startify_session_persistence = 1
 let g:startify_fortune_use_unicode = 1

@@ -238,6 +238,7 @@ require'diffview'.setup {}
 
 require('luatab').setup{}
 
+vim.g.nvim_tree_indent_markers = 1
 require'nvim-tree'.setup()
 
 local autosave = require("autosave")
@@ -372,6 +373,7 @@ wk.register({
   ['<leader>gv'] = { vgit.buffer_hunk_preview, 'View hunk diff' },
 
   ['<leader>u'] = { require('symbols-outline').toggle_outline, 'SymbolsOutline' },
+  ['<leader>e'] = { require('nvim-tree').toggle, 'File explorer' },
 
   ['<f2>'] = { '<cmd>nohlsearch<cr>', 'Turn off last search highlight' },
   -- reserve gd to lsp-related things
