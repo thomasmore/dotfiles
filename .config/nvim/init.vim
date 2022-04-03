@@ -1,42 +1,14 @@
-set signcolumn=yes:1
-autocmd TermOpen * setlocal nonumber
-autocmd TermOpen * setlocal norelativenumber
-autocmd TermOpen * setlocal signcolumn=no
 autocmd FileType dap-repl let b:lexima_disabled = 1
 
-set inccommand=split
-
-set clipboard+=unnamedplus
-
 " rg integration
-set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
-set grepformat=%f:%l:%c:%m,%f:%l:%m
 nnoremap <leader>rg :silent lgrep<space>
 nnoremap <silent> ]p :lprevious<cr>
 nnoremap <silent> ]n :lnext<cr>
 nnoremap <silent> ]o :lopen<cr>
 nnoremap <silent> ]c :lclose<cr>
 
-" folding
-set foldmethod=expr
-set foldexpr=nvim_treesitter#foldexpr()
-set foldlevelstart=10
-
-" indent-blankline
-let g:indent_blankline_char ='▏'
-let g:indent_blankline_use_treesitter = v:true
-let g:indent_blankline_show_first_indent_level = v:false
-let g:indent_blankline_filetype_exclude = ['json', 'startify']
-let g:indent_blankline_buftype_exclude = ['terminal']
-
 " highlight long lines
 match ErrorMsg /\%121v.\+/
-
-" open at last edit
-au BufReadPost *
-  \ if line("'\"") > 1 && line("'\"") <= line("$") && &ft !~# 'commit'
-  \ |   exe "normal! g`\""
-  \ | endif
 
 " compiling
 nnoremap <silent> <leader>m :lua cmake_build()<cr>
@@ -60,8 +32,6 @@ let g:strip_whitespace_on_save = 1
 let g:strip_only_modified_lines = 1
 let g:show_spaces_that_precede_tabs=1
 
-" fugitive
-set diffopt=vertical
 nnoremap dgl :diffget //2<cr>
 nnoremap dgr :diffget //3<cr>
 
@@ -99,12 +69,11 @@ let g:startify_lists = [
 let g:notes_directories = [ '~/nvimnotes' ]
 
 lua << EOF
-require 'settings'
 require 'plugins'
 require 'init'
+require 'settings'
 EOF
 
-colorscheme tokyonight
 hi NormalFloat guifg=#c0caf5 guibg=#394060
 
 xnoremap iu :lua require"treesitter-unit".select()<cr>
@@ -114,5 +83,5 @@ onoremap au :<c-u>lua require"treesitter-unit".select(true)<cr>
 
 augroup YankHighlight
   autocmd!
-  autocmd TextYankPost * silent! lua vim.highlight.on_yank()
+  autocmd TextYankPost * lua vim.highlight.on_yank()
 augroup end

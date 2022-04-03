@@ -1,5 +1,12 @@
-vim.o.completeopt = "menuone,noselect"
 vim.notify = require("notify")
+
+require('indent_blankline').setup {
+  char = '▏',
+  use_treesitter = true,
+  show_first_indent_level = false,
+  filetype_exclude = { 'json', 'startify' },
+  buftype_exclude = { 'terminal' }
+}
 
 local on_attach = function(client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
