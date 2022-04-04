@@ -205,9 +205,9 @@ require"toggleterm".setup{
       return vim.o.columns * 0.4
     end
   end,
+  insert_mappings = false,
   open_mapping = [[<Leader>j]],
 }
-vim.o.hidden = true
 local Terminal  = require('toggleterm.terminal').Terminal
 local vertterm = Terminal:new({direction='vertical', hidden = true })
 local floatterm = Terminal:new({direction='float', hidden = true })
@@ -345,6 +345,8 @@ require('legendary').setup()
 local telescope = require('telescope.builtin')
 local vgit = require('vgit')
 local wk = require('which-key')
+local dap = require('dap')
+local cmake = require('cmake')
 -- TODO: register neoscroll and lightspeed mappings
 -- TODO: move lsp-related mappings here
 wk.register({
@@ -373,6 +375,25 @@ wk.register({
   ['<leader>gd'] = { vgit.hunk_down, 'Go to hunk below' },
   ['<leader>gr'] = { vgit.buffer_hunk_reset, 'Reset hunk to HEAD' },
   ['<leader>gv'] = { vgit.buffer_hunk_preview, 'View hunk diff' },
+  -- Debug
+  [',c'] = { dap.continue, 'Continue' },
+  [',n'] = { dap.step_over, 'Next (step over)' },
+  [',i'] = { dap.step_into, 'Step into' },
+  [',f'] = { dap.step_out, 'Finish (step out)' },
+  [',b'] = { dap.toggle_breakpoint, 'Breakpoint toggle' },
+  [',B'] = { function() dap.set_breakpoint(vim.fn.input('Breakpoint condition: ')) end, 'Breakpoint conditional' },
+  [',r'] = { dap.run_to_cursor, 'Run to cursor' },
+  [',e'] = { require('dapui').eval, 'Eval word under cursor' },
+  -- CMake
+  ['<leader>m'] = { cmake_build, 'Build target' },
+  ['<leader>st'] = { cmake.select_target, 'Select target' },
+  ['<leader>d'] = { cmake.debug, 'Debug' },
+  -- TODO: build_and_debug
+  -- Quickfix
+  ['<leader>cl'] = { '<cmd>cclose<cr>', 'Close quickfix' },
+  ['<leader>o'] = { '<cmd>copen<cr><cmd>cbottom<cr>', 'Open quickfix' },
+  ['<leader>n'] = { '<cmd>cnext<cr>', 'Next in quickfix' },
+  ['<leader>p'] = { '<cmd>cprev<cr>', 'Previous in quickfix' },
 
   ['<leader>u'] = { require('symbols-outline').toggle_outline, 'SymbolsOutline' },
   ['<leader>e'] = { require('nvim-tree').toggle, 'File explorer' },
@@ -383,3 +404,7 @@ wk.register({
   -- goto bottom without irritating delay
   ['GG'] = { 'G', 'Goto the last line of file'},
 })
+
+wk.register({
+  ['<leader>rg'] = { ':silent grep<space>', 'Find with rg (and put in quickfix)' },
+}, { silent = false })

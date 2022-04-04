@@ -35,6 +35,7 @@ set.completeopt = 'menuone,noselect'
 set.scrolloff = 5
 set.mouse = 'a'
 set.inccommand = 'split'
+set.hidden = true
 
 -- rg integration
 set.grepprg = 'rg --vimgrep --no-heading --smart-case'
@@ -48,4 +49,10 @@ set.foldlevelstart = 7
 -- diff tool setting
 set.diffopt = 'vertical'
 
-vim.cmd('colorscheme tokyonight')
+vim.api.nvim_create_autocmd('TextYankPost', { callback = vim.highlight.on_yank, group = settings_augroup })
+vim.cmd([[
+  colorscheme tokyonight
+  hi NormalFloat guifg=#c0caf5 guibg=#394060
+" highlight long lines
+  match ErrorMsg /\%121v.\+/
+]])
