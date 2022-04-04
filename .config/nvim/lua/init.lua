@@ -296,6 +296,7 @@ local cmake_utils = require('cmake.utils')
 local cmake_project = require('cmake.project_config')
 build_progress = '[...]'
 target = ''
+build_type = ''
 local cmake_dap_configuration = shallowcopy(dap.configurations.cpp[1])
 cmake_dap_configuration.program = nil
 cmake_dap_configuration.cwd = nil
@@ -316,7 +317,7 @@ cmake.setup({
 local ProjectConfig = require('cmake.project_config')
 function cmake_progress()
   if cmake_utils.last_job then
-    return target .. ': ' .. build_progress
+    return target .. '(' .. build_type .. ')' .. ': ' .. build_progress
   end
   return ''
 end
@@ -325,6 +326,7 @@ function cmake_build()
   build_progress_color = 'lualine_c_normal'
   local project_config = ProjectConfig.new()
   target = project_config.json.current_target
+  build_type = string.sub(project_config.json.build_type, 1, 1)
   local job = cmake.build()
   job:after(vim.schedule_wrap(
     function(_, exit_code)
