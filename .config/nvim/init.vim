@@ -37,6 +37,7 @@ lua << EOF
 require 'plugins'
 require 'init'
 require 'settings'
+require 'mappings'
 EOF
 
 xnoremap iu :lua require"treesitter-unit".select()<cr>
