@@ -4,6 +4,7 @@ local wk = require('which-key')
 local dap = require('dap')
 local cmake = require('cmake')
 -- TODO: register neoscroll and lightspeed mappings
+-- TODO: register fugitive mappings
 -- TODO: move lsp-related mappings here
 wk.register({
   -- Better arrows and window movement
