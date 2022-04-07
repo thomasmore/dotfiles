@@ -13,7 +13,7 @@
 
 require 'before'
 require 'plugins'
-require 'init'
+require 'after'
 require 'settings'
 require 'mappings'
 
