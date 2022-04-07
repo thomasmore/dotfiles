@@ -57,6 +57,7 @@ Plug 'SmiteshP/nvim-gps'
 Plug 'folke/which-key.nvim'
 Plug 'mrjones2014/legendary.nvim'
 Plug 'github/copilot.vim'
+Plug 'lewis6991/impatient.nvim'
 
 Plug 'folke/tokyonight.nvim'
 
