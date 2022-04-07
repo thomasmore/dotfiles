@@ -32,6 +32,8 @@ wk.register({
   ['<leader>gd'] = { vgit.hunk_down, 'Go to hunk below' },
   ['<leader>gr'] = { vgit.buffer_hunk_reset, 'Reset hunk to HEAD' },
   ['<leader>gv'] = { vgit.buffer_hunk_preview, 'View hunk diff' },
+  ['dgl'] = { '<cmd>diffget //2<cr>', 'Diff get left' },
+  ['dgr'] = { '<cmd>diffget //3<cr>', 'Diff get right' },
   -- Debug
   [',c'] = { dap.continue, 'Continue' },
   [',n'] = { dap.step_over, 'Next (step over)' },
@@ -51,9 +53,14 @@ wk.register({
   ['<leader>o'] = { '<cmd>copen<cr><cmd>cbottom<cr>', 'Open quickfix' },
   ['<leader>n'] = { '<cmd>cnext<cr>', 'Next in quickfix' },
   ['<leader>p'] = { '<cmd>cprev<cr>', 'Previous in quickfix' },
+  -- Terminal
+  ['<leader>j'] = { TermToggle, 'Terminal' },
+  ['<leader>vj'] = { VertTermToggle, 'Vertical terminal' },
+  ['<leader>fj'] = { FloatTermToggle, 'Floating terminal' },
 
   ['<leader>u'] = { require('symbols-outline').toggle_outline, 'SymbolsOutline' },
   ['<leader>e'] = { require('nvim-tree').toggle, 'File explorer' },
+  ['<leader>rg'] = { ':silent grep<space>', 'Find with rg (and put in quickfix)', silent = false },
 
   ['<f2>'] = { '<cmd>nohlsearch<cr>', 'Turn off last search highlight' },
   -- reserve gd to lsp-related things
@@ -63,7 +70,21 @@ wk.register({
 })
 
 wk.register({
-  ['<leader>rg'] = { ':silent grep<space>', 'Find with rg (and put in quickfix)' },
-  -- Save shift on command typing
-  -- [';'] = { ':', 'which_key_ignore' },
-}, { silent = false })
+  [',e'] = { require('dapui').eval, 'Eval in debug' },
+}, { mode = 'v' })
+
+local t = function(str)
+  return vim.api.nvim_replace_termcodes(str, true, true, true)
+end
+wk.register({
+  ['<esc>'] = { t('<c-\\><c-n>'), 'Exit terminal' },
+  ['<leader>j'] = { t('<c-\\><c-n>:lua TermToggle()<cr>'), 'Close terminal' },
+  ['<leader>vj'] = { t('<c-\\><c-n>:lua VertTermToggle()<cr>'), 'Close vertical terminal' },
+  ['<leader>fj'] = { t('<c-\\><c-n>:lua FloatTermToggle()<cr>'), 'Close floating terminal' },
+}, { mode = 't' })
+
+vim.api.nvim_set_keymap('x', 'iu', ':lua require("treesitter-unit").select()<cr>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('x', 'au', ':lua require("treesitter-unit").select(true)<cr>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('o', 'iu', ':<c-u>lua require("treesitter-unit").select()<cr>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('o', 'au', ':<c-u>lua require("treesitter-unit").select(true)<cr>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('i', '<c-j>', 'copilot#Accept()', { silent = true, script = true, expr = true })

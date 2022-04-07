@@ -203,13 +203,16 @@ require"toggleterm".setup{
       return vim.o.columns * 0.4
     end
   end,
-  insert_mappings = false,
-  open_mapping = [[<Leader>j]],
+  insert_mappings = false
 }
 local Terminal  = require('toggleterm.terminal').Terminal
+local term = Terminal:new()
 local vertterm = Terminal:new({direction='vertical'})
 local floatterm = Terminal:new({direction='float'})
 
+function TermToggle()
+  term:toggle()
+end
 function VertTermToggle()
   vertterm:toggle()
 end

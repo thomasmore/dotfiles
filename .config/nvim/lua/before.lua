@@ -22,5 +22,11 @@ g.startify_lists = {
 -- vim-notes
 g.notes_directories = { '~/nvimnotes' }
 
+-- lexima
+local dap_repl_group = vim.api.nvim_create_augroup('dap_repl', { clear = true })
+vim.api.nvim_create_autocmd('FileType', { pattern = 'dap-repl', callback = function()
+  vim.b.lexima_disabled = 1
+end, group = dap_repl_group })
+
 -- copilot
 g.copilot_no_tab_map = true
