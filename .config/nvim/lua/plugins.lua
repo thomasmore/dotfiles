@@ -56,6 +56,7 @@ Plug 'simrat39/symbols-outline.nvim'
 Plug 'SmiteshP/nvim-gps'
 Plug 'folke/which-key.nvim'
 Plug 'mrjones2014/legendary.nvim'
+Plug 'github/copilot.vim'
 
 Plug 'folke/tokyonight.nvim'
 
