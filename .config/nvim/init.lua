@@ -1,6 +1,6 @@
+require 'impatient'
 require 'before'
 require 'plugins'
-require 'impatient'
 require 'after'
 require 'settings'
 require 'mappings'
