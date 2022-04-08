@@ -52,6 +52,10 @@ set.mouse = 'a'
 set.inccommand = 'split'
 set.hidden = true
 
+-- use filetype.lua
+g.do_filetype_lua = 1
+g.did_load_filetypes = 0
+
 -- rg integration
 set.grepprg = 'rg --vimgrep --no-heading --smart-case'
 set.grepformat = '%f:%l:%c:%m,%f:%l:%m'
