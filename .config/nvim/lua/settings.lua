@@ -1,4 +1,5 @@
 local set = vim.opt
+local g = vim.g
 
 -- signcolumn
 set.number = true
@@ -27,10 +28,24 @@ set.ignorecase = true
 set.smartcase = true
 set.incsearch = true
 
+-- clipboard
+g.clipboard = {
+  name = 'win32yank',
+  copy = {
+    ['+'] = 'win32yank.exe -i --crlf',
+    ['*'] = 'win32yank.exe -i --crlf',
+  },
+  paste = {
+    ['+'] = 'win32yank.exe -o --lf',
+    ['*'] = 'win32yank.exe -o --lf',
+  },
+  cache_enabled = 0
+}
+set.clipboard = 'unnamedplus'
+
 -- misc
 set.wrap = false
 set.cursorline = true
-set.clipboard = 'unnamedplus'
 set.completeopt = 'menuone,noselect'
 set.scrolloff = 5
 set.mouse = 'a'
