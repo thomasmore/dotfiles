@@ -304,7 +304,7 @@ cmake_dap_configuration.cwd = nil
 cmake.setup({
   build_dir = tostring(Path:new('{cwd}', '..', 'builds', vim.fn.fnamemodify(vim.loop.cwd(), ':t')..'-{build_type}')),
   configure_args = {},
-  dap_configuration = cmake_dap_configuration,
+  dap_configuration = cmake_dap_configuration,  -- TODO: cd into build directory before debugging TODO: add commands to open terminal/nvim-tree in build dir
   dap_open_command = false,
   quickfix_only_on_error = true,
   on_build_output = function(line)
