@@ -164,23 +164,13 @@ require'lightspeed'.setup {
   cycle_group_bwd_key = nil,
 }
 
-local cb = require'diffview.config'.diffview_callback
-
-require'diffview'.setup {}
-
-require('luatab').setup{}
-
-vim.g.nvim_tree_indent_markers = 1
-require'nvim-tree'.setup()
-
-local autosave = require("autosave")
-autosave.setup(
-  {
-    execution_message = ""
+require'nvim-tree'.setup {
+  renderer = {
+    indent_markers = {
+      enable = true
+    }
   }
-)
-
-require('vgit').setup()
+}
 
 local dap = require('dap')
 dap.adapters.lldb = {
@@ -272,5 +262,3 @@ function cmake_build()
     end
   ))
 end
-
-require('legendary').setup()

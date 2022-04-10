@@ -1,3 +1,4 @@
+require('legendary').setup()  -- Register all mappings also in Legendary
 local telescope = require('telescope.builtin')
 local vgit = require('vgit')
 local wk = require('which-key')

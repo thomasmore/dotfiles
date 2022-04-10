@@ -16,7 +16,7 @@ return require('packer').startup(function()
   use 'airblade/vim-rooter'
   use 'karb94/neoscroll.nvim'
   use 'b3nj5m1n/kommentary'
-  use 'Pocco81/AutoSave.nvim'
+  use { 'Pocco81/AutoSave.nvim', config = function() require('autosave').setup({ execution_message = "" }) end }
 
   use 'mhinz/vim-startify'
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
@@ -48,12 +48,12 @@ return require('packer').startup(function()
   }
 
   use 'hoob3rt/lualine.nvim'
-  use 'alvarosevilla95/luatab.nvim'
+  use { 'alvarosevilla95/luatab.nvim', config = require('luatab').setup }
   use 'SmiteshP/nvim-gps'
 
   use { 'tpope/vim-fugitive', cmd = { 'G', 'Git', 'Gedit', 'Gread', 'Gwrite', 'Gdiff', 'Gclog' } }
-  use 'tanvirtin/vgit.nvim'
-  use 'sindrets/diffview.nvim'
+  use { 'tanvirtin/vgit.nvim', config = require('vgit').setup }
+  use { 'sindrets/diffview.nvim', config = require('diffview').setup }
 
   use {
     'xolox/vim-notes', setup = function() vim.g.notes_directories = { '~/nvimnotes' } end,
