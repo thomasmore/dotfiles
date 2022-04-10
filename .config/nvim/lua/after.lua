@@ -119,9 +119,6 @@ require'nvim-treesitter.configs'.setup {
   }
 }
 
-vim.g.tokyonight_italic_comments = false
-vim.g.tokyonight_italic_keywords = false
-
 require('kommentary.config').configure_language("default", {
   prefer_single_line_comments = true,
   ignore_whitespace = false,

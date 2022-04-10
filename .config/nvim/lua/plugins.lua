@@ -22,7 +22,7 @@ return require('packer').startup(function()
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
 
   use 'michaeljsmith/vim-indent-object'
-  use 'chaoren/vim-wordmotion'
+  use { 'chaoren/vim-wordmotion', keys = { 'w', 'e', 'b', 'd', 'c', 'y', 'v' } }
   use 'wellle/targets.vim'
   use 'David-Kunz/treesitter-unit'
 

@@ -65,8 +65,29 @@ set.foldmethod = 'expr'
 set.foldexpr = 'nvim_treesitter#foldexpr()'
 set.foldlevelstart = 7
 
+-- disable most of builtin plugins
+g.loaded_gzip = 1
+g.loaded_zip = 1
+g.loaded_zipPlugin = 1
+g.loaded_tar = 1
+g.loaded_tarPlugin = 1
+g.loaded_getscript = 1
+g.loaded_getscriptPlugin = 1
+g.loaded_vimball = 1
+g.loaded_vimballPlugin = 1
+g.loaded_2html_plugin = 1
+g.loaded_logiPat = 1
+g.loaded_rrhelper = 1
+g.loaded_netrw = 1
+g.loaded_netrwPlugin = 1
+g.loaded_netrwSettings = 1
+g.loaded_netrwFileHandlers = 1
+
 -- diff tool setting
 set.diffopt = 'vertical'
+
+g.tokyonight_italic_comments = false
+g.tokyonight_italic_keywords = false
 
 vim.api.nvim_create_autocmd('TextYankPost', { callback = vim.highlight.on_yank, group = settings_augroup })
 vim.cmd([[
