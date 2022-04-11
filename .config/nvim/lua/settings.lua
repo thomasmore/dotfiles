@@ -13,6 +13,11 @@ vim.api.nvim_create_autocmd('TermOpen', { callback = function()
   vim.wo.signcolumn = 'no'
 end, group = settings_augroup })
 
+-- open quickfix window below all vert-split windows
+vim.api.nvim_create_autocmd('FileType', { pattern = 'qf', callback = function()
+  vim.cmd('wincmd J')
+end, group = settings_augroup })
+
 -- windows layout
 set.winheight = 20
 set.winminwidth = 15
