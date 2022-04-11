@@ -48,12 +48,12 @@ return require('packer').startup(function()
   }
 
   use 'hoob3rt/lualine.nvim'
-  use { 'alvarosevilla95/luatab.nvim', config = function() require('luatab').setup end }
+  use { 'alvarosevilla95/luatab.nvim', config = function() require('luatab').setup() end }
   use 'SmiteshP/nvim-gps'
 
   use { 'tpope/vim-fugitive', cmd = { 'G', 'Git', 'Gedit', 'Gread', 'Gwrite', 'Gdiff', 'Gclog' } }
-  use { 'tanvirtin/vgit.nvim', config = function() require('vgit').setup end }
-  use { 'sindrets/diffview.nvim', config = function() require('diffview').setup end }
+  use { 'tanvirtin/vgit.nvim', config = function() require('vgit').setup() end }
+  use { 'sindrets/diffview.nvim', config = function() require('diffview').setup() end }
 
   use {
     'xolox/vim-notes', setup = function() vim.g.notes_directories = { '~/nvimnotes' } end,
