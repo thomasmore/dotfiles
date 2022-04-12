@@ -87,7 +87,7 @@ return require('packer').startup(function()
   }
   use { 'alvarosevilla95/luatab.nvim', config = function() require('luatab').setup() end }
 
-  use { 'tpope/vim-fugitive', cmd = { 'G', 'Git', 'Gedit', 'Gread', 'Gwrite', 'Gdiff', 'Gclog', 'Gdiffsplit!' } }
+  use { 'tpope/vim-fugitive', cmd = { 'G', 'Git', 'Gedit', 'Gread', 'Gwrite', 'Gdiff', 'Gclog', 'Gdiffsplit!' } }  -- TODO enable diff mode
   use { 'tanvirtin/vgit.nvim', config = function() require('vgit').setup() end }
   use { 'sindrets/diffview.nvim', config = function() require('diffview').setup() end }
 
