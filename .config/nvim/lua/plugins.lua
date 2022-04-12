@@ -120,7 +120,7 @@ return require('packer').startup(function()
   use { 'mrjones2014/legendary.nvim', commit = 'e5a927706f1e525b7654d748fc16fa426e89a92f' }
   use 'folke/which-key.nvim'
 
-  use 'lewis6991/impatient.nvim'
+  use { 'lewis6991/impatient.nvim', disable = true }  -- TODO
 
   use 'folke/tokyonight.nvim'
 
