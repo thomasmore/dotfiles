@@ -1,4 +1,5 @@
 local utils = require 'utils'
+local map = utils.map
 local xmap = utils.xmap
 local omap = utils.omap
 local imap = utils.imap
@@ -7,7 +8,6 @@ local t = utils.replace_termcodes
 local telescope = require('telescope.builtin')
 local vgit = require('vgit')
 local dap = require('dap')
-local cmake = require('cmake')
 
 require('legendary').setup()  -- Register all mappings also in Legendary
 local wk = require('which-key')
@@ -50,11 +50,12 @@ wk.register({
   [',b'] = { dap.toggle_breakpoint, 'Breakpoint toggle' },
   [',B'] = { function() dap.set_breakpoint(vim.fn.input('Breakpoint condition: ')) end, 'Breakpoint conditional' },
   [',r'] = { dap.run_to_cursor, 'Run to cursor' },
-  [',e'] = { require('dapui').eval, 'Eval word under cursor' },
+  -- [',e'] = { require('dapui').eval, 'Eval word under cursor' }, TODO
   -- CMake
+  -- TODO remove <cmd>
   ['<leader>m'] = { '<cmd>lua cmake_build()<cr>', 'Build target' },
-  ['<leader>st'] = { cmake.select_target, 'Select target' },
-  ['<leader>d'] = { cmake.debug, 'Debug' },
+  ['<leader>st'] = { '<cmd>CMake select_target<cr>', 'Select target' },
+  ['<leader>d'] = { '<cmd>CMake debug<cr>', 'Debug' },
   -- TODO: build_and_debug
   -- Quickfix
   ['<leader>cl'] = { '<cmd>cclose<cr>', 'Close quickfix' },
@@ -78,7 +79,7 @@ wk.register({
 })
 
 wk.register({
-  [',e'] = { require('dapui').eval, 'Eval in debug' },
+  -- [',e'] = { require('dapui').eval, 'Eval in debug' }, TODO
 }, { mode = 'v' })
 
 wk.register({
