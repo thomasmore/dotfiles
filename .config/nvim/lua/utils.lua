@@ -5,8 +5,8 @@ local function map(mode, from, to, opts)
   vim.api.nvim_set_keymap(mode, from, to, opts)
 end
 
-M.map = function(mode, from, to, opts)
-  map(mode, from, to, opts)
+M.map = function(from, to, opts)
+  map('', from, to, opts)
 end
 
 M.xmap = function(from, to, opts)
