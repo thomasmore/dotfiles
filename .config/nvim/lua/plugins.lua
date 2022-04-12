@@ -4,7 +4,7 @@ return require('packer').startup(function()
 
   use 'nvim-lua/popup.nvim'
   use 'nvim-lua/plenary.nvim'
-  use 'rcarriga/nvim-notify'
+  use { 'rcarriga/nvim-notify', config = function() vim.notify = require('notify') end }
   use 'stevearc/dressing.nvim'
   use 'kyazdani42/nvim-web-devicons'
 
@@ -12,7 +12,18 @@ return require('packer').startup(function()
   use 'bogado/file-line'
   use 'farmergreg/vim-lastplace'
   use 'tpope/vim-sleuth'
-  use 'lukas-reineke/indent-blankline.nvim'
+  use {
+    'lukas-reineke/indent-blankline.nvim',
+    config = function()
+      require('indent_blankline').setup {
+        char = '▏',
+        use_treesitter = true,
+        show_first_indent_level = false,
+        filetype_exclude = { 'json', 'startify' },
+        buftype_exclude = { 'terminal' }
+      }
+    end
+  }
   use {
     'airblade/vim-rooter',
     setup = function()
@@ -20,8 +31,16 @@ return require('packer').startup(function()
       vim.g.rooter_silent_chdir = 1
     end
   }
-  use 'karb94/neoscroll.nvim'
-  use 'b3nj5m1n/kommentary'
+  use { 'karb94/neoscroll.nvim', config = function() require('neoscroll').setup() end }
+  use {
+    'b3nj5m1n/kommentary',
+    config = function()
+      require('kommentary.config').configure_language("default", {
+        prefer_single_line_comments = true,
+        ignore_whitespace = false,
+      })
+    end
+  }
   use { 'Pocco81/AutoSave.nvim', config = function() require('autosave').setup({ execution_message = "" }) end }
 
   use {
@@ -36,7 +55,20 @@ return require('packer').startup(function()
       }
     end
   }
-  use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
+  use {
+    'nvim-treesitter/nvim-treesitter',
+    run = ':TSUpdate',
+    config = function()
+      vim.opt.foldmethod = 'expr'
+      vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
+      vim.opt.foldlevelstart = 7
+      require('nvim-treesitter.configs').setup {
+        highlight = {
+          enable = true
+        }
+      }
+    end
+  }
 
   use 'michaeljsmith/vim-indent-object'
   use { 'chaoren/vim-wordmotion', keys = { 'w', 'e', 'b', 'd', 'c', 'y', 'v' } }
@@ -98,12 +130,36 @@ return require('packer').startup(function()
   }
 
   use { 'akinsho/nvim-toggleterm.lua', config = function() require('config.term') end }
-  use 'kyazdani42/nvim-tree.lua'
+  use {
+    'kyazdani42/nvim-tree.lua',
+    config = function()
+      require'nvim-tree'.setup {
+        renderer = {
+          indent_markers = {
+            enable = true
+          }
+        }
+      }
+    end
+  }
   use 'nvim-telescope/telescope.nvim'
   use 'simrat39/symbols-outline.nvim'
   use { 'github/copilot.vim', setup = function() vim.g.copilot_no_tab_map = true end, cmd = { 'Copilot' } }
 
-  use 'ggandor/lightspeed.nvim'
+  use {
+    'ggandor/lightspeed.nvim',
+    config = function()
+      require('lightspeed').setup {
+        ignore_case = true,
+        jump_to_unique_chars = false,
+        match_only_the_start_of_same_char_seqs = true,
+        limit_ft_matches = 7,
+        labels = nil,
+        cycle_group_fwd_key = nil,
+        cycle_group_bwd_key = nil,
+      }
+    end
+  }
 
   use { 'mfussenegger/nvim-dap', config = function() require('config.dap') end }
   use {
@@ -122,6 +178,16 @@ return require('packer').startup(function()
 
   use { 'lewis6991/impatient.nvim', disable = true }  -- TODO
 
-  use 'folke/tokyonight.nvim'
+  use {
+    'folke/tokyonight.nvim',
+    config = function()
+      vim.g.tokyonight_italic_comments = false
+      vim.g.tokyonight_italic_keywords = false
+      vim.cmd([[
+        colorscheme tokyonight
+        hi NormalFloat guifg=#c0caf5 guibg=#394060
+      ]])
+    end
+  }
 
 end)

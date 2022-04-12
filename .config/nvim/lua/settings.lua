@@ -65,11 +65,6 @@ g.did_load_filetypes = 0
 set.grepprg = 'rg --vimgrep --no-heading --smart-case'
 set.grepformat = '%f:%l:%c:%m,%f:%l:%m'
 
--- folding
-set.foldmethod = 'expr'
-set.foldexpr = 'nvim_treesitter#foldexpr()'
-set.foldlevelstart = 7
-
 -- disable most of builtin plugins
 g.loaded_gzip = 1
 g.loaded_zip = 1
@@ -91,14 +86,7 @@ g.loaded_netrwFileHandlers = 1
 -- diff tool setting
 set.diffopt = 'vertical'
 
-g.tokyonight_italic_comments = false
-g.tokyonight_italic_keywords = false
-
 aucmd('TextYankPost', settings_augroup, { callback = vim.highlight.on_yank })
 
-vim.cmd([[
-  colorscheme tokyonight
-  hi NormalFloat guifg=#c0caf5 guibg=#394060
-" highlight long lines
-  match ErrorMsg /\%121v.\+/
-]])
+-- highlight long lines
+vim.cmd([[ match ErrorMsg /\%121v.\+/ ]])
