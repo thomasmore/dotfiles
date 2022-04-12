@@ -13,12 +13,29 @@ return require('packer').startup(function()
   use 'farmergreg/vim-lastplace'
   use 'tpope/vim-sleuth'
   use 'lukas-reineke/indent-blankline.nvim'
-  use 'airblade/vim-rooter'
+  use {
+    'airblade/vim-rooter',
+    setup = function()
+      vim.g.rooter_patterns = { '.git' }
+      vim.g.rooter_silent_chdir = 1
+    end
+  }
   use 'karb94/neoscroll.nvim'
   use 'b3nj5m1n/kommentary'
   use { 'Pocco81/AutoSave.nvim', config = function() require('autosave').setup({ execution_message = "" }) end }
 
-  use 'mhinz/vim-startify'
+  use {
+    'mhinz/vim-startify',
+    setup = function()
+      vim.g.startify_session_persistence = 1
+      vim.g.startify_fortune_use_unicode = 1
+      vim.g.startify_lists = {
+        { type = 'dir', header = { '   MRU ' .. vim.fn.getcwd() } },
+        { type = 'sessions', header = { '   Sessions' } },
+        { type = 'files', header = { '   MRU' } }
+      }
+    end
+  }
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
 
   use 'michaeljsmith/vim-indent-object'
@@ -27,10 +44,25 @@ return require('packer').startup(function()
   use 'David-Kunz/treesitter-unit'
 
   use 'tpope/vim-surround'
-  use 'ntpeters/vim-better-whitespace'
-  use 'cohama/lexima.vim'
+  use {
+    'ntpeters/vim-better-whitespace',
+    setup = function()
+      vim.g.better_whitespace_enabled = 1
+      vim.g.strip_whitespace_on_save = 1
+      vim.g.strip_only_modified_lines = 1
+      vim.g.show_spaces_that_precede_tabs = 1
+    end
+  }
+  use {
+    'cohama/lexima.vim',
+    setup = function()
+      require('utils').aucmd('FileType', 'dap', { pattern = 'dap-repl', callback = function()
+        vim.b.lexima_disabled = 1
+      end })
+    end
+  }
 
-  use 'neovim/nvim-lspconfig'
+  use { 'neovim/nvim-lspconfig', config = function() require('config.lsp') end }
   use {
     'hrsh7th/vim-vsnip',
     requires = { 'rafamadriz/friendly-snippets', after = 'vim-vsnip' },
@@ -43,13 +75,17 @@ return require('packer').startup(function()
       { 'hrsh7th/cmp-vsnip', after = 'nvim-cmp' },
       { 'hrsh7th/cmp-buffer', after = 'nvim-cmp' }
     },
-    config = [[require('config.cmp')]],
+    config = function() require('config.cmp') end,
     event = 'InsertEnter'
   }
 
-  use 'hoob3rt/lualine.nvim'
+  use {
+    'hoob3rt/lualine.nvim',
+    requires = { 'SmiteshP/nvim-gps' },
+    after = { 'neovim-cmake' },
+    config = function() require('config.statusline') end
+  }
   use { 'alvarosevilla95/luatab.nvim', config = function() require('luatab').setup() end }
-  use 'SmiteshP/nvim-gps'
 
   use { 'tpope/vim-fugitive', cmd = { 'G', 'Git', 'Gedit', 'Gread', 'Gwrite', 'Gdiff', 'Gclog' } }
   use { 'tanvirtin/vgit.nvim', config = function() require('vgit').setup() end }
@@ -61,7 +97,7 @@ return require('packer').startup(function()
     requires = { 'xolox/vim-misc' }
   }
 
-  use 'akinsho/nvim-toggleterm.lua'
+  use { 'akinsho/nvim-toggleterm.lua', config = function() require('config.term') end }
   use 'kyazdani42/nvim-tree.lua'
   use 'nvim-telescope/telescope.nvim'
   use 'simrat39/symbols-outline.nvim'
@@ -69,12 +105,20 @@ return require('packer').startup(function()
 
   use 'ggandor/lightspeed.nvim'
 
-  use 'mfussenegger/nvim-dap'
-  use 'rcarriga/nvim-dap-ui'
-  use 'Shatur/neovim-cmake'
+  use { 'mfussenegger/nvim-dap', config = function() require('config.dap') end }
+  use {
+    'rcarriga/nvim-dap-ui',
+    after = { 'nvim-dap' },
+    config = function() require('config.dapui') end
+  }
+  use {
+    'Shatur/neovim-cmake',
+    after = { 'nvim-dap' },
+    config = function() require('config.cmake') end
+  }
 
+  use { 'mrjones2014/legendary.nvim', commit = 'e5a927706f1e525b7654d748fc16fa426e89a92f' }
   use 'folke/which-key.nvim'
-  use 'mrjones2014/legendary.nvim'
 
   use 'lewis6991/impatient.nvim'
 

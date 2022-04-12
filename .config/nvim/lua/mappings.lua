@@ -1,9 +1,16 @@
-require('legendary').setup()  -- Register all mappings also in Legendary
+local utils = require 'utils'
+local xmap = utils.xmap
+local omap = utils.omap
+local imap = utils.imap
+local t = utils.replace_termcodes
+
 local telescope = require('telescope.builtin')
 local vgit = require('vgit')
-local wk = require('which-key')
 local dap = require('dap')
 local cmake = require('cmake')
+
+require('legendary').setup()  -- Register all mappings also in Legendary
+local wk = require('which-key')
 -- TODO: register neoscroll and lightspeed mappings
 -- TODO: register fugitive mappings
 -- TODO: move lsp-related mappings here
@@ -45,7 +52,7 @@ wk.register({
   [',r'] = { dap.run_to_cursor, 'Run to cursor' },
   [',e'] = { require('dapui').eval, 'Eval word under cursor' },
   -- CMake
-  ['<leader>m'] = { cmake_build, 'Build target' },
+  ['<leader>m'] = { '<cmd>lua cmake_build()<cr>', 'Build target' },
   ['<leader>st'] = { cmake.select_target, 'Select target' },
   ['<leader>d'] = { cmake.debug, 'Debug' },
   -- TODO: build_and_debug
@@ -74,9 +81,6 @@ wk.register({
   [',e'] = { require('dapui').eval, 'Eval in debug' },
 }, { mode = 'v' })
 
-local t = function(str)
-  return vim.api.nvim_replace_termcodes(str, true, true, true)
-end
 wk.register({
   ['<esc>'] = { t('<c-\\><c-n>'), 'Exit terminal' },
   ['<leader>j'] = { t('<c-\\><c-n>:lua TermToggle()<cr>'), 'Close terminal' },
@@ -84,8 +88,8 @@ wk.register({
   ['<leader>fj'] = { t('<c-\\><c-n>:lua FloatTermToggle()<cr>'), 'Close floating terminal' },
 }, { mode = 't' })
 
-vim.api.nvim_set_keymap('x', 'iu', ':lua require("treesitter-unit").select()<cr>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('x', 'au', ':lua require("treesitter-unit").select(true)<cr>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('o', 'iu', ':<c-u>lua require("treesitter-unit").select()<cr>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('o', 'au', ':<c-u>lua require("treesitter-unit").select(true)<cr>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('i', '<c-j>', 'copilot#Accept()', { silent = true, script = true, expr = true })
+xmap('iu', ':lua require("treesitter-unit").select()<cr>')
+xmap('au', ':lua require("treesitter-unit").select(true)<cr>')
+omap('iu', ':<c-u>lua require("treesitter-unit").select()<cr>')
+omap('au', ':<c-u>lua require("treesitter-unit").select(true)<cr>')
+imap('<c-j>', 'copilot#Accept()', { silent = true, script = true, expr = true })

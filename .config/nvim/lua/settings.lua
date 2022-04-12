@@ -1,3 +1,4 @@
+local aucmd = require('utils').aucmd
 local set = vim.opt
 local g = vim.g
 
@@ -6,17 +7,16 @@ set.number = true
 set.relativenumber = true
 set.signcolumn = 'yes:1'
 -- but not in terminal
-local settings_augroup = vim.api.nvim_create_augroup('settings', { clear = true })
-vim.api.nvim_create_autocmd('TermOpen', { callback = function()
+local settings_augroup = aucmd('TermOpen', 'settings', { callback = function()
   vim.wo.number = false
   vim.wo.relativenumber = false
   vim.wo.signcolumn = 'no'
-end, group = settings_augroup })
+end })
 
 -- open quickfix window below all vert-split windows
-vim.api.nvim_create_autocmd('FileType', { pattern = 'qf', callback = function()
+aucmd('FileType', settings_augroup, { pattern = 'qf', callback = function()
   vim.cmd('wincmd J')
-end, group = settings_augroup })
+end })
 
 -- windows layout
 set.winheight = 20
@@ -94,7 +94,8 @@ set.diffopt = 'vertical'
 g.tokyonight_italic_comments = false
 g.tokyonight_italic_keywords = false
 
-vim.api.nvim_create_autocmd('TextYankPost', { callback = vim.highlight.on_yank, group = settings_augroup })
+aucmd('TextYankPost', settings_augroup, { callback = vim.highlight.on_yank })
+
 vim.cmd([[
   colorscheme tokyonight
   hi NormalFloat guifg=#c0caf5 guibg=#394060
