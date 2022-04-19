@@ -20,6 +20,9 @@ cmake.setup({
   dap_open_command = false,
   quickfix_only_on_error = true,
   on_build_output = function(line)
+    if not line then
+      return
+    end
     local match = string.match(line, "(%[.*%%%])")
     if match then
       build_progress = string.gsub(match, "%%", "%%%%")
@@ -40,15 +43,17 @@ function cmake_build()
   cmake.target = project_config.json.current_target
   cmake.build_type = string.sub(project_config.json.build_type, 1, 1)
   local job = cmake.build()
-  job:after(vim.schedule_wrap(
-    function(_, exit_code)
-      if exit_code == 0 then
-        cmake.progress_color = 'lualine_x_diagnostics_info_normal'
-        cmake_utils.notify("Target was built successfully", vim.log.levels.INFO)
-      else
-        cmake.progress_color = 'lualine_x_diagnostics_warn_normal'
-        cmake_utils.notify("Target build failed", vim.log.levels.ERROR)
+  if job then
+    job:after(vim.schedule_wrap(
+      function(_, exit_code)
+        if exit_code == 0 then
+          cmake.progress_color = 'lualine_x_diagnostics_info_normal'
+          cmake_utils.notify("Target was built successfully", vim.log.levels.INFO)
+        else
+          cmake.progress_color = 'lualine_x_diagnostics_warn_normal'
+          cmake_utils.notify("Target build failed", vim.log.levels.ERROR)
+        end
       end
-    end
-  ))
+    ))
+  end
 end
