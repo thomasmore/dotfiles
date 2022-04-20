@@ -24,6 +24,7 @@ require('lualine').setup {
     theme = 'tokyonight',
     section_separators = { left = '', right = ''},
     component_separators = '',
+    always_divide_middle = false,
     globalstatus = true,
   },
   extensions = { 'quickfix', 'nvim-tree', 'fugitive', 'toggleterm' },
@@ -47,10 +48,12 @@ require('lualine').setup {
           info = ' '
         }
       },
-      { 'filetype' },
-      { get_lsp_client },
     },
-    lualine_y = {'progress'},
-    lualine_z = {'location'}
+    lualine_y = {
+      { 'filetype' },
+      { get_lsp_client, padding = { left = 0, right = 1 } },
+    },
+    lualine_z = {'progress'},
+    -- lualine_z = {'location'}
   },
 }
