@@ -129,7 +129,21 @@ return require('packer').startup(function()
     requires = { 'xolox/vim-misc' }
   }
 
-  use { 'akinsho/nvim-toggleterm.lua', config = function() require('config.term') end }
+  use {
+    'akinsho/nvim-toggleterm.lua',
+    config = function()
+      require('toggleterm').setup{
+        size = function(term)
+          if term.direction == "horizontal" then
+            return 15
+          elseif term.direction == "vertical" then
+            return vim.o.columns * 0.4
+          end
+        end,
+        insert_mappings = false
+      }
+    end
+  }
   use {
     'kyazdani42/nvim-tree.lua',
     config = function()
