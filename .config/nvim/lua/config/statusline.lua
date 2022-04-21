@@ -38,7 +38,7 @@ require('lualine').setup {
       { gps.get_location, cond = gps.is_available },
     },
     lualine_x = {
-      { 'cmake_progress()', color = function(_) return build_progress_color end },
+      { 'cmake_progress()', color = function(_) return cmake.progress_color end },
       {
         'diagnostics',
         sources = {'nvim_diagnostic'},
