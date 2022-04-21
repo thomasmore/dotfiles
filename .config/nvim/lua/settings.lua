@@ -86,7 +86,9 @@ g.loaded_netrwFileHandlers = 1
 -- diff tool setting
 set.diffopt = 'vertical'
 
-aucmd('TextYankPost', settings_augroup, { callback = vim.highlight.on_yank })
+aucmd('TextYankPost', settings_augroup, { callback = function()
+  vim.highlight.on_yank()
+end })
 
 -- highlight long lines
 vim.cmd([[ match ErrorMsg /\%121v.\+/ ]])
