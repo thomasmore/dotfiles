@@ -6,7 +6,7 @@ end
 local Path = require('plenary.path')
 local cmake = require('cmake')
 local cmake_utils = require('cmake.utils')
-build_progress = '[...]'
+local build_progress = '[...]'
 cmake.target = ''
 cmake.build_type = ''
 cmake.progress_color = ''
