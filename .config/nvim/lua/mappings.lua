@@ -63,7 +63,7 @@ wk.register({
   ['<leader>n'] = { '<cmd>cnext<cr>', 'Next in quickfix' },
   ['<leader>p'] = { '<cmd>cprev<cr>', 'Previous in quickfix' },
   -- Terminal
-  ['<leader>j'] = { '<cmd>ToggleTerm<cr>', 'Terminal' },
+  ['<leader>j'] = { '<cmd>ToggleTerm direction=horizontal<cr>', 'Terminal' },
   ['<leader>vj'] = { '<cmd>ToggleTerm direction=vertical<cr>', 'Vertical terminal' },
   ['<leader>fj'] = { '<cmd>ToggleTerm direction=float<cr>', 'Floating terminal' },
 
@@ -85,8 +85,6 @@ wk.register({
 wk.register({
   ['<esc>'] = { t('<c-\\><c-n>'), 'Exit terminal' },
   ['<leader>j'] = { t('<c-\\><c-n>:ToggleTerm<cr>'), 'Close terminal' },
-  ['<leader>vj'] = { t('<c-\\><c-n>:ToggleTerm direction=vertical<cr>'), 'Close vertical terminal' },
-  ['<leader>fj'] = { t('<c-\\><c-n>:ToggleTerm direction=float<cr>'), 'Close floating terminal' },
 }, { mode = 't' })
 
 xmap('iu', ':lua require("treesitter-unit").select()<cr>')
