@@ -9,11 +9,9 @@ fi
 
 add-apt-repository ppa:aacebedo/fasd ppa:neovim-ppa/unstable
 apt update
-apt install clang gcc clangd gdb cmake make ninja-build neovim ruby ruby-dev gem htop tig tmux pip fish lolcat cowsay fortunes fortune-mod ripgrep fd-find fasd tldr pry
-apt install -o Dpkg::Options::="--force-overwrite" bat
+apt install clang gcc clangd gdb cmake make ninja-build neovim ruby ruby-dev gem htop tig tmux pip fish lolcat cowsay fortunes fortune-mod ripgrep fasd tldr pry
 
 gem install --user-install solargraph
-pip install cmake-language-server
 
 git clone --depth 1 https://github.com/junegunn/fzf.git $HOME/.fzf
 $HOME/.fzf/install

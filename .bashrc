@@ -35,7 +35,6 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto'
 fi
 
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
 export FZF_DEFAULT_OPTS="-m --height 35% --layout=reverse"
 
 if [ -f ~/.bash_aliases ]; then
