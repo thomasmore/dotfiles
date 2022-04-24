@@ -1,7 +1,7 @@
 local dap = require('dap')
 dap.adapters.lldb = {
   type = 'executable',
-  command = 'lldb-vscode-10',
+  command = 'lldb-vscode-14',
   name = "lldb"
 }
 dap.configurations.cpp = {
