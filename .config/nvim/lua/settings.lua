@@ -7,7 +7,7 @@ set.number = true
 set.relativenumber = true
 set.signcolumn = 'yes:1'
 -- but not in terminal
-local settings_augroup = aucmd('TermOpen', 'settings', { callback = function()
+local settings_augroup = aucmd({ 'TermOpen', 'TermEnter' }, 'settings', { callback = function()
   vim.wo.number = false
   vim.wo.relativenumber = false
   vim.wo.signcolumn = 'no'
