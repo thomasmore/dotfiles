@@ -204,4 +204,13 @@ return require('packer').startup(function()
     end
   }
 
+  use {
+    'mizlan/iswap.nvim',
+    config = function()
+      require('iswap').setup{
+        hl_snipe = 'HopNextKey',
+        autoswap = true
+      }
+    end
+  }
 end)
