@@ -120,7 +120,22 @@ return require('packer').startup(function()
   use { 'alvarosevilla95/luatab.nvim', config = function() require('luatab').setup() end }
 
   use { 'tpope/vim-fugitive', cmd = { 'G', 'Git', 'Gedit', 'Gread', 'Gwrite', 'Gdiff', 'Gclog', 'Gdiffsplit' } }
-  use { 'tanvirtin/vgit.nvim', config = function() require('vgit').setup() end }
+  use {
+    'tanvirtin/vgit.nvim',
+    config = function()
+      require('vgit').setup{
+        live_gutter = {
+          edge_navigation = false,
+        },
+        authorship_code_lens = {
+          enabled = false,
+        },
+        scene = {
+          diff_preference = 'split',
+        },
+      }
+    end
+  }
   use { 'sindrets/diffview.nvim', config = function() require('diffview').setup() end }
 
   use {
