@@ -93,5 +93,5 @@ end })
 -- highlight long lines and add more patterns for errorformat
 vim.cmd([[
  match ErrorMsg /\%121v.\+/
- set efm^=\%\\s%#%\\d%#:%#\ %#from\ %f:%l:%m,
+ set efm^=\%\\s%#%\\d%#:%#\ %#from\ %f:%l:%m,IN\ %f:%l:%m,
 ]])
