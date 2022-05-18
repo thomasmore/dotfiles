@@ -90,5 +90,8 @@ aucmd('TextYankPost', settings_augroup, { callback = function()
   vim.highlight.on_yank()
 end })
 
--- highlight long lines
-vim.cmd([[ match ErrorMsg /\%121v.\+/ ]])
+-- highlight long lines and add more patterns for errorformat
+vim.cmd([[
+ match ErrorMsg /\%121v.\+/
+ set efm^=\%\\s%#%\\d%#:%#\ %#from\ %f:%l:%m,
+]])
