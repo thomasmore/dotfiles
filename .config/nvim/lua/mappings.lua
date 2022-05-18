@@ -76,6 +76,9 @@ wk.register({
   ['Gd'] = { 'gd', 'Goto local declaration' },
   -- goto bottom without irritating delay
   ['GG'] = { 'G', 'Goto the last line of file'},
+  -- open file under cursor in previous window (used to open files from terminal output)
+  ['gx'] = { '<cmd>let _curf=expand("<cWORD>")<cr><c-w>p:execute("e "._curf)<cr>', 'Open file under cursor' },
+  ['<leader>sw'] = {'<cmd>ISwapWith<cr>', 'Swap nodes'},
 })
 
 wk.register({
