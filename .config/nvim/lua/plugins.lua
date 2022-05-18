@@ -147,7 +147,7 @@ return require('packer').startup(function()
   use {
     'kyazdani42/nvim-tree.lua',
     config = function()
-      require'nvim-tree'.setup {
+      require('nvim-tree').setup {
         renderer = {
           indent_markers = {
             enable = true
