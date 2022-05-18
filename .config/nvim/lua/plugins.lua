@@ -156,7 +156,18 @@ return require('packer').startup(function()
       }
     end
   }
-  use 'nvim-telescope/telescope.nvim'
+  use { 'nvim-telescope/telescope.nvim',
+    config = function()
+      require('config.telescope')
+    end
+  }
+  use {  -- TODO: I am using it only for db_client for custom sorter, rework?
+    "nvim-telescope/telescope-frecency.nvim",
+    config = function()
+      require('telescope').load_extension("frecency")
+    end,
+    requires = {"tami5/sqlite.lua"}
+  }
   use 'simrat39/symbols-outline.nvim'
   use { 'github/copilot.vim', setup = function() vim.g.copilot_no_tab_map = true end, cmd = { 'Copilot' } }
 
