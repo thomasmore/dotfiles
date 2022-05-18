@@ -124,15 +124,17 @@ return require('packer').startup(function()
     'tanvirtin/vgit.nvim',
     config = function()
       require('vgit').setup{
-        live_gutter = {
-          edge_navigation = false,
-        },
-        authorship_code_lens = {
-          enabled = false,
-        },
-        scene = {
-          diff_preference = 'split',
-        },
+        settings = {
+          live_gutter = {
+            edge_navigation = false,
+          },
+          authorship_code_lens = {
+            enabled = false,
+         },
+          scene = {
+            diff_preference = 'split',
+          },
+        }
       }
     end
   }
