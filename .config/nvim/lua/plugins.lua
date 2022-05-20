@@ -130,7 +130,7 @@ return require('packer').startup(function()
           },
           authorship_code_lens = {
             enabled = false,
-         },
+          },
           scene = {
             diff_preference = 'split',
           },
