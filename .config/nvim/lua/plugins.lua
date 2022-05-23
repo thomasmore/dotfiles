@@ -53,6 +53,7 @@ return require('packer').startup(function()
         { type = 'sessions', header = { '   Sessions' } },
         { type = 'files', header = { '   MRU' } }
       }
+      vim.api.nvim_create_autocmd('User StartifyBufferOpened', { command = 'Rooter' } )
     end
   }
   use {
@@ -157,6 +158,7 @@ return require('packer').startup(function()
             return vim.o.columns * 0.4
           end
         end,
+        shade_terminals = true,
         insert_mappings = false
       }
     end
@@ -225,6 +227,8 @@ return require('packer').startup(function()
     config = function()
       vim.g.tokyonight_italic_comments = false
       vim.g.tokyonight_italic_keywords = false
+      vim.g.tokyonight_colors = { border = 'magenta' }
+      vim.g.tokyonight_sidebars = { 'qf', 'terminal', 'packer' }
       vim.cmd([[
         colorscheme tokyonight
         hi NormalFloat guifg=#c0caf5 guibg=#394060
