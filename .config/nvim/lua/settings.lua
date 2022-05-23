@@ -15,7 +15,7 @@ end })
 
 -- open quickfix window below all vert-split windows
 aucmd('FileType', settings_augroup, { pattern = 'qf', callback = function()
-  vim.cmd('wincmd J | resize 20')
+  vim.cmd('wincmd J | resize 15')
 end })
 
 -- windows layout
