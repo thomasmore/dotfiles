@@ -89,9 +89,6 @@ set.diffopt = 'vertical'
 aucmd('TextYankPost', settings_augroup, { callback = function()
   vim.highlight.on_yank()
 end })
-aucmd('User FugitiveIndex', settings_augroup, { callback = function()
-  vim.cmd('resize 12')
-end })
 
 -- highlight long lines and add more patterns for errorformat
 vim.cmd([[
