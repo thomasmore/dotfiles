@@ -79,6 +79,8 @@ wk.register({
   -- open file under cursor in previous window (used to open files from terminal output)
   ['gx'] = { '<cmd>let _curf=expand("<cWORD>")<cr><c-w>p:execute("e "._curf)<cr>', 'Open file under cursor' },
   ['<leader>sw'] = {'<cmd>ISwapWith<cr>', 'Swap nodes'},
+  [']]'] = { "<cmd>lua require('tree-climber').goto_next()<cr><cmd>lua require('neoscroll').zz(250)<cr>", 'Go to next sibling in syntax tree' },
+  ['[['] = { "<cmd>lua require('tree-climber').goto_prev()<cr><cmd>lua require('neoscroll').zz(250)<cr>", 'Go to prev sibling in syntax tree' },
 })
 
 wk.register({
