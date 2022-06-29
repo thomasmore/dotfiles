@@ -71,7 +71,7 @@ wk.register({
   ['<leader>e'] = { require('nvim-tree').toggle, 'File explorer' },
   ['<leader>rg'] = { ':silent grep<space>', 'Find with rg (and put in quickfix)', silent = false },
 
-  ['<f2>'] = { '<cmd>nohlsearch<cr>', 'Turn off last search highlight' },
+  ['<f2>'] = { '<cmd>nohlsearch<cr><cmd>diffupdate<cr>', 'Turn off last search highlight and diffupdate' },
   -- reserve gd to lsp-related things
   ['Gd'] = { 'gd', 'Goto local declaration' },
   -- goto bottom without irritating delay
