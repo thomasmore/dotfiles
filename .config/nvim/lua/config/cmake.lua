@@ -19,7 +19,6 @@ cmake.setup({
   dap_configuration = cmake_dap_configuration,  -- TODO: cd into build directory before debugging TODO: add commands to open terminal/nvim-tree in build dir
   dap_open_command = false,
   quickfix = {
-    height = 12,
     only_on_error = true,
   },
   on_build_output = function(lines)
