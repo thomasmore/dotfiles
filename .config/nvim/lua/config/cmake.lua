@@ -18,12 +18,12 @@ cmake.setup({
   configure_args = {},
   dap_configuration = cmake_dap_configuration,  -- TODO: cd into build directory before debugging TODO: add commands to open terminal/nvim-tree in build dir
   dap_open_command = false,
-  quickfix_only_on_error = true,
-  on_build_output = function(line)
-    if not line then
-      return
-    end
-    local match = string.match(line, "(%[.*%%%])")
+  quickfix = {
+    height = 12,
+    only_on_error = true,
+  },
+  on_build_output = function(lines)
+    local match = string.match(lines[#lines], "(%[.*%%%])")
     if match then
       build_progress = string.gsub(match, "%%", "%%%%")
     end
