@@ -182,7 +182,6 @@ return require('packer').startup(function()
     end
   }
   use 'simrat39/symbols-outline.nvim'
-  use { 'github/copilot.vim', setup = function() vim.g.copilot_no_tab_map = true end, cmd = { 'Copilot' } }
 
   use {
     'ggandor/lightspeed.nvim',
@@ -239,4 +238,8 @@ return require('packer').startup(function()
       }
     end
   }
+
+  use 'drybalka/tree-climber.nvim'
+  use {'kevinhwang91/nvim-bqf', ft = 'qf'}
+
 end)
