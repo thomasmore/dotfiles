@@ -22,6 +22,7 @@ end })
 set.winheight = 20
 set.winminwidth = 15
 set.winminheight = 5
+set.cmdheight = 0
 
 -- split to below and right
 set.splitbelow = true
