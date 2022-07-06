@@ -5,6 +5,8 @@ sudo add-apt-repository ppa:neovim-ppa/unstable
 sudo apt update
 sudo apt install clang gcc clangd gdb cmake make ninja-build neovim ruby ruby-dev gem htop tig tmux pip fish lolcat cowsay fortunes fortune-mod ripgrep fasd tldr
 
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
 gem install --user-install solargraph
 
 git clone --depth 1 https://github.com/junegunn/fzf.git $HOME/.fzf
