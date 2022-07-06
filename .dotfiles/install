@@ -6,6 +6,7 @@ sudo apt update
 sudo apt install clang gcc clangd gdb cmake make ninja-build neovim ruby ruby-dev gem htop tig tmux pip fish lolcat cowsay fortunes fortune-mod ripgrep fasd tldr
 
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+brew install fd bat fzf
 
 gem install --user-install solargraph
 
@@ -18,3 +19,5 @@ nvim --headless +PackerInstall +'TSInstall cpp ruby python java lua vim cmake ba
 sh -c "$(curl -fsSL https://starship.rs/install.sh)"
 
 chsh -s /usr/bin/fish
+fish -c 'curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher'
+fish -c 'fisher install fishgretel/fasd'
