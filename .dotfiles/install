@@ -9,7 +9,7 @@ fi
 
 add-apt-repository ppa:aacebedo/fasd ppa:neovim-ppa/unstable
 apt update
-apt install clang gcc clangd gdb cmake make ninja-build neovim ruby ruby-dev gem htop tig tmux pip fish lolcat cowsay fortunes fortune-mod ripgrep fasd tldr pry
+apt install clang gcc clangd gdb cmake make ninja-build neovim ruby ruby-dev gem htop tig tmux pip fish lolcat cowsay fortunes fortune-mod ripgrep fasd tldr
 
 gem install --user-install solargraph
 
