@@ -3,4 +3,5 @@ git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME checkout -f
 sudo -E $HOME/.dotfiles/install
 # TODO: install brew
 # brew install fd bat fzf
-# fisher install jethrokuan/fzf
+# fish -c 'curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher'
+# fish -c 'fisher install fishgretel/fasd'
