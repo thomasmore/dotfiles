@@ -1,15 +1,8 @@
 #!/bin/bash
 
-# TODO: fix sudo flags to create directories of correct ownership
-
-if [[ $(id -u) -ne 0 ]]; then
-  echo "FATAL: Run as root."
-  exit 1
-fi
-
-add-apt-repository ppa:aacebedo/fasd ppa:neovim-ppa/unstable
-apt update
-apt install clang gcc clangd gdb cmake make ninja-build neovim ruby ruby-dev gem htop tig tmux pip fish lolcat cowsay fortunes fortune-mod ripgrep fasd tldr
+sudo add-apt-repository ppa:aacebedo/fasd ppa:neovim-ppa/unstable
+sudo apt update
+sudo apt install clang gcc clangd gdb cmake make ninja-build neovim ruby ruby-dev gem htop tig tmux pip fish lolcat cowsay fortunes fortune-mod ripgrep fasd tldr
 
 gem install --user-install solargraph
 
