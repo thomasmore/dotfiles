@@ -22,6 +22,3 @@ nvim --headless +PackerInstall +'TSInstall cpp ruby python java lua vim cmake ba
 sh -c "$(curl -fsSL https://starship.rs/install.sh)"
 
 chsh -s /usr/bin/fish
-
-fish -c 'curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher'
-fish -c 'fisher install fishgretel/fasd'
