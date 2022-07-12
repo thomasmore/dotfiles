@@ -1,8 +1,8 @@
 local M = {}
 
 local function map(mode, from, to, opts)
-  opts = opts or { noremap = true, silent = true }
-  vim.api.nvim_set_keymap(mode, from, to, opts)
+  opts = opts or { silent = true }
+  vim.keymap.set(mode, from, to, opts)
 end
 
 M.map = function(from, to, opts)
