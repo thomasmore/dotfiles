@@ -76,7 +76,8 @@ return require('packer').startup(function()
   use 'wellle/targets.vim'
   use 'David-Kunz/treesitter-unit'
 
-  use 'tpope/vim-surround'
+  use { 'kylechui/nvim-surround', config = function() require('nvim-surround').setup() end }
+
   use {
     'ntpeters/vim-better-whitespace',
     setup = function()
