@@ -60,12 +60,9 @@ return require('packer').startup(function()
     'nvim-treesitter/nvim-treesitter',
     run = ':TSUpdate',
     config = function()
-      vim.opt.foldmethod = 'expr'
-      vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
-      vim.opt.foldlevelstart = 7
       require('nvim-treesitter.configs').setup {
         highlight = {
-          enable = true
+          enable = true,
         }
       }
     end
@@ -242,5 +239,10 @@ return require('packer').startup(function()
 
   use 'drybalka/tree-climber.nvim'
   use {'kevinhwang91/nvim-bqf', ft = 'qf'}
+
+  use({
+    "iamcco/markdown-preview.nvim",
+    run = function() vim.fn["mkdp#util#install"]() end,
+  })
 
 end)
