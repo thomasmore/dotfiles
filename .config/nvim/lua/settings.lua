@@ -57,6 +57,7 @@ set.scrolloff = 5
 set.mouse = 'a'
 set.inccommand = 'split'
 set.hidden = true
+g.mapleader = ';'
 
 -- rg integration
 set.grepprg = 'rg --vimgrep --no-heading --smart-case'

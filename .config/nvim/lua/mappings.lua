@@ -97,5 +97,3 @@ xmap('iu', ':lua require("treesitter-unit").select()<cr>')
 xmap('au', ':lua require("treesitter-unit").select(true)<cr>')
 omap('iu', ':<c-u>lua require("treesitter-unit").select()<cr>')
 omap('au', ':<c-u>lua require("treesitter-unit").select(true)<cr>')
-
-nmap(';', '<leader>')
