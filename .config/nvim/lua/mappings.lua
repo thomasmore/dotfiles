@@ -1,5 +1,6 @@
 local utils = require 'utils'
 local map = utils.map
+local nmap = utils.nmap
 local xmap = utils.xmap
 local omap = utils.omap
 local imap = utils.imap
@@ -96,3 +97,5 @@ xmap('iu', ':lua require("treesitter-unit").select()<cr>')
 xmap('au', ':lua require("treesitter-unit").select(true)<cr>')
 omap('iu', ':<c-u>lua require("treesitter-unit").select()<cr>')
 omap('au', ':<c-u>lua require("treesitter-unit").select(true)<cr>')
+
+nmap(';', '<leader>')

@@ -9,6 +9,10 @@ M.map = function(from, to, opts)
   map('', from, to, opts)
 end
 
+M.nmap = function(from, to, opts)
+  map('n', from, to, opts)
+end
+
 M.xmap = function(from, to, opts)
   map('x', from, to, opts)
 end
