@@ -17,6 +17,20 @@ local get_lsp_client = function ()
   return ''
 end
 
+vim.o.shortmess = vim.o.shortmess .. "S"
+
+local function search_count()
+  if vim.api.nvim_get_vvar("hlsearch") == 1 then
+    local res = vim.fn.searchcount({ maxcount = 999, timeout = 500 })
+
+    if res.total > 0 then
+      return string.format("[%d/%d]", res.current, res.total)
+    end
+  end
+
+  return ""
+end
+
 gps.setup()
 
 require('lualine').setup {
@@ -26,6 +40,9 @@ require('lualine').setup {
     component_separators = '',
     always_divide_middle = false,
     globalstatus = true,
+    refresh = {
+      statusline = 250,
+    },
   },
   extensions = { 'quickfix', 'nvim-tree', 'fugitive', 'toggleterm' },
   sections = {
@@ -38,6 +55,7 @@ require('lualine').setup {
       { gps.get_location, cond = gps.is_available },
     },
     lualine_x = {
+      { search_count, type = "lua_expr" },
       { 'cmake_progress()', color = function(_) return cmake.progress_color end },
       {
         'diagnostics',
