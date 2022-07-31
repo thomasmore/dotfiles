@@ -1,4 +1,5 @@
 local aucmd = require('utils').aucmd
+local nmap = require('utils').nmap
 local set = vim.opt
 local g = vim.g
 
@@ -93,3 +94,9 @@ vim.cmd([[
  match ErrorMsg /\%121v.\+/
  set efm^=\%\\s%#%\\d%#:%#\ %#from\ %f:%l:%m,IN\ %f:%l:%m,
 ]])
+
+if g.neovide then
+  g.neovide_cursor_animation_length = 0
+  set.guifont = 'JetBrainsMono Nerd Font:h13'
+  nmap('<f11>', ':let g:neovide_fullscreen = !g:neovide_fullscreen<cr>')
+end

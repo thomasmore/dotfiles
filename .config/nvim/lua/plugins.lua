@@ -79,9 +79,9 @@ return require('packer').startup(function()
     'ntpeters/vim-better-whitespace',
     setup = function()
       vim.g.better_whitespace_enabled = 1
-      vim.g.strip_whitespace_on_save = 1
       vim.g.strip_only_modified_lines = 1
       vim.g.show_spaces_that_precede_tabs = 1
+      vim.g.better_whitespace_filetypes_blacklist = {'toggleterm'}
     end
   }
   use {
@@ -240,9 +240,16 @@ return require('packer').startup(function()
   use 'drybalka/tree-climber.nvim'
   use {'kevinhwang91/nvim-bqf', ft = 'qf'}
 
-  use({
+  use {
     "iamcco/markdown-preview.nvim",
     run = function() vim.fn["mkdp#util#install"]() end,
-  })
+  }
+
+  use {
+    'Pocco81/true-zen.nvim',
+    config = function()
+      require('true-zen').setup {}
+    end,
+  }
 
 end)
