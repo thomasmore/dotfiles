@@ -41,7 +41,14 @@ return require('packer').startup(function()
       })
     end
   }
-  use { 'Pocco81/AutoSave.nvim', config = function() require('autosave').setup({ execution_message = "" }) end }
+  use {
+    'Pocco81/auto-save.nvim',
+    config = function()
+      require('auto-save').setup{
+        execution_message = { message = "" }
+      }
+    end
+  }
 
   use {
     'mhinz/vim-startify',
@@ -220,10 +227,8 @@ return require('packer').startup(function()
       vim.g.tokyonight_italic_keywords = false
       vim.g.tokyonight_colors = { border = 'magenta' }
       vim.g.tokyonight_sidebars = { 'qf', 'terminal', 'packer' }
-      vim.cmd([[
-        colorscheme tokyonight
-        hi NormalFloat guifg=#c0caf5 guibg=#394060
-      ]])
+      vim.cmd.colorscheme('tokyonight')
+      vim.cmd('hi NormalFloat guifg=#c0caf5 guibg=#394060')
     end
   }
 
@@ -243,6 +248,11 @@ return require('packer').startup(function()
   use {
     "iamcco/markdown-preview.nvim",
     run = function() vim.fn["mkdp#util#install"]() end,
+  }
+    
+  use {
+    'stevearc/overseer.nvim',
+    config = function() require('overseer').setup() end
   }
 
   use {
