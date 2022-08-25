@@ -1,6 +1,5 @@
 local on_attach = function(client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
   -- Mappings.
   local opts = { noremap=true, silent=true }
@@ -18,15 +17,6 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', '<Leader>f', '<cmd>lua vim.lsp.buf.formatting()<cr>', opts)
 end
 
-local nvim_lsp = require('lspconfig')
-nvim_lsp.clangd.setup{
-  on_attach = on_attach,
-  cmd = {
-    "clangd", "--background-index=0", "--clang-tidy", "--pch-storage=memory"
-  },
-  capabilites = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
-}
-
 for _, name in ipairs({"Error", "Warn", "Info", "Hint"}) do
   vim.fn.sign_define("DiagnosticSign" .. name, {text = "", numhl = "Diagnostic" .. name})
 end
@@ -39,6 +29,15 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     underline = false,
   }
 )
+
+local nvim_lsp = require('lspconfig')
+nvim_lsp.clangd.setup{
+  on_attach = on_attach,
+  cmd = {
+    "clangd", "--background-index=0", "--clang-tidy", "--pch-storage=memory"
+  },
+  capabilites = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+}
 
 local servers = { 'solargraph' }
 for _, lsp in ipairs(servers) do

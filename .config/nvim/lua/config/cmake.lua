@@ -1,3 +1,5 @@
+local nmap = require('utils').nmap
+
 -- any better way to do shallowcopy?
 local function shallowcopy(tbl)
   return vim.tbl_extend('force', {}, tbl)
@@ -16,7 +18,7 @@ cmake_dap_configuration.cwd = nil
 cmake.setup({
   build_dir = tostring(Path:new('{cwd}', '..', 'builds', vim.fn.fnamemodify(vim.loop.cwd(), ':t')..'-{build_type}')),
   configure_args = {},
-  dap_configuration = cmake_dap_configuration,  -- TODO: cd into build directory before debugging TODO: add commands to open terminal/nvim-tree in build dir
+  dap_configuration = cmake_dap_configuration,  -- TODO: cd into build directory before debugging
   dap_open_command = false,
   quickfix = {
     only_on_error = true,
@@ -36,7 +38,7 @@ function cmake_progress()
   return ''
 end
 
-function cmake_build()
+local function cmake_build()
   cmake.progress_color = 'lualine_c_normal'
   local project_config = require('cmake.project_config').new()
   cmake.target = project_config.json.current_target
@@ -56,3 +58,10 @@ function cmake_build()
     ))
   end
 end
+
+nmap('<leader>m', cmake_build, 'Build target')
+nmap('<leader>st', cmake.select_target, 'Select target')
+nmap('<leader>d', cmake.debug, 'Debug target')
+-- TODO: build_and_debug
+-- TODO: notify when configure ends
+-- TODO: add commands to open terminal/nvim-tree in build dir

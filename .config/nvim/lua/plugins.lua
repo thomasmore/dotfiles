@@ -41,11 +41,13 @@ return require('packer').startup(function()
       })
     end
   }
-  use {
-    'Pocco81/auto-save.nvim',
+  use { 'Pocco81/auto-save.nvim',
     config = function()
       require('auto-save').setup{
-        execution_message = { message = "" }
+        execution_message = {
+          message = function() return "" end,
+          dim = 0
+        }
       }
     end
   }
@@ -129,7 +131,9 @@ return require('packer').startup(function()
   use {
     'tanvirtin/vgit.nvim',
     config = function()
-      require('vgit').setup{
+      local vgit = require('vgit')
+      local nmap = require('utils').nmap
+      vgit.setup{
         settings = {
           live_gutter = {
             edge_navigation = false,
@@ -142,6 +146,10 @@ return require('packer').startup(function()
           },
         }
       }
+      nmap('<leader>gu', vgit.hunk_up, 'Go to hunk above')
+      nmap('<leader>gd', vgit.hunk_down, 'Go to hunk below')
+      nmap('<leader>gr', vgit.buffer_hunk_reset, 'Reset hunk to HEAD')
+      nmap('<leader>gv', vgit.buffer_hunk_preview, 'View hunk diff')
     end
   }
   use { 'sindrets/diffview.nvim', config = function() require('diffview').setup() end }
@@ -155,6 +163,8 @@ return require('packer').startup(function()
   use {
     'akinsho/nvim-toggleterm.lua',
     config = function()
+      local nmap = require('utils').nmap
+      local tmap = require('utils').tmap
       require('toggleterm').setup{
         size = function(term)
           if term.direction == "horizontal" then
@@ -166,18 +176,25 @@ return require('packer').startup(function()
         shade_terminals = true,
         insert_mappings = false
       }
+      nmap('<leader>j', function() vim.cmd.ToggleTerm('direction=horizontal') end, 'Terminal')
+      nmap('<leader>vj', function() vim.cmd.ToggleTerm('direction=vertical') end, 'Vertical terminal')
+      nmap('<leader>fj', function() vim.cmd.ToggleTerm('direction=float') end, 'Floating terminal')
+      tmap('<leader>j', vim.cmd.ToggleTerm, 'Close terminal')
     end
   }
   use {
     'kyazdani42/nvim-tree.lua',
     config = function()
-      require('nvim-tree').setup {
+      local nmap = require('utils').nmap
+      local ntree = require('nvim-tree')
+      ntree.setup {
         renderer = {
           indent_markers = {
             enable = true
           }
         }
       }
+      nmap('<leader>e', ntree.toggle, 'File explorer')
     end
   }
   use 'natecraddock/telescope-zf-native.nvim'
@@ -186,7 +203,14 @@ return require('packer').startup(function()
       require('config.telescope')
     end
   }
-  use 'simrat39/symbols-outline.nvim'
+  use { 'simrat39/symbols-outline.nvim',
+    config = function()
+      local nmap = require('utils').nmap
+      local symbols = require('symbols-outline')
+      symbols.setup()
+      nmap('<leader>u', symbols.toggle_outline, 'SymbolsOutline')
+    end
+  }
 
   use {
     'ggandor/lightspeed.nvim',
@@ -215,10 +239,8 @@ return require('packer').startup(function()
     config = function() require('config.cmake') end
   }
 
-  use { 'mrjones2014/legendary.nvim' }
-  use 'folke/which-key.nvim'
-
-  use { 'lewis6991/impatient.nvim', disable = true }  -- TODO
+  use { 'mrjones2014/legendary.nvim', config = function() require('legendary').setup() end }
+  use { 'folke/which-key.nvim', config = function() require('which-key').setup() end }
 
   use {
     'folke/tokyonight.nvim',
@@ -235,10 +257,12 @@ return require('packer').startup(function()
   use {
     'mizlan/iswap.nvim',
     config = function()
+      local nmap = require('utils').nmap
       require('iswap').setup{
         hl_snipe = 'HopNextKey',
         autoswap = true
       }
+      nmap('<leader>sw', vim.cmd.ISwapWith, 'Swap nodes')
     end
   }
 
@@ -246,10 +270,10 @@ return require('packer').startup(function()
   use {'kevinhwang91/nvim-bqf', ft = 'qf'}
 
   use {
-    "iamcco/markdown-preview.nvim",
+    'iamcco/markdown-preview.nvim',
     run = function() vim.fn["mkdp#util#install"]() end,
   }
-    
+
   use {
     'stevearc/overseer.nvim',
     config = function() require('overseer').setup() end

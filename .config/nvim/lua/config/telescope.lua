@@ -1,2 +1,16 @@
 require('telescope').setup()
 require('telescope').load_extension('zf-native')
+
+local nmap = require('utils').nmap
+local telescope = require('telescope.builtin')
+
+nmap('<c-p>', telescope.find_files, 'Find file')
+nmap('<c-l>', telescope.current_buffer_fuzzy_find, 'Live search in current file')
+nmap('<c-h>', telescope.oldfiles, 'Open recent file')
+nmap('<leader>gg', telescope.grep_string, 'Grep for word under the cursor')
+nmap('<leader>lg', telescope.live_grep, 'Live grep for typed string')
+nmap('<leader>bu', telescope.buffers, 'List open buffers')
+nmap('gco', telescope.git_branches, 'List git branches')
+nmap('gr', telescope.lsp_references, 'List references')
+nmap('gd', telescope.lsp_definitions, 'Go to definiton or list them')
+nmap('c-RightMouse', '<LeftMouse><cmd>Telescope lsp_definitions<cr>', 'Go to definition or list them')

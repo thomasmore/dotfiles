@@ -1,32 +1,15 @@
 local M = {}
 
-local function map(mode, from, to, opts)
+local function map(mode, from, to, desc, opts)
   opts = opts or { silent = true }
+  opts.desc = desc
   vim.keymap.set(mode, from, to, opts)
 end
 
-M.map = function(from, to, opts)
-  map('', from, to, opts)
-end
-
-M.nmap = function(from, to, opts)
-  map('n', from, to, opts)
-end
-
-M.xmap = function(from, to, opts)
-  map('x', from, to, opts)
-end
-
-M.omap = function(from, to, opts)
-  map('o', from, to, opts)
-end
-
-M.imap = function(from, to, opts)
-  map('i', from, to, opts)
-end
-
-M.replace_termcodes = function(str)
-  return vim.api.nvim_replace_termcodes(str, true, true, true)
+for _, v in ipairs({'', 'n', 'x', 'o', 'i', 'v', 't'}) do
+  M[v .. 'map'] = function(from, to, desc, opts)
+    map(v, from, to, desc, opts)
+  end
 end
 
 M.aucmd = function(event, group, opts)

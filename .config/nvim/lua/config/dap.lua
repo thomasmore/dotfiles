@@ -1,4 +1,6 @@
 local dap = require('dap')
+local nmap = require('utils').nmap
+
 dap.adapters.lldb = {
   type = 'executable',
   command = 'lldb-vscode-14',
@@ -15,8 +17,16 @@ dap.configurations.cpp = {
     end,
     cwd = '${workspaceFolder}',
     stopOnEntry = false,
-    args = function() return vim.split(vim.fn.input({prompt = 'Args: '}), ' ') end, -- TODO: 1) filter out empty args 2) save for subsequent runs
+    args = function() return vim.split(vim.fn.input({prompt = 'Args: '}), ' ') end, -- TODO: filter out empty args
     runInTerminal = false,
   },
 }
 dap.configurations.c = dap.configurations.cpp
+
+nmap(',c', dap.continue, 'Continue')
+nmap(',n', dap.step_over, 'Next (step over)')
+nmap(',i', dap.step_into, 'Step into')
+nmap(',f', dap.step_out, 'Finish (step out)')
+nmap(',b', dap.toggle_breakpoint, 'Breakpoint toggle')
+nmap(',B', function() dap.set_breakpoint(vim.fn.input('Breakpoint condition: ')) end, 'Breakpoint conditional')
+nmap(',r', dap.run_to_cursor, 'Run to cursor')
