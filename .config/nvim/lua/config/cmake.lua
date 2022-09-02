@@ -59,9 +59,29 @@ local function cmake_build()
   end
 end
 
+local function cmake_configure()
+  local job = cmake.configure()
+  cmake.target = 'cmake'
+  local project_config = require('cmake.project_config').new()
+  cmake.build_type = string.sub(project_config.json.build_type, 1, 1)
+  if job then
+    job:after(vim.schedule_wrap(
+      function(_, exit_code)
+        if exit_code == 0 then
+          cmake.progress_color = 'lualine_x_diagnostics_info_normal'
+          cmake_utils.notify('Configuration was done successfully', vim.log.levels.INFO)
+        else
+          cmake.progress_color = 'lualine_x_diagnostics_warn_normal'
+          cmake_utils.notify('Configuration failed', vim.log.levels.ERROR)
+        end
+      end
+    ))
+  end
+end
+
 nmap('<leader>m', cmake_build, 'Build target')
 nmap('<leader>st', cmake.select_target, 'Select target')
 nmap('<leader>d', cmake.debug, 'Debug target')
--- TODO: build_and_debug
--- TODO: notify when configure ends
+nmap('<leader>bd', cmake.build_and_debug, 'Build and debug target')
+nmap('<leader>cc', cmake_configure, 'CMake configure')
 -- TODO: add commands to open terminal/nvim-tree in build dir

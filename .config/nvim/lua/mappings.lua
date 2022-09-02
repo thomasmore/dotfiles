@@ -6,7 +6,6 @@ local imap = utils.imap
 local tmap = utils.tmap
 
 -- TODO: how to make register neoscroll and lightspeed mappings look good in WhichKey?
--- TODO: move lsp-related mappings here
 
 -- Better arrows and window movement
 nmap('<up>', '<c-w><up>')

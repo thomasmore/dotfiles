@@ -1,20 +1,20 @@
 local on_attach = function(client, bufnr)
-  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+  local nmap = require('utils').nmap
+  local vmap = require('utils').vmap
+  local imap = require('utils').imap
 
-  -- Mappings.
-  local opts = { noremap=true, silent=true }
-  buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>', opts)
-  buf_set_keymap('n', 'H', '<cmd>lua vim.lsp.buf.hover()<cr>', opts)
-  buf_set_keymap('n', '<c-LeftMouse>', '<LeftMouse><cmd>lua vim.lsp.buf.hover()<cr>', opts)
-  buf_set_keymap('n', 'gp', '<cmd>lua vim.diagnostic.goto_prev()<cr>', opts)
-  buf_set_keymap('n', 'gn', '<cmd>lua vim.diagnostic.goto_next()<cr>', opts)
-  buf_set_keymap('n', '<Leader>q', '<cmd>lua vim.diagnostic.setloclist()<cr>', opts)
-  buf_set_keymap('n', '<Leader>ln', '<cmd>lua vim.diagnostic.open_float()<cr>', opts)
-  buf_set_keymap('n', '<Leader>rn', '<cmd>lua vim.lsp.buf.rename()<cr>', opts)
-  buf_set_keymap('n', '<Leader>ca', '<cmd>lua vim.lsp.buf.code_action()<cr>', opts)
-  buf_set_keymap('v', '<Leader>ca', '<cmd>lua vim.lsp.buf.range_code_action()<cr>', opts)
-  buf_set_keymap('i', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
-  buf_set_keymap('n', '<Leader>f', '<cmd>lua vim.lsp.buf.formatting()<cr>', opts)
+  nmap('gD', vim.lsp.buf.declaration, 'Go to declaration')
+  nmap('H', vim.lsp.buf.hover, 'Hover window for word under cursor')
+  nmap('<c-LeftMouse>', '<LeftMouse><cmd>lua vim.lsp.buf.hover()<cr>', 'ctrl-click to hover word')
+  nmap('gp', vim.diagnostic.goto_prev, 'Go to previous diagnostic')
+  nmap('gn', vim.diagnostic.goto_next, 'Go to next diagnostic')
+  nmap('<leader>q', vim.diagnostic.setloclist, 'Move diagnostic into location list')
+  nmap('<leader>ln', vim.diagnostic.open_float, 'Diagnostic or current line')
+  nmap('<leader>rn', vim.lsp.buf.rename, 'Rename symbol')
+  nmap('<leader>ca', vim.lsp.buf.code_action, 'Code action')
+  vmap('<leader>ca', vim.lsp.buf.range_code_action, 'Code action')
+  imap('<c-k>', vim.lsp.buf.signature_help, 'Signature help')
+  nmap('<leader>lf', function() vim.lsp.buf.format({ async = true }) end, 'Format code')
 end
 
 for _, name in ipairs({"Error", "Warn", "Info", "Hint"}) do
