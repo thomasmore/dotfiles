@@ -97,6 +97,6 @@ vim.cmd([[
 
 if g.neovide then
   g.neovide_cursor_animation_length = 0
-  set.guifont = 'JetBrainsMono Nerd Font:h13'
+  set.guifont = 'JetBrainsMono NF:h13'
   nmap('<f11>', ':let g:neovide_fullscreen = !g:neovide_fullscreen<cr>')
 end
