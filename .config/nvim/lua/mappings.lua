@@ -53,5 +53,5 @@ omap('iu', ':<c-u>lua require("treesitter-unit").select()<cr>', 'inner treesitte
 omap('au', ':<c-u>lua require("treesitter-unit").select(true)<cr>', 'a treesitter unit')
 
 local ir_utils = require('ir_utils')
-nmap('<leader>i', ir_utils.show_input_context, 'show context for ir input')
-nmap('<leader>gi', ir_utils.jump_to_input_def, 'go to ir input definition')
+nmap('<leader>i', ir_utils.show_input_context, 'Show context for ir input')
+nmap('<leader>I', ir_utils.jump_to_input_def, 'Go to ir input definition')
