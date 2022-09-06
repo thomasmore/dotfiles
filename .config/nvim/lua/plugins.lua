@@ -245,10 +245,14 @@ return require('packer').startup(function()
   use {
     'folke/tokyonight.nvim',
     config = function()
-      vim.g.tokyonight_italic_comments = false
-      vim.g.tokyonight_italic_keywords = false
-      vim.g.tokyonight_colors = { border = 'magenta' }
-      vim.g.tokyonight_sidebars = { 'qf', 'terminal', 'packer' }
+      require('tokyonight').setup {
+        styles = {
+          comments = 'NONE',
+          keywords = 'NONE',
+        },
+        sidebars = { 'qf', 'terminal', 'packer' },
+        on_colors = function(colors) colors.border = colors.magenta end,
+      }
       vim.cmd.colorscheme('tokyonight')
       vim.cmd('hi NormalFloat guifg=#c0caf5 guibg=#394060')
     end
