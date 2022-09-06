@@ -290,4 +290,23 @@ return require('packer').startup(function()
     end,
   }
 
+  use {
+    'phaazon/mind.nvim',
+    branch = 'v2.2',
+    requires = { 'nvim-lua/plenary.nvim' },
+    config = function()
+      require'mind'.setup()
+    end
+  }
+
+  use {
+    "folke/todo-comments.nvim",
+    requires = "nvim-lua/plenary.nvim",
+    config = function()
+      require("todo-comments").setup {
+        signs = false
+      }
+    end
+  }
+
 end)
