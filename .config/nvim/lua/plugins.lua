@@ -155,12 +155,6 @@ return require('packer').startup(function()
   use { 'sindrets/diffview.nvim', config = function() require('diffview').setup() end }
 
   use {
-    'xolox/vim-notes', setup = function() vim.g.notes_directories = { '~/nvimnotes' } end,
-    cmd = { 'Note', 'RecentNotes', 'e', 'tabe', 'sp', 'vs' },
-    requires = { 'xolox/vim-misc' }
-  }
-
-  use {
     'akinsho/nvim-toggleterm.lua',
     config = function()
       local nmap = require('utils').nmap
