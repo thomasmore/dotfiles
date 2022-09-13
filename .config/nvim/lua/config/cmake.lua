@@ -18,7 +18,7 @@ cmake_dap_configuration.cwd = nil
 cmake.setup({
   build_dir = tostring(Path:new('{cwd}', '..', 'builds', vim.fn.fnamemodify(vim.loop.cwd(), ':t')..'-{build_type}')),
   configure_args = {},
-  dap_configuration = cmake_dap_configuration,  -- TODO: cd into build directory before debugging
+  dap_configuration = cmake_dap_configuration,
   dap_open_command = false,
   quickfix = {
     only_on_error = true,
@@ -79,9 +79,17 @@ local function cmake_configure()
   end
 end
 
+local function cmake_build_dir()
+  local project_config = require('cmake.project_config').new()
+  local build_dir = project_config:get_build_dir()
+  print(build_dir)
+  local nt_api = require('nvim-tree.api')
+  nt_api.tree.open(build_dir.filename)
+end
+
 nmap('<leader>m', cmake_build, 'Build target')
 nmap('<leader>st', cmake.select_target, 'Select target')
 nmap('<leader>d', cmake.debug, 'Debug target')
 nmap('<leader>bd', cmake.build_and_debug, 'Build and debug target')
 nmap('<leader>cc', cmake_configure, 'CMake configure')
--- TODO: add commands to open terminal/nvim-tree in build dir
+nmap('<leader>cd', cmake_build_dir, 'Open Nvim Tree for build dir')
