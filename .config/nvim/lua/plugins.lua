@@ -248,7 +248,7 @@ return require('packer').startup(function()
         on_colors = function(colors) colors.border = colors.magenta end,
       }
       vim.cmd.colorscheme('tokyonight')
-      vim.cmd('hi NormalFloat guifg=#c0caf5 guibg=#394060')
+      vim.cmd.hi('NormalFloat guifg=#c0caf5 guibg=#394060')
     end
   }
 
@@ -289,7 +289,20 @@ return require('packer').startup(function()
     branch = 'v2.2',
     requires = { 'nvim-lua/plenary.nvim' },
     config = function()
-      require'mind'.setup()
+      local mind = require('mind')
+      local nmap = require('utils').nmap
+      mind.setup()
+      mind.is_opened = false
+      nmap('<leader>w', function()
+        if mind.is_opened then
+          mind.close()
+          mind.is_opened = false
+        else
+          vim.wo.relativenumber = false
+          mind.open_main()
+          mind.is_opened = true
+        end
+      end, 'Toggle personal Wiki')
     end
   }
 
@@ -301,6 +314,12 @@ return require('packer').startup(function()
         signs = false
       }
     end
+  }
+
+  use {
+    'gaoDean/autolist.nvim',
+    after = 'nvim-cmp',
+    config = function() require('autolist').setup{} end
   }
 
 end)

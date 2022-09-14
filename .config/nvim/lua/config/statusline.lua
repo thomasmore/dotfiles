@@ -71,7 +71,6 @@ require('lualine').setup {
       { 'filetype' },
       { get_lsp_client, padding = { left = 0, right = 1 } },
     },
-    lualine_z = {'progress'},
-    -- lualine_z = {'location'}
+    lualine_z = {'location'}
   },
 }

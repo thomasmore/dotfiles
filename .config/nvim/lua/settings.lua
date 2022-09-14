@@ -14,9 +14,16 @@ local settings_augroup = aucmd({ 'TermOpen', 'TermEnter' }, 'settings', { callba
   vim.wo.signcolumn = 'no'
 end })
 
+aucmd('FileType', settings_augroup, { pattern = 'mind', callback = function()
+  vim.wo.number = false
+  vim.wo.relativenumber = false
+  vim.wo.signcolumn = 'no'
+end })
+
 -- open quickfix window below all vert-split windows
 aucmd('FileType', settings_augroup, { pattern = 'qf', callback = function()
-  vim.cmd('wincmd J | resize 15')
+  vim.cmd.wincmd('J')
+  vim.cmd.resize('15')
 end })
 
 -- windows layout
@@ -93,9 +100,9 @@ end })
 
 -- highlight long lines and add more patterns for errorformat
 vim.cmd([[
- match ErrorMsg /\%121v.\+/
  set efm^=\%\\s%#%\\d%#:%#\ %#from\ %f:%l:%m,IN\ %f:%l:%m,
 ]])
+vim.cmd.match([[ErrorMsg /\%121v.\+/]])
 
 if g.neovide then
   g.neovide_cursor_animation_length = 0
