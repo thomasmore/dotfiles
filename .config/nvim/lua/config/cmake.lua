@@ -17,14 +17,14 @@ cmake_dap_configuration.program = nil
 cmake_dap_configuration.cwd = nil
 cmake.setup({
   build_dir = tostring(Path:new('{cwd}', '..', 'builds', vim.fn.fnamemodify(vim.loop.cwd(), ':t')..'-{build_type}')),
-  configure_args = {},
+  configure_args = {'-GNinja'},
   dap_configuration = cmake_dap_configuration,
   dap_open_command = false,
   quickfix = {
     only_on_error = true,
   },
   on_build_output = function(lines)
-    local match = string.match(lines[#lines], "(%[.*%%%])")
+    local match = string.match(lines[#lines], "(%[%s*%d.*%])")
     if match then
       build_progress = string.gsub(match, "%%", "%%%%")
     end
