@@ -52,6 +52,8 @@ xmap('au', ':lua require("treesitter-unit").select(true)<cr>', 'a treesitter uni
 omap('iu', ':<c-u>lua require("treesitter-unit").select()<cr>', 'inner treesitter unit')
 omap('au', ':<c-u>lua require("treesitter-unit").select(true)<cr>', 'a treesitter unit')
 
+ -- TODO: define these mappings only for irtoc_code.cpp file
+ -- TODO: implement def -> uses navigation
 local ir_utils = require('ir_utils')
 nmap('<leader>i', ir_utils.show_input_context, 'Show context for ir input')
 nmap('<leader>I', ir_utils.jump_to_input_def, 'Go to ir input definition')
