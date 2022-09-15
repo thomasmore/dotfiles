@@ -302,7 +302,10 @@ return require('packer').startup(function()
           mind.open_main()
           mind.is_opened = true
         end
-      end, 'Toggle personal Wiki')
+      end, 'Toggle personal wiki')
+      nmap('<leader>gw', function()
+        require('telescope.builtin').live_grep({ search_dirs = { mind.opts.persistence.data_dir } })
+      end, 'Live grep in personal wiki')
     end
   }
 
