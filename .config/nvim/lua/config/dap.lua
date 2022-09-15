@@ -17,7 +17,7 @@ dap.configurations.cpp = {
     end,
     cwd = '${workspaceFolder}',
     stopOnEntry = false,
-    args = function() return vim.split(vim.fn.input({prompt = 'Args: '}), ' ') end, -- TODO: filter out empty args
+    args = function() return vim.split(vim.fn.input({prompt = 'Args: '}), ' ', { trimempty = true }) end,
     runInTerminal = false,
   },
 }
