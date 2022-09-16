@@ -79,6 +79,7 @@ end
 M.jump_to_input_def = function()
   local def_cursor = get_input_def_cursor()
   if def_cursor then
+    vim.cmd.normal("m'")  -- Add current position to jumplist
     vim.api.nvim_win_set_cursor(0, def_cursor)
   end
 end
