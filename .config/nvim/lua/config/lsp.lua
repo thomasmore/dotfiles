@@ -33,9 +33,6 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 local nvim_lsp = require('lspconfig')
 nvim_lsp.clangd.setup{
   on_attach = on_attach,
-  cmd = {
-    "clangd", "--background-index=0", "--clang-tidy", "--pch-storage=memory"
-  },
   capabilites = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 }
 
