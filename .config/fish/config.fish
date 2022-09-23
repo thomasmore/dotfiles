@@ -12,8 +12,6 @@ set -x PATH $HOME/.cargo/bin $HOME/.local/bin $HOME/bin /home/linuxbrew/.linuxbr
 
 starship init fish | source
 
-fish_vi_key_bindings
-
 # TokyoNight Color Palette
 set -l foreground c0caf5
 set -l selection 364A82
