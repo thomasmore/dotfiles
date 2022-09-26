@@ -275,7 +275,12 @@ return require('packer').startup(function()
 
   use {
     'stevearc/overseer.nvim',
-    config = function() require('overseer').setup() end
+    config = function()
+      local overseer = require('overseer')
+      local nmap = require('utils').nmap
+      overseer.setup()
+      nmap('<leader>gs', function() overseer.load_task_bundle('git_sync') end, 'Git Sync')
+    end
   }
 
   use {
