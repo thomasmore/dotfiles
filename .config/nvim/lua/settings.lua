@@ -68,6 +68,7 @@ set.mouse = 'a'
 set.inccommand = 'split'
 set.hidden = true
 g.mapleader = ';'
+set.wildmode = 'longest,full'
 
 -- rg integration
 set.grepprg = 'rg --vimgrep --no-heading --smart-case'
