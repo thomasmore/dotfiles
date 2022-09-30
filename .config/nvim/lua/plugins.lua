@@ -261,7 +261,7 @@ return require('packer').startup(function()
         italic = false,
         italic_comments = false,
         minimal_mode = false,
-        alternate_backgrounds = false
+        alternate_backgrounds = true
       })
     end
   }
