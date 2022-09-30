@@ -236,20 +236,33 @@ return require('packer').startup(function()
   use { 'mrjones2014/legendary.nvim', config = function() require('legendary').setup() end }
   use { 'folke/which-key.nvim', config = function() require('which-key').setup() end }
 
+  -- use {
+  --   'folke/tokyonight.nvim',
+  --   config = function()
+  --     require('tokyonight').setup {
+  --       style = 'storm',
+  --       styles = {
+  --         comments = 'NONE',
+  --         keywords = 'NONE',
+  --       },
+  --       sidebars = { 'qf', 'terminal', 'packer' },
+  --       on_colors = function(colors) colors.border = colors.magenta end,
+  --     }
+  --     vim.cmd.colorscheme('tokyonight')
+  --     vim.cmd.hi('NormalFloat guifg=#c0caf5 guibg=#394060')
+  --   end
+  -- }
+
   use {
-    'folke/tokyonight.nvim',
+    'andersevenrud/nordic.nvim',
     config = function()
-      require('tokyonight').setup {
-        style = 'storm',
-        styles = {
-          comments = 'NONE',
-          keywords = 'NONE',
-        },
-        sidebars = { 'qf', 'terminal', 'packer' },
-        on_colors = function(colors) colors.border = colors.magenta end,
-      }
-      vim.cmd.colorscheme('tokyonight')
-      vim.cmd.hi('NormalFloat guifg=#c0caf5 guibg=#394060')
+      require('nordic').colorscheme({
+        underline_option = 'underline',
+        italic = false,
+        italic_comments = false,
+        minimal_mode = false,
+        alternate_backgrounds = false
+      })
     end
   }
 
