@@ -93,3 +93,6 @@ nmap('<leader>d', cmake.debug, 'Debug target')
 nmap('<leader>bd', cmake.build_and_debug, 'Build and debug target')
 nmap('<leader>cc', cmake_configure, 'CMake configure')
 nmap('<leader>cd', cmake_build_dir, 'Open Nvim Tree for build dir')
+
+-- TODO: call cmake configure and select target instead of error on cmake_build/cmake_debug
+-- also may be push customizations into my fork of plugin as original repo is deprecated
