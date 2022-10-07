@@ -61,7 +61,6 @@ set.clipboard = 'unnamedplus'
 
 -- misc
 set.wrap = false
-set.cursorline = true
 set.completeopt = 'menuone,noselect'
 set.scrolloff = 5
 set.mouse = 'a'
@@ -69,6 +68,11 @@ set.inccommand = 'split'
 set.hidden = true
 g.mapleader = ';'
 set.wildmode = 'longest,full'
+
+aucmd({ 'VimEnter', 'WinEnter', 'BufWinEnter' }, settings_augroup, { callback = function()
+  set.cursorline = true
+end })
+aucmd('WinLeave', settings_augroup, { callback = function() set.cursorline = false end })
 
 -- rg integration
 set.grepprg = 'rg --vimgrep --no-heading --smart-case'
