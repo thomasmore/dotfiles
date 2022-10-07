@@ -344,4 +344,28 @@ return require('packer').startup(function()
     config = function() require('autolist').setup{} end
   }
 
+  use {
+    'b0o/incline.nvim',
+    config = function()
+      require('incline').setup {
+        hide = {
+          focused_win = true,
+        },
+        window = {
+          margin = {
+            vertical = 0,
+          },
+          winhighlight = {
+            active = {
+              Normal = 'FloatTitle',
+            },
+            inactive = {
+              Normal = 'FloatTitle',
+            }
+          },
+        }
+      }
+    end
+  }
+
 end)
