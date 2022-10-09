@@ -6,9 +6,6 @@ local omap = utils.omap
 local imap = utils.imap
 local tmap = utils.tmap
 
--- TODO: how to make register neoscroll and lightspeed mappings look good in WhichKey?
--- TODO: register prefixes in WhichKey
-
 -- Better arrows and window movement
 nmap('<up>', '<c-w><up>')
 nmap('<down>', '<c-w><down>')
@@ -54,7 +51,6 @@ xmap('au', ':lua require("treesitter-unit").select(true)<cr>', 'a treesitter uni
 omap('iu', ':<c-u>lua require("treesitter-unit").select()<cr>', 'inner treesitter unit')
 omap('au', ':<c-u>lua require("treesitter-unit").select(true)<cr>', 'a treesitter unit')
 
- -- TODO: implement def -> uses navigation
 aucmd('BufRead', 'irtoc', { pattern = 'irtoc_code.cpp', callback = function()
   local ir_utils = require('ir_utils')
   nmap('<leader>i', ir_utils.show_input_context, 'Show context for ir input')

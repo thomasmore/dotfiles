@@ -12,7 +12,7 @@ local on_attach = function(client, bufnr)
   nmap('<leader>ln', vim.diagnostic.open_float, 'Diagnostic or current line')
   nmap('<leader>rn', vim.lsp.buf.rename, 'Rename symbol')
   nmap('<leader>ca', vim.lsp.buf.code_action, 'Code action')
-  vmap('<leader>ca', vim.lsp.buf.range_code_action, 'Code action')
+  vmap('<leader>ca', vim.lsp.buf.code_action, 'Code action')
   imap('<c-k>', vim.lsp.buf.signature_help, 'Signature help')
   nmap('<leader>lf', function() vim.lsp.buf.format({ async = true }) end, 'Format code')
 end

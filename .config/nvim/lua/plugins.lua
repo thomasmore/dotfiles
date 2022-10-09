@@ -171,8 +171,8 @@ return require('packer').startup(function()
         insert_mappings = false
       }
       nmap('<leader>j', function() vim.cmd.ToggleTerm('direction=horizontal') end, 'Terminal')
-      nmap('<leader>vj', function() vim.cmd.ToggleTerm('direction=vertical') end, 'Vertical terminal')
-      nmap('<leader>fj', function() vim.cmd.ToggleTerm('direction=float') end, 'Floating terminal')
+      nmap('<leader>v', function() vim.cmd.ToggleTerm('direction=vertical') end, 'Vertical terminal')
+      nmap('<leader>f', function() vim.cmd.ToggleTerm('direction=float') end, 'Floating terminal')
       tmap('<leader>j', vim.cmd.ToggleTerm, 'Close terminal')
     end
   }
@@ -366,6 +366,17 @@ return require('packer').startup(function()
         }
       }
     end
+  }
+
+  use {
+    'smjonas/live-command.nvim',
+    config = function()
+      require('live-command').setup {
+        commands = {
+          Norm = { cmd = 'norm' },
+        },
+      }
+    end,
   }
 
 end)
