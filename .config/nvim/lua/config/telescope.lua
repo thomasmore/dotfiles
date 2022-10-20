@@ -1,5 +1,6 @@
 -- TODO vertical layout_strategy for lsp_definitions, lsp_references, lsp_implementations, live_grep
 -- TODO add mapping for lsp_dynamic_workspace_symbol
+-- TODO find_files and live_grep in .gitignore files also
 require('telescope').setup{
   -- defaults = {
   --   layout_config = {
