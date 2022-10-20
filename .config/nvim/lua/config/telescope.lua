@@ -1,4 +1,13 @@
-require('telescope').setup()
+-- TODO vertical layout_strategy for lsp_definitions, lsp_references, lsp_implementations, live_grep
+-- TODO add mapping for lsp_dynamic_workspace_symbol
+require('telescope').setup{
+  -- defaults = {
+  --   layout_config = {
+  --     vertical = { width = 0.85 }
+  --   },
+  --   layout_strategy = 'vertical',
+  -- }
+}
 require('telescope').load_extension('zf-native')
 
 local nmap = require('utils').nmap
