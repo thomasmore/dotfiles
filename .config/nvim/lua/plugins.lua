@@ -152,7 +152,16 @@ return require('packer').startup(function()
       nmap('<leader>gv', vgit.buffer_hunk_preview, 'View hunk diff')
     end
   }
-  use { 'sindrets/diffview.nvim', config = function() require('diffview').setup() end }
+  use {
+    'sindrets/diffview.nvim',
+    config = function()
+      require('diffview').setup()
+      local nmap = require('utils').nmap
+      nmap('<leader>gh', function() vim.cmd.DiffviewFileHistory('%') end, 'View Git history for current file')
+      nmap('<leader>go', function() vim.cmd.DiffviewOpen('HEAD^') end, 'View diff for last commit')
+      nmap('<leader>gc', vim.cmd.DiffviewClose, 'Close Diffview tab')
+    end
+  }
 
   use {
     'akinsho/nvim-toggleterm.lua',
