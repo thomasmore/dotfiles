@@ -4,7 +4,10 @@ return require('packer').startup(function()
 
   use 'nvim-lua/popup.nvim'
   use 'nvim-lua/plenary.nvim'
-  use { 'rcarriga/nvim-notify', config = function() vim.notify = require('notify') end }
+  use {
+    'rcarriga/nvim-notify',
+    config = function() vim.notify = require('notify') end
+  }
   use 'stevearc/dressing.nvim'
   use 'kyazdani42/nvim-web-devicons'
 
@@ -26,12 +29,15 @@ return require('packer').startup(function()
   }
   use {
     'airblade/vim-rooter',
-    setup = function()
+    config = function()
       vim.g.rooter_patterns = { '.git' }
       vim.g.rooter_silent_chdir = 1
     end
   }
-  use { 'karb94/neoscroll.nvim', config = function() require('neoscroll').setup() end }
+  use {
+    'karb94/neoscroll.nvim',
+    config = function() require('neoscroll').setup() end
+  }
   use {
     'b3nj5m1n/kommentary',
     config = function()
@@ -54,7 +60,7 @@ return require('packer').startup(function()
 
   use {
     'mhinz/vim-startify',
-    setup = function()
+    config = function()
       vim.g.startify_session_persistence = 1
       vim.g.startify_fortune_use_unicode = 1
       vim.g.startify_lists = {
@@ -62,7 +68,6 @@ return require('packer').startup(function()
         { type = 'sessions', header = { '   Sessions' } },
         { type = 'files', header = { '   MRU' } }
       }
-      vim.api.nvim_create_autocmd('User StartifyBufferOpened', { command = 'Rooter' } )
     end
   }
   use {
@@ -78,15 +83,18 @@ return require('packer').startup(function()
   }
 
   use 'michaeljsmith/vim-indent-object'
-  use { 'chaoren/vim-wordmotion', keys = { 'w', 'e', 'b', 'd', 'c', 'y', 'v' } }
+  use 'chaoren/vim-wordmotion'
   use 'wellle/targets.vim'
   use 'David-Kunz/treesitter-unit'
 
-  use { 'kylechui/nvim-surround', config = function() require('nvim-surround').setup() end }
+  use {
+    'kylechui/nvim-surround',
+    config = function() require('nvim-surround').setup() end
+  }
 
   use {
     'ntpeters/vim-better-whitespace',
-    setup = function()
+    config = function()
       vim.g.better_whitespace_enabled = 1
       vim.g.strip_only_modified_lines = 1
       vim.g.show_spaces_that_precede_tabs = 1
@@ -95,28 +103,25 @@ return require('packer').startup(function()
   }
   use {
     'cohama/lexima.vim',
-    setup = function()
+    config = function()
       require('utils').aucmd('FileType', 'dap', { pattern = 'dap-repl', callback = function()
         vim.b.lexima_disabled = 1
       end })
     end
   }
 
-  use { 'neovim/nvim-lspconfig', config = function() require('config.lsp') end }
   use {
-    'hrsh7th/vim-vsnip',
-    requires = { 'rafamadriz/friendly-snippets', after = 'vim-vsnip' },
-    event = 'InsertEnter'
+    'neovim/nvim-lspconfig',
+    config = function() require('config.lsp') end
   }
+
   use {
     'hrsh7th/nvim-cmp',
     requires = {
       'hrsh7th/cmp-nvim-lsp',
-      { 'hrsh7th/cmp-vsnip', after = 'nvim-cmp' },
       { 'hrsh7th/cmp-buffer', after = 'nvim-cmp' }
     },
     config = function() require('config.cmp') end,
-    event = 'InsertEnter'
   }
 
   use {
@@ -125,9 +130,12 @@ return require('packer').startup(function()
     after = { 'neovim-cmake' },
     config = function() require('config.statusline') end
   }
-  use { 'alvarosevilla95/luatab.nvim', config = function() require('luatab').setup() end }
+  use {
+    'alvarosevilla95/luatab.nvim',
+    config = function() require('luatab').setup() end
+  }
 
-  use { 'tpope/vim-fugitive', cmd = { 'G', 'Git', 'Gedit', 'Gread', 'Gwrite', 'Gdiff', 'Gclog', 'Gdiffsplit' } }
+  use 'tpope/vim-fugitive'
   use {
     'tanvirtin/vgit.nvim',
     config = function()
@@ -230,7 +238,10 @@ return require('packer').startup(function()
     end
   }
 
-  use { 'mfussenegger/nvim-dap', config = function() require('config.dap') end }
+  use {
+    'mfussenegger/nvim-dap',
+    config = function() require('config.dap') end
+  }
   use {
     'rcarriga/nvim-dap-ui',
     after = { 'nvim-dap' },
@@ -242,25 +253,10 @@ return require('packer').startup(function()
     config = function() require('config.cmake') end
   }
 
-  use { 'mrjones2014/legendary.nvim', config = function() require('legendary').setup() end }
-  use { 'folke/which-key.nvim', config = function() require('config.whichkey') end }
-
-  -- use {
-  --   'folke/tokyonight.nvim',
-  --   config = function()
-  --     require('tokyonight').setup {
-  --       style = 'storm',
-  --       styles = {
-  --         comments = 'NONE',
-  --         keywords = 'NONE',
-  --       },
-  --       sidebars = { 'qf', 'terminal', 'packer' },
-  --       on_colors = function(colors) colors.border = colors.magenta end,
-  --     }
-  --     vim.cmd.colorscheme('tokyonight')
-  --     vim.cmd.hi('NormalFloat guifg=#c0caf5 guibg=#394060')
-  --   end
-  -- }
+  use {
+    'folke/which-key.nvim',
+    config = function() require('config.whichkey') end
+  }
 
   use {
     'andersevenrud/nordic.nvim',
@@ -288,7 +284,7 @@ return require('packer').startup(function()
   }
 
   use 'drybalka/tree-climber.nvim'
-  use {'kevinhwang91/nvim-bqf', ft = 'qf'}
+  use 'kevinhwang91/nvim-bqf'
 
   use {
     'iamcco/markdown-preview.nvim',
@@ -365,11 +361,8 @@ return require('packer').startup(function()
             vertical = 0,
           },
           winhighlight = {
-            active = {
-              Normal = 'FloatTitle',
-            },
             inactive = {
-              Normal = 'FloatTitle',
+              Normal = 'WildMenu',
             }
           },
         }
@@ -389,3 +382,4 @@ return require('packer').startup(function()
   }
 
 end)
+
