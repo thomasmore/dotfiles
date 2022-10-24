@@ -383,5 +383,14 @@ return require('packer').startup(function()
 
   use 'lewis6991/impatient.nvim'
 
+  use {
+    'RRethy/vim-illuminate',
+    config = function()
+      vim.api.nvim_set_hl(0, 'IlluminatedWordTest', { link = 'Visual' })
+      vim.api.nvim_set_hl(0, 'IlluminatedWordRead', { link = 'Visual' })
+      vim.api.nvim_set_hl(0, 'IlluminatedWordWrite', { link = 'Visual' })
+    end
+  }
+
 end)
 
