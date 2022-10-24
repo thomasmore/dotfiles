@@ -392,5 +392,19 @@ return require('packer').startup(function()
     end
   }
 
+  use {
+    'gbprod/substitute.nvim',
+    config = function()
+      local sub = require('substitute')
+      local nmap = require('utils').nmap
+      local xmap = require('utils').xmap
+      sub.setup{}
+      nmap('<leader>s', sub.operator, 'Substitute motion with default register')
+      nmap('<leader>ss', sub.line, 'Substitute line with default register')
+      nmap('<leader>S', sub.eol, 'Substitute til EOL with default register')
+      xmap('<laeder>s', sub.visual, 'Substitute visual selection with default register')
+    end
+  }
+
 end)
 
