@@ -16,7 +16,7 @@ local cmake_dap_configuration = shallowcopy(require('dap').configurations.cpp[1]
 cmake_dap_configuration.program = nil
 cmake_dap_configuration.cwd = nil
 cmake.setup({
-  build_dir = tostring(Path:new('{cwd}', '..', 'builds', vim.fn.fnamemodify(vim.loop.cwd(), ':t')..'-{build_type}')),
+  build_dir = tostring(Path:new('{cwd}', '..', 'builds', '{cwd_base}-{build_type}')),
   configure_args = {'-GNinja'},
   dap_configuration = cmake_dap_configuration,
   dap_open_command = false,
@@ -82,7 +82,6 @@ end
 local function cmake_build_dir()
   local project_config = require('cmake.project_config').new()
   local build_dir = project_config:get_build_dir()
-  print(build_dir)
   local nt_api = require('nvim-tree.api')
   nt_api.tree.open(build_dir.filename)
 end

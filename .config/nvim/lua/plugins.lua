@@ -248,7 +248,7 @@ return require('packer').startup(function()
     config = function() require('config.dapui') end
   }
   use {
-    'Shatur/neovim-cmake',
+    'thomasmore/neovim-cmake',
     after = { 'nvim-dap' },
     config = function() require('config.cmake') end
   }
