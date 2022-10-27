@@ -31,6 +31,7 @@ cmake.setup({
   end
 })
 
+-- TODO consider showing mutable notify message (at least for cmake configure)
 function cmake_progress()
   if cmake_utils.last_job then
     return cmake.target .. '(' .. cmake.build_type .. ')' .. ': ' .. build_progress
