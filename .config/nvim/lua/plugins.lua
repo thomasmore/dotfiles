@@ -1,21 +1,20 @@
-return require('packer').startup(function()
+require 'paq' {
+  'thomasmore/paq-nvim';
 
-  use 'wbthomason/packer.nvim'
-
-  use 'nvim-lua/popup.nvim'
-  use 'nvim-lua/plenary.nvim'
-  use {
+  'nvim-lua/popup.nvim';
+  'nvim-lua/plenary.nvim';
+  {
     'rcarriga/nvim-notify',
     config = function() vim.notify = require('notify') end
-  }
-  use 'stevearc/dressing.nvim'
-  use 'kyazdani42/nvim-web-devicons'
+  };
+  'stevearc/dressing.nvim';
+  'kyazdani42/nvim-web-devicons';
 
-  use 'tpope/vim-repeat'
-  use 'bogado/file-line'
-  use 'farmergreg/vim-lastplace'
-  use 'tpope/vim-sleuth'
-  use {
+  'tpope/vim-repeat';
+  'bogado/file-line';
+  'farmergreg/vim-lastplace';
+  'tpope/vim-sleuth';
+  {
     'lukas-reineke/indent-blankline.nvim',
     config = function()
       require('indent_blankline').setup {
@@ -23,22 +22,22 @@ return require('packer').startup(function()
         use_treesitter = true,
         show_first_indent_level = false,
         filetype_exclude = { 'json', 'startify' },
-        buftype_exclude = { 'terminal' }
+        buftype_exclude = { 'terminal' },
       }
     end
-  }
-  use {
+  };
+  {
     'airblade/vim-rooter',
     config = function()
       vim.g.rooter_patterns = { '.git' }
       vim.g.rooter_silent_chdir = 1
     end
-  }
-  use {
+  };
+  {
     'karb94/neoscroll.nvim',
     config = function() require('neoscroll').setup() end
-  }
-  use {
+  };
+  {
     'b3nj5m1n/kommentary',
     config = function()
       require('kommentary.config').configure_language("default", {
@@ -46,19 +45,19 @@ return require('packer').startup(function()
         ignore_whitespace = false,
       })
     end
-  }
-  use { 'Pocco81/auto-save.nvim',
+  };
+  { 'Pocco81/auto-save.nvim',
     config = function()
       require('auto-save').setup{
         execution_message = {
           message = function() return "" end,
           dim = 0
-        }
+        },
       }
     end
-  }
+  };
 
-  use {
+  {
     'mhinz/vim-startify',
     config = function()
       vim.g.startify_session_persistence = 1
@@ -66,33 +65,33 @@ return require('packer').startup(function()
       vim.g.startify_lists = {
         { type = 'dir', header = { '   MRU ' .. vim.fn.getcwd() } },
         { type = 'sessions', header = { '   Sessions' } },
-        { type = 'files', header = { '   MRU' } }
+        { type = 'files', header = { '   MRU' } },
       }
     end
-  }
-  use {
+  };
+  {
     'nvim-treesitter/nvim-treesitter',
-    run = ':TSUpdate',
+    run = vim.cmd.TSUpdate,
     config = function()
       require('nvim-treesitter.configs').setup {
         highlight = {
           enable = true,
-        }
+        },
       }
     end
-  }
+  };
 
-  use 'michaeljsmith/vim-indent-object'
-  use 'chaoren/vim-wordmotion'
-  use 'wellle/targets.vim'
-  use 'David-Kunz/treesitter-unit'
+  'michaeljsmith/vim-indent-object';
+  'chaoren/vim-wordmotion';
+  'wellle/targets.vim';
+  'David-Kunz/treesitter-unit';
 
-  use {
+  {
     'kylechui/nvim-surround',
     config = function() require('nvim-surround').setup() end
-  }
+  };
 
-  use {
+  {
     'ntpeters/vim-better-whitespace',
     config = function()
       vim.g.better_whitespace_enabled = 1
@@ -100,43 +99,36 @@ return require('packer').startup(function()
       vim.g.show_spaces_that_precede_tabs = 1
       vim.g.better_whitespace_filetypes_blacklist = {'toggleterm'}
     end
-  }
-  use {
+  };
+  {
     'cohama/lexima.vim',
     config = function()
       require('utils').aucmd('FileType', 'dap', { pattern = 'dap-repl', callback = function()
         vim.b.lexima_disabled = 1
       end })
     end
-  }
+  };
 
-  use {
+  {
     'neovim/nvim-lspconfig',
     config = function() require('config.lsp') end
-  }
+  };
 
-  use {
+
+  'hrsh7th/cmp-nvim-lsp';
+  'hrsh7th/cmp-buffer';
+  {
     'hrsh7th/nvim-cmp',
-    requires = {
-      'hrsh7th/cmp-nvim-lsp',
-      { 'hrsh7th/cmp-buffer', after = 'nvim-cmp' }
-    },
     config = function() require('config.cmp') end,
-  }
+  };
 
-  use {
-    'hoob3rt/lualine.nvim',
-    requires = { 'SmiteshP/nvim-gps' },
-    after = { 'neovim-cmake' },
-    config = function() require('config.statusline') end
-  }
-  use {
+  {
     'alvarosevilla95/luatab.nvim',
     config = function() require('luatab').setup() end
-  }
+  };
 
-  use 'tpope/vim-fugitive'
-  use {
+  'tpope/vim-fugitive';
+  {
     'tanvirtin/vgit.nvim',
     config = function()
       local vgit = require('vgit')
@@ -152,15 +144,16 @@ return require('packer').startup(function()
           scene = {
             diff_preference = 'split',
           },
-        }
+        },
       }
       nmap('<leader>gu', vgit.hunk_up, 'Go to hunk above')
       nmap('<leader>gd', vgit.hunk_down, 'Go to hunk below')
       nmap('<leader>gr', vgit.buffer_hunk_reset, 'Reset hunk to HEAD')
       nmap('<leader>gv', vgit.buffer_hunk_preview, 'View hunk diff')
-    end
-  }
-  use {
+    end,
+    defer = true
+  };
+  {
     'sindrets/diffview.nvim',
     config = function()
       require('diffview').setup()
@@ -168,10 +161,11 @@ return require('packer').startup(function()
       nmap('<leader>gh', function() vim.cmd.DiffviewFileHistory('%') end, 'View Git history for current file')
       nmap('<leader>go', function() vim.cmd.DiffviewOpen('HEAD^') end, 'View diff for last commit')
       nmap('<leader>gc', vim.cmd.DiffviewClose, 'Close Diffview tab')
-    end
-  }
+    end,
+    defer = true
+  };
 
-  use {
+  {
     'akinsho/nvim-toggleterm.lua',
     config = function()
       local nmap = require('utils').nmap
@@ -192,8 +186,8 @@ return require('packer').startup(function()
       nmap('<leader>f', function() vim.cmd.ToggleTerm('direction=float') end, 'Floating terminal')
       tmap('<leader>j', vim.cmd.ToggleTerm, 'Close terminal')
     end
-  }
-  use {
+  };
+  {
     'kyazdani42/nvim-tree.lua',
     config = function()
       local nmap = require('utils').nmap
@@ -202,28 +196,32 @@ return require('packer').startup(function()
         renderer = {
           indent_markers = {
             enable = true
-          }
-        }
+          },
+        },
       }
       nmap('<leader>e', ntree.toggle, 'File explorer')
-    end
-  }
-  use 'natecraddock/telescope-zf-native.nvim'
-  use { 'nvim-telescope/telescope.nvim',
+    end,
+    defer = true
+  };
+
+  'natecraddock/telescope-zf-native.nvim';
+  {
+    'nvim-telescope/telescope.nvim',
     config = function()
       require('config.telescope')
-    end
-  }
-  use { 'simrat39/symbols-outline.nvim',
+    end,
+  };
+  {
+    'simrat39/symbols-outline.nvim',
     config = function()
       local nmap = require('utils').nmap
       local symbols = require('symbols-outline')
       symbols.setup()
       nmap('<leader>u', symbols.toggle_outline, 'SymbolsOutline')
     end
-  }
+  };
 
-  use {
+  {
     'ggandor/lightspeed.nvim',
     config = function()
       require('lightspeed').setup {
@@ -236,29 +234,34 @@ return require('packer').startup(function()
         cycle_group_bwd_key = nil,
       }
     end
-  }
+  };
 
-  use {
+  {
     'mfussenegger/nvim-dap',
     config = function() require('config.dap') end
-  }
-  use {
+  };
+  {
     'rcarriga/nvim-dap-ui',
-    after = { 'nvim-dap' },
     config = function() require('config.dapui') end
-  }
-  use {
+  };
+  {
     'thomasmore/neovim-cmake',
-    after = { 'nvim-dap' },
     config = function() require('config.cmake') end
-  }
+  };
 
-  use {
+  'SmiteshP/nvim-gps';
+
+  {
+    'hoob3rt/lualine.nvim',
+    config = function() require('config.statusline') end
+  };
+
+  {
     'folke/which-key.nvim',
     config = function() require('config.whichkey') end
-  }
+  };
 
-  use {
+  {
     'andersevenrud/nordic.nvim',
     config = function()
       require('nordic').colorscheme({
@@ -269,9 +272,9 @@ return require('packer').startup(function()
         alternate_backgrounds = true
       })
     end
-  }
+  };
 
-  use {
+  {
     'mizlan/iswap.nvim',
     config = function()
       local nmap = require('utils').nmap
@@ -281,17 +284,17 @@ return require('packer').startup(function()
       }
       nmap('<leader>sw', vim.cmd.ISwapWith, 'Swap nodes')
     end
-  }
+  };
 
-  use 'drybalka/tree-climber.nvim'
-  use 'kevinhwang91/nvim-bqf'
+  'drybalka/tree-climber.nvim';
+  'kevinhwang91/nvim-bqf';
 
-  use {
+  {
     'iamcco/markdown-preview.nvim',
     run = function() vim.fn["mkdp#util#install"]() end,
-  }
+  };
 
-  use {
+  {
     'stevearc/overseer.nvim',
     config = function()
       local overseer = require('overseer')
@@ -299,19 +302,18 @@ return require('packer').startup(function()
       overseer.setup()
       nmap('<leader>gs', function() overseer.load_task_bundle('git_sync') end, 'Git Sync')
     end
-  }
+  };
 
-  use {
+  {
     'Pocco81/true-zen.nvim',
     config = function()
       require('true-zen').setup {}
     end,
-  }
+  };
 
-  use {
+  {
     'phaazon/mind.nvim',
     branch = 'v2.2',
-    requires = { 'nvim-lua/plenary.nvim' },
     config = function()
       local mind = require('mind')
       local nmap = require('utils').nmap
@@ -331,25 +333,23 @@ return require('packer').startup(function()
         require('telescope.builtin').live_grep({ search_dirs = { mind.opts.persistence.data_dir } })
       end, 'Live grep in personal wiki')
     end
-  }
+  };
 
-  use {
-    "folke/todo-comments.nvim",
-    requires = "nvim-lua/plenary.nvim",
+  {
+    'folke/todo-comments.nvim',
     config = function()
-      require("todo-comments").setup {
+      require('todo-comments').setup {
         signs = false
-      }
+      };
     end
-  }
+  };
 
-  use {
+  {
     'gaoDean/autolist.nvim',
-    after = 'nvim-cmp',
     config = function() require('autolist').setup{} end
-  }
+  };
 
-  use {
+  {
     'b0o/incline.nvim',
     config = function()
       require('incline').setup {
@@ -363,14 +363,14 @@ return require('packer').startup(function()
           winhighlight = {
             inactive = {
               Normal = 'WildMenu',
-            }
+            },
           },
-        }
+        },
       }
     end
-  }
+  };
 
-  use {
+  {
     'smjonas/live-command.nvim',
     config = function()
       require('live-command').setup {
@@ -379,23 +379,23 @@ return require('packer').startup(function()
         },
       }
     end,
-  }
+  };
 
-  use 'lewis6991/impatient.nvim'
+  'lewis6991/impatient.nvim';
 
-  use {
+  {
     'RRethy/vim-illuminate',
     config = function()
       require('illuminate').configure {
         modes_denylist = {'i'},
-      }
+      };
       vim.api.nvim_set_hl(0, 'IlluminatedWordText', { link = 'Visual' })
       vim.api.nvim_set_hl(0, 'IlluminatedWordRead', { link = 'Visual' })
       vim.api.nvim_set_hl(0, 'IlluminatedWordWrite', { link = 'Visual' })
     end
-  }
+  };
 
-  use {
+  {
     'gbprod/substitute.nvim',
     config = function()
       local sub = require('substitute')
@@ -407,7 +407,5 @@ return require('packer').startup(function()
       nmap('<leader>S', sub.eol, 'Substitute til EOL with default register')
       xmap('<laeder>s', sub.visual, 'Substitute visual selection with default register')
     end
-  }
-
-end)
-
+  };
+}
