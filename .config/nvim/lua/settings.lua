@@ -43,6 +43,7 @@ set.smartcase = true
 set.incsearch = true
 
 -- clipboard
+g.loaded_clipboard_provider = 1
 if not vim.fn.has('macunix') then
   g.clipboard = {
     name = 'win32yank',
