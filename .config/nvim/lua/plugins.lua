@@ -188,6 +188,7 @@ require 'paq' {
       tmap('<leader>j', vim.cmd.ToggleTerm, 'Close terminal')
     end
   };
+
   {
     'kyazdani42/nvim-tree.lua',
     config = function()
