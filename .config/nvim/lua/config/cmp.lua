@@ -12,9 +12,6 @@ end
 
 local cmp = require('cmp')
 cmp.setup({
-  completion = {
-    autocomplete = false
-  },
   mapping = {
     ['<C-e>'] = cmp.mapping.close(),
     ['<CR>'] = cmp.mapping.confirm({
@@ -38,6 +35,7 @@ cmp.setup({
     end, { "i", "s" }),
   },
   sources = {
+    { name = 'nvim_lsp_signature_help' },
     { name = 'nvim_lsp' },
     {
       name = 'buffer',

@@ -31,7 +31,7 @@ cmake.setup({
   end
 })
 
--- TODO consider showing mutable notify message (at least for cmake configure)
+-- TODO: consider showing mutable notify message (at least for cmake configure)
 function cmake_progress()
   if cmake_utils.last_job then
     return cmake.target .. '(' .. cmake.build_type .. ')' .. ': ' .. build_progress
@@ -80,6 +80,7 @@ local function cmake_configure()
   end
 end
 
+-- TODO: support <build> substitution string for CMake run and CMake debug
 local function cmake_build_dir()
   local project_config = require('cmake.project_config').new()
   local build_dir = project_config:get_build_dir()

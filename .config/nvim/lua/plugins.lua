@@ -117,6 +117,7 @@ require 'paq' {
 
   'hrsh7th/cmp-nvim-lsp';
   'hrsh7th/cmp-buffer';
+  'hrsh7th/cmp-nvim-lsp-signature-help';
   {
     'hrsh7th/nvim-cmp',
     config = function() require('config.cmp') end,
@@ -386,6 +387,7 @@ require 'paq' {
   {
     'RRethy/vim-illuminate',
     config = function()
+      -- TODO: not highlight in nvim-tree
       require('illuminate').configure {
         modes_denylist = {'i'},
       };
