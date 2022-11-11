@@ -411,4 +411,12 @@ require 'paq' {
       xmap('<laeder>s', sub.visual, 'Substitute visual selection with default register')
     end
   };
+
+  {
+    'mrjones2014/legendary.nvim',
+    config = function()
+      require('legendary').setup{}
+    end,
+    defer = true,
+  };
 }
