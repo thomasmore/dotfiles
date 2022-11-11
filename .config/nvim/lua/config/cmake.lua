@@ -24,14 +24,18 @@ cmake.setup({
     only_on_error = true,
   },
   on_build_output = function(lines)
-    local match = string.match(lines[#lines], "(%[%s*%d.*%])")
+    local last_line = lines[#lines]
+    if cmake.target == 'cmake' then
+      build_progress = string.format('%18s', string.sub(last_line, 1, 18))
+      return
+    end
+    local match = string.match(last_line, "(%[%s*%d.*%])")
     if match then
       build_progress = string.gsub(match, "%%", "%%%%")
     end
   end
 })
 
--- TODO: consider showing mutable notify message (at least for cmake configure)
 function cmake_progress()
   if cmake_utils.last_job then
     return cmake.target .. '(' .. cmake.build_type .. ')' .. ': ' .. build_progress
