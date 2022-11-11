@@ -388,9 +388,9 @@ require 'paq' {
   {
     'RRethy/vim-illuminate',
     config = function()
-      -- TODO: not highlight in nvim-tree
       require('illuminate').configure {
-        modes_denylist = {'i'},
+        modes_denylist = { 'i' },
+        filetypes_denylist = { 'NvimTree' }
       };
       vim.api.nvim_set_hl(0, 'IlluminatedWordText', { link = 'Visual' })
       vim.api.nvim_set_hl(0, 'IlluminatedWordRead', { link = 'Visual' })
@@ -414,6 +414,7 @@ require 'paq' {
 
   {
     'mrjones2014/legendary.nvim',
+    -- TODO: PR to parse keymaps defined with vim.api
     config = function()
       require('legendary').setup{}
     end,
