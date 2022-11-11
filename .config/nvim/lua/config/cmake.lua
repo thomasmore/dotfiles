@@ -84,7 +84,6 @@ local function cmake_configure()
   end
 end
 
--- TODO: support <build> substitution string for CMake run and CMake debug
 local function cmake_build_dir()
   local project_config = require('cmake.project_config').new()
   local build_dir = project_config:get_build_dir()
