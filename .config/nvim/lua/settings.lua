@@ -42,24 +42,6 @@ set.ignorecase = true
 set.smartcase = true
 set.incsearch = true
 
--- clipboard
-g.loaded_clipboard_provider = 1
-if not vim.fn.has('macunix') then
-  g.clipboard = {
-    name = 'win32yank',
-    copy = {
-      ['+'] = 'win32yank.exe -i --crlf',
-      ['*'] = 'win32yank.exe -i --crlf',
-    },
-    paste = {
-      ['+'] = 'win32yank.exe -o --lf',
-      ['*'] = 'win32yank.exe -o --lf',
-    },
-    cache_enabled = 0
-  }
-end
-set.clipboard = 'unnamedplus'
-
 -- misc
 set.wrap = false
 set.completeopt = 'menuone,noselect'
@@ -69,6 +51,7 @@ set.inccommand = 'split'
 set.hidden = true
 g.mapleader = ';'
 set.wildmode = 'longest,full'
+set.clipboard = 'unnamedplus'
 
 aucmd({ 'VimEnter', 'WinEnter', 'BufWinEnter' }, settings_augroup, { callback = function()
   set.cursorline = true
