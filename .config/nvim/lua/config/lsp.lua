@@ -14,7 +14,7 @@ local on_attach = function(client, bufnr)
   nmap('<leader>ca', vim.lsp.buf.code_action, 'Code action')
   vmap('<leader>ca', vim.lsp.buf.code_action, 'Code action')
   imap('<c-k>', vim.lsp.buf.signature_help, 'Signature help')
-  nmap('<leader>lf', function() vim.lsp.buf.format({ async = true }) end, 'Format code')
+  nmap('<leader>lf', function() vim.lsp.buf.format({ async = false }) end, 'Format code')
 end
 
 for _, name in ipairs({"Error", "Warn", "Info", "Hint"}) do

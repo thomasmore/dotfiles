@@ -59,7 +59,4 @@ nmap('<leader>gp', builtins.lsp_dynamic_workspace_symbols, 'Live grep for worksp
 nmap('<leader>gl', builtins.live_grep, 'Live grep for typed string')
 nmap('<leader>b', builtins.buffers, 'List open buffers')
 nmap('gco', builtins.git_branches, 'List git branches')
-nmap('gr', builtins.lsp_references, 'List references')
-nmap('gd', builtins.lsp_definitions, 'Go to definition')
-nmap('gi', builtins.lsp_implementations, 'List implementations')
 nmap('<leader>sp', spell_suggest, 'Spell suggestions')
