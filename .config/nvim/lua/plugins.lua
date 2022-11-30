@@ -264,15 +264,16 @@ require 'paq' {
   };
 
   {
-    'andersevenrud/nordic.nvim',
+    'catppuccin/nvim',
     config = function()
-      require('nordic').colorscheme({
-        underline_option = 'underline',
-        italic = false,
-        italic_comments = false,
-        minimal_mode = false,
-        alternate_backgrounds = true
-      })
+      require('catppuccin').setup {
+        flavour = 'frappe',
+        no_italic = true,
+        integrations = {
+          notify = true
+        }
+      }
+      vim.cmd.colorscheme('catppuccin')
     end
   };
 
