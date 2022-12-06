@@ -391,7 +391,9 @@ require 'paq' {
     config = function()
       require('illuminate').configure {
         modes_denylist = { 'i' },
-        filetypes_denylist = { 'NvimTree' }
+        filetypes_denylist = { 'NvimTree', 'qf' },
+        delay = 50,
+        large_file_cutoff = 10000,
       };
       vim.api.nvim_set_hl(0, 'IlluminatedWordText', { link = 'Visual' })
       vim.api.nvim_set_hl(0, 'IlluminatedWordRead', { link = 'Visual' })
