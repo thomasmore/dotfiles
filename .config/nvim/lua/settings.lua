@@ -51,6 +51,8 @@ set.inccommand = 'split'
 set.hidden = true
 g.mapleader = ';'
 set.wildmode = 'longest,full'
+set.virtualedit = 'block'
+set.undofile = true
 set.clipboard = 'unnamedplus'
 
 aucmd({ 'VimEnter', 'WinEnter', 'BufWinEnter' }, settings_augroup, { callback = function()
