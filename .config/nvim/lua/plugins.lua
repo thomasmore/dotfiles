@@ -463,5 +463,21 @@ require 'paq' {
       nmap('gd', function() vim.cmd.Glance('definitions') end, 'List definitions')
       nmap('gi', function() vim.cmd.Glance('implementations') end, 'List implementations')
     end,
-  }
+  };
+
+  'MunifTanjim/nui.nvim';
+  {
+    'folke/noice.nvim',
+    config = function()
+      require('noice').setup{
+        lsp = {
+          override = {
+            ['vim.lsp.util.convert_input_to_markdown_lines'] = true,
+            ['vim.lsp.util.stylize_markdown'] = true,
+            ['cmp.entry.get_documentation'] = true,
+          },
+        },
+      }
+    end
+  };
 }
