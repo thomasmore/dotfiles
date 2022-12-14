@@ -100,14 +100,6 @@ require 'paq' {
       vim.g.better_whitespace_filetypes_blacklist = {'toggleterm'}
     end
   };
-  {
-    'cohama/lexima.vim',
-    config = function()
-      require('utils').aucmd('FileType', 'dap', { pattern = 'dap-repl', callback = function()
-        vim.b.lexima_disabled = 1
-      end })
-    end
-  };
 
   {
     'neovim/nvim-lspconfig',
@@ -121,6 +113,22 @@ require 'paq' {
   {
     'hrsh7th/nvim-cmp',
     config = function() require('config.cmp') end,
+  };
+
+  {
+    'windwp/nvim-autopairs',
+    config = function()
+      require('nvim-autopairs').setup({
+        disable_filetype = { 'TelescopePrompt' , 'dap' },
+        ignored_next_char = '[%w%.]',
+      })
+      local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+      local cmp = require('cmp')
+      cmp.event:on(
+        'confirm_done',
+        cmp_autopairs.on_confirm_done()
+      )
+    end
   };
 
   {
