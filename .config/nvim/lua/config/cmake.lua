@@ -18,6 +18,7 @@ local function animate()
 end
 
 local function reset_progress(target_name)
+  cmake.build_progress = '[...]'
   cmake.color = 'lualine_c_normal'
   cmake.in_progress = true
 
@@ -67,7 +68,7 @@ end
 cmake.color = ''
 cmake.target = ''
 cmake.build_type = ''
-cmake.build_progress = '[...]'
+cmake.build_progress = ''
 cmake.in_progress = false
 cmake.progress = show_progress
 
