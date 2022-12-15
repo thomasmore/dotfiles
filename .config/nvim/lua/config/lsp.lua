@@ -32,12 +32,7 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 
 local capabilites = require('cmp_nvim_lsp').default_capabilities()
 local nvim_lsp = require('lspconfig')
-nvim_lsp.clangd.setup{
-  on_attach = on_attach,
-  capabilites = capabilites
-}
-
-local servers = { 'solargraph' }
+local servers = { 'clangd', 'solargraph', 'bashls' }
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup {
     on_attach = on_attach,
