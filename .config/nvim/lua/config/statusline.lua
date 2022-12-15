@@ -41,7 +41,7 @@ require('lualine').setup {
     always_divide_middle = false,
     globalstatus = true,
     refresh = {
-      statusline = 250,
+      statusline = 150,
     },
   },
   extensions = { 'quickfix', 'nvim-tree', 'fugitive', 'toggleterm' },

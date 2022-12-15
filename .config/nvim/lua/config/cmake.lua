@@ -12,9 +12,11 @@ local function shallowcopy(tbl)
   return vim.tbl_extend('force', {}, tbl)
 end
 
+local last_frame = 0
 local function animate()
   local frames = { '⠏', '⠛', '⠹', '⠼', '⠶', '⠧'}
-  return frames[os.date('%S') % #frames + 1]
+  last_frame = (last_frame + 1) % #frames
+  return frames[last_frame + 1]
 end
 
 local function reset_progress(target_name)
