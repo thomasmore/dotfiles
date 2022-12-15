@@ -24,7 +24,7 @@ local function search_count()
     local res = vim.fn.searchcount({ maxcount = 999, timeout = 500 })
 
     if res.total > 0 then
-      return string.format("[%d/%d]", res.current, res.total)
+      return string.format("🔎︎ %d/%d", res.current, res.total)
     end
   end
 
@@ -56,7 +56,7 @@ require('lualine').setup {
     },
     lualine_x = {
       { search_count, type = "lua_expr" },
-      { 'cmake_progress()', color = function(_) return cmake.progress_color end },
+      { cmake.progress , color = function(_) return cmake.color end },
       {
         'diagnostics',
         sources = {'nvim_diagnostic'},
