@@ -210,6 +210,11 @@ require 'paq' {
         },
       }
       nmap('<leader>e', ntree.toggle, 'File explorer')
+      nmap('<leader>cd', function()
+        local project_config = require('cmake.project_config').new()
+        local build_dir = project_config:get_build_dir()
+        require('nvim-tree.api').tree.open(build_dir.filename)
+      end, 'Open Nvim Tree for build dir')
     end,
     defer = true
   };

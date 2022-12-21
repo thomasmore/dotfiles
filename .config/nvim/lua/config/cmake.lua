@@ -1,7 +1,6 @@
 local nmap = require('utils').nmap
 local Path = require('plenary.path')
 local dap = require('dap')
-local nt_api = require('nvim-tree.api')
 
 local cmake = require('cmake')
 local cmake_utils = require('cmake.utils')
@@ -97,14 +96,7 @@ local function cmake_configure()
   progress_wrapper(cmake.configure, 'cmake')
 end
 
-local function cmake_build_dir()
-  local project_config = cmake_project_config.new()
-  local build_dir = project_config:get_build_dir()
-  nt_api.tree.open(build_dir.filename)
-end
-
 nmap('<leader>m', cmake_build, 'Build target')
 nmap('<leader>st', cmake.select_target, 'Select target')
 nmap('<leader>d', cmake.debug, 'Debug target')
 nmap('<leader>cc', cmake_configure, 'CMake configure')
-nmap('<leader>cd', cmake_build_dir, 'Open Nvim Tree for build dir')
