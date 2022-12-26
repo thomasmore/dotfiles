@@ -14,6 +14,7 @@ require 'paq' {
   'bogado/file-line';
   'farmergreg/vim-lastplace';
   'tpope/vim-sleuth';
+
   {
     'lukas-reineke/indent-blankline.nvim',
     config = function()
@@ -26,6 +27,7 @@ require 'paq' {
       }
     end
   };
+
   {
     'airblade/vim-rooter',
     config = function()
@@ -33,10 +35,12 @@ require 'paq' {
       vim.g.rooter_silent_chdir = 1
     end
   };
+
   {
     'karb94/neoscroll.nvim',
     config = function() require('neoscroll').setup() end
   };
+
   {
     'b3nj5m1n/kommentary',
     config = function()
@@ -46,7 +50,9 @@ require 'paq' {
       })
     end
   };
-  { 'Pocco81/auto-save.nvim',
+
+  {
+    'Pocco81/auto-save.nvim',
     config = function()
       require('auto-save').setup{
         execution_message = {
@@ -318,13 +324,6 @@ require 'paq' {
       overseer.setup()
       nmap('<leader>gs', function() overseer.load_task_bundle('git_sync') end, 'Git Sync')
     end
-  };
-
-  {
-    'Pocco81/true-zen.nvim',
-    config = function()
-      require('true-zen').setup {}
-    end,
   };
 
   {
