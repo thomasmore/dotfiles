@@ -21,3 +21,4 @@ sh -c "$(curl -fsSL https://starship.rs/install.sh)"
 chsh -s /usr/bin/fish
 fish -c 'curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher'
 fish -c 'fisher install fishgretel/fasd'
+fish -c 'fisher install wfxr/forgit'
