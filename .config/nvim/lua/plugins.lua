@@ -480,6 +480,13 @@ require 'paq' {
             ['cmp.entry.get_documentation'] = true,
           },
         },
+        views = {
+          cmdline_popup = {
+            position = {
+              row = "85%",
+            }
+          }
+        },
       }
     end
   };
