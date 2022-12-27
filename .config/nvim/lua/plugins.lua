@@ -339,7 +339,6 @@ require 'paq' {
           mind.close()
           mind.is_opened = false
         else
-          vim.wo.relativenumber = false
           mind.open_main()
           mind.is_opened = true
         end
