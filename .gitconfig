@@ -1,26 +1,33 @@
 [core]
     editor = nvim
     excludesfile = ~/.gitignore
+    pager = delta
 [alias]
     co = checkout
     ci = commit
     st = status
     dt = difftool
     mt = mergetool
+[interactive]
+    diffFilter = delta --color-only
 [color]
     ui = auto
 [diff]
     tool = nvim
+    colorMoved = default
 [difftool "nvim"]
     cmd = nvim -d \"$LOCAL\" \"$REMOTE\"
 [merge]
     tool = nvim
+    conflictstyle = diff3
 [mergetool "nvim"]
     cmd = nvim -c \"Gdiffsplit!\" \"$MERGED\"
+[delta]
+    navigate = true
 [tig "color"]
     cursor = magenta default reverse
 [pull]
     ff = only
 [user]
-	name = Thomas More
-	email = thomasmore@github.com
+    name = Thomas More
+    email = thomasmore@github.com

@@ -179,6 +179,16 @@ require 'paq' {
     end,
     defer = true
   };
+  'ray-x/guihua.lua';
+  {
+    'ray-x/forgit.nvim',
+    config = function()
+      require'forgit'.setup({
+        vsplit = false,
+        fugitive = true,
+      })
+    end
+  };
 
   {
     'akinsho/nvim-toggleterm.lua',
@@ -486,6 +496,16 @@ require 'paq' {
               row = "85%",
             }
           }
+        },
+        routes = {
+          {
+            filter = { event = 'msg_show', kind = '', find = '^[%?/]' },
+            opts = { skip = true },
+          },
+          {
+            filter = { event = 'msg_show', kind = '', find = 'written' },
+            opts = { skip = true },
+          },
         },
       }
     end
