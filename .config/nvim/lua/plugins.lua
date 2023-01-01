@@ -29,6 +29,7 @@ require 'paq' {
   };
 
   {
+    -- TODO: replace with custom logic
     'airblade/vim-rooter',
     config = function()
       vim.g.rooter_patterns = { '>workspace' }
@@ -80,6 +81,8 @@ require 'paq' {
     run = vim.cmd.TSUpdate,
     config = function()
       require('nvim-treesitter.configs').setup {
+        ensure_installed = { 'lua', 'vim', 'c', 'cpp', 'java', 'ruby', 'python', 'cmake', 'bash',
+            'markdown', 'markdown_inline', },
         highlight = {
           enable = true,
         },
