@@ -1,5 +1,7 @@
-local aucmd = require('utils').aucmd
-local nmap = require('utils').nmap
+local utils = require('utils')
+local aucmd = utils.aucmd
+local nmap = utils.nmap
+
 local set = vim.opt
 local g = vim.g
 
@@ -94,6 +96,10 @@ vim.cmd([[
  set efm^=\%\\s%#%\\d%#:%#\ %#from\ %f:%l:%m,IN\ %f:%l:%m,
 ]])
 vim.cmd.match([[ErrorMsg /\%121v.\+/]])
+
+aucmd('BufEnter', 'rooter_group', { callback = function()
+  utils.rooter({ 'workspace', 'builds' }, { '.git' })
+end })
 
 if g.neovide then
   g.neovide_cursor_animation_length = 0

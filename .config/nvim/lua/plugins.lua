@@ -29,15 +29,6 @@ require 'paq' {
   };
 
   {
-    -- TODO: replace with custom logic
-    'airblade/vim-rooter',
-    config = function()
-      vim.g.rooter_patterns = { '>workspace' }
-      vim.g.rooter_silent_chdir = 1
-    end
-  };
-
-  {
     'karb94/neoscroll.nvim',
     config = function() require('neoscroll').setup() end
   };
@@ -190,7 +181,8 @@ require 'paq' {
         vsplit = false,
         fugitive = true,
       })
-    end
+    end,
+    defer = true
   };
 
   {
