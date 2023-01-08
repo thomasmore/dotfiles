@@ -55,7 +55,7 @@ local rooter_cache = {}
 M.rooter = function(parent_names, root_names)
   local buf_name = vim.api.nvim_buf_get_name(0)
   if buf_name == '' then
-    return
+    buf_name = vim.fn.getcwd() .. '/tmp.tmp'
   end
   local dir_name = vim.fs.dirname(buf_name)
   local root = rooter_cache[dir_name] or

@@ -214,11 +214,16 @@ require 'paq' {
       local nmap = require('utils').nmap
       local ntree = require('nvim-tree')
       ntree.setup {
+        respect_buf_cwd = true,
         renderer = {
           indent_markers = {
             enable = true
           },
         },
+        update_focused_file = {
+          enable = true,
+          update_root = true
+        }
       }
       nmap('<leader>e', ntree.toggle, 'File explorer')
       nmap('<leader>cd', function()
@@ -504,5 +509,24 @@ require 'paq' {
         },
       }
     end
+  };
+
+  {
+    'nvim-neorg/neorg',
+    run = function() vim.cmd.Neorg('sync-parsers') end,
+    config = function()
+      require('neorg').setup {
+        load = {
+          ['core.defaults'] = {},
+          ['core.norg.concealer'] = {},
+          ['core.norg.completion'] = {
+            config = {
+              engine = 'nvim-cmp'
+            }
+          },
+        }
+      }
+    end,
+    defer = true
   };
 }
