@@ -540,4 +540,30 @@ require 'paq' {
       require('utils').nmap('K', require('ts-node-action').node_action, 'Trigger node action')
     end
   };
+
+  {
+    'eandrju/cellular-automaton.nvim',
+    config = function()
+      local nmap = require('utils').nmap
+      nmap('<f3>', function() vim.cmd.CellularAutomaton('make_it_rain') end, 'Make it rain')
+    end,
+  };
+
+  {
+    'tamton-aquib/duck.nvim',
+    config = function()
+      local nmap = require('utils').nmap
+      nmap('<f4>', require('duck').hatch, 'Hatch Duck')
+      nmap('<f5>', require('duck').cook, 'Cook Duck')
+    end
+  };
+
+  {
+    'shortcuts/no-neck-pain.nvim',
+    config = function()
+      require('no-neck-pain').setup {
+        width = 120
+      }
+    end
+  };
 }
