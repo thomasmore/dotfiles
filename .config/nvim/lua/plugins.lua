@@ -512,6 +512,10 @@ require 'paq' {
   };
 
   {
+    -- TODO:
+    -- * maps for todo lists
+    -- * fokder for journal
+    -- * integrate with mind
     'nvim-neorg/neorg',
     run = function() vim.cmd.Neorg('sync-parsers') end,
     config = function()
@@ -528,5 +532,12 @@ require 'paq' {
       }
     end,
     defer = true
+  };
+
+  {
+    'ckolkey/ts-node-action',
+    config = function()
+      require('utils').nmap('K', require('ts-node-action').node_action, 'Trigger node action')
+    end
   };
 }
