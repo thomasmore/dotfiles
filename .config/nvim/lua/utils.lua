@@ -14,6 +14,10 @@ local function toset(arr)
   return set
 end
 
+local function startswith(text, prefix)
+    return text:find(prefix, 1, true) == 1
+end
+
 local function rooter_find_parent(path, parent_names)
   parent_names = parent_names or {}
   local set = toset(parent_names)
@@ -56,6 +60,9 @@ M.rooter = function(parent_names, root_names)
   local buf_name = vim.api.nvim_buf_get_name(0)
   if buf_name == '' then
     buf_name = vim.fn.getcwd() .. '/tmp.tmp'
+  end
+  if startswith(buf_name, 'term') then
+    return
   end
   local dir_name = vim.fs.dirname(buf_name)
   local root = rooter_cache[dir_name] or
