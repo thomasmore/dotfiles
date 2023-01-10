@@ -213,6 +213,7 @@ require 'paq' {
     config = function()
       local nmap = require('utils').nmap
       local ntree = require('nvim-tree')
+      local ntree_api = require('nvim-tree.api').tree
       ntree.setup {
         respect_buf_cwd = true,
         renderer = {
@@ -229,8 +230,9 @@ require 'paq' {
       nmap('<leader>cd', function()
         local project_config = require('cmake.project_config').new()
         local build_dir = project_config:get_build_dir()
-        require('nvim-tree.api').tree.open(build_dir.filename)
+        ntree_api.open(build_dir.filename)
       end, 'Open Nvim Tree for build dir')
+      nmap('<leader>wt', function() ntree_api.open('~/notes') end, 'Toggle personal wiki')
     end,
     defer = true
   };
@@ -333,37 +335,6 @@ require 'paq' {
       local nmap = require('utils').nmap
       overseer.setup()
       nmap('<leader>gs', function() overseer.load_task_bundle('git_sync') end, 'Git Sync')
-    end
-  };
-
-  {
-    'phaazon/mind.nvim',
-    branch = 'v2.2',
-    config = function()
-      local mind = require('mind')
-      local nmap = require('utils').nmap
-      mind.setup{
-        persistence = {
-          state_path = '~/notes/mind.json',
-          data_dir = '~/notes/data'
-        },
-        edit = {
-          data_extension = '.norg'
-        }
-      }
-      mind.is_opened = false
-      nmap('<leader>w', function()
-        if mind.is_opened then
-          mind.close()
-          mind.is_opened = false
-        else
-          mind.open_main()
-          mind.is_opened = true
-        end
-      end, 'Toggle personal wiki')
-      nmap('<leader>gw', function()
-        require('telescope.builtin').live_grep({ search_dirs = { mind.opts.persistence.data_dir } })
-      end, 'Live grep in personal wiki')
     end
   };
 
@@ -520,13 +491,25 @@ require 'paq' {
   };
 
   {
+    'folke/zen-mode.nvim',
+    config = function()
+      require('zen-mode').setup {}
+    end,
+    defer = true
+  };
+
+  {
     'nvim-neorg/neorg',
     run = function() vim.cmd.Neorg('sync-parsers') end,
     config = function()
       require('neorg').setup {
         load = {
           ['core.defaults'] = {},
-          ['core.norg.concealer'] = {},
+          ['core.norg.concealer'] = {
+            config = {
+              folds = false,
+            }
+          },
           ['core.norg.completion'] = {
             config = {
               engine = 'nvim-cmp'
@@ -544,7 +527,12 @@ require 'paq' {
               workspace = 'notes',
               journal_folder = 'journal'
             }
-          }
+          },
+          ['core.presenter'] = {
+            config = {
+              zen_mode = 'zen-mode'
+            }
+          },
         }
       }
     end,
