@@ -342,7 +342,15 @@ require 'paq' {
     config = function()
       local mind = require('mind')
       local nmap = require('utils').nmap
-      mind.setup()
+      mind.setup{
+        persistence = {
+          state_path = '~/notes/mind.json',
+          data_dir = '~/notes/data'
+        },
+        edit = {
+          data_extension = '.norg'
+        }
+      }
       mind.is_opened = false
       nmap('<leader>w', function()
         if mind.is_opened then
@@ -512,10 +520,6 @@ require 'paq' {
   };
 
   {
-    -- TODO:
-    -- * maps for todo lists
-    -- * fokder for journal
-    -- * integrate with mind
     'nvim-neorg/neorg',
     run = function() vim.cmd.Neorg('sync-parsers') end,
     config = function()
@@ -528,6 +532,19 @@ require 'paq' {
               engine = 'nvim-cmp'
             }
           },
+          ['core.norg.dirman'] = {
+            config = {
+              workspaces = {
+                notes = '~/notes'
+              }
+            }
+          },
+          ['core.norg.journal'] = {
+            config = {
+              workspace = 'notes',
+              journal_folder = 'journal'
+            }
+          }
         }
       }
     end,
