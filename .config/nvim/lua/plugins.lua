@@ -350,11 +350,6 @@ require 'paq' {
   };
 
   {
-    'gaoDean/autolist.nvim',
-    config = function() require('autolist').setup{} end
-  };
-
-  {
     'b0o/incline.nvim',
     config = function()
       require('incline').setup {
