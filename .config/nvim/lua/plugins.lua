@@ -215,7 +215,6 @@ require 'paq' {
       local ntree = require('nvim-tree')
       local ntree_api = require('nvim-tree.api').tree
       ntree.setup {
-        respect_buf_cwd = true,
         renderer = {
           indent_markers = {
             enable = true
@@ -226,13 +225,16 @@ require 'paq' {
           update_root = true
         }
       }
-      nmap('<leader>e', ntree.toggle, 'File explorer')
+      nmap('<leader>e', ntree_api.toggle, 'File explorer')
       nmap('<leader>cd', function()
         local project_config = require('cmake.project_config').new()
         local build_dir = project_config:get_build_dir()
         ntree_api.open(build_dir.filename)
       end, 'Open Nvim Tree for build dir')
-      nmap('<leader>wt', function() ntree_api.open('~/notes') end, 'Toggle personal wiki')
+      nmap('<leader>wt', function()
+        local notes_dir = require('neorg.modules.core.norg.dirman.module').public.get_workspaces()['notes']
+        ntree_api.open(notes_dir)
+      end, 'Toggle personal wiki')
     end,
     defer = true
   };
@@ -519,7 +521,8 @@ require 'paq' {
             config = {
               workspaces = {
                 notes = '~/notes'
-              }
+              },
+              default_workspace = 'notes',
             }
           },
           ['core.norg.journal'] = {
@@ -542,7 +545,7 @@ require 'paq' {
   {
     'ckolkey/ts-node-action',
     config = function()
-      require('utils').nmap('K', require('ts-node-action').node_action, 'Trigger node action')
+      require('utils').nmap('<leader>t', require('ts-node-action').node_action, 'Trigger node action')
     end
   };
 
