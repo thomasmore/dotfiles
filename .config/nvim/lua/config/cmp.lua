@@ -12,6 +12,15 @@ end
 
 local cmp = require('cmp')
 cmp.setup({
+  completion = {
+    keyword_length = 3,
+  },
+  formatting = {
+    format = function(_, item)
+      item.abbr = string.sub(item.abbr, 1, 50)
+      return item
+    end
+  },
   mapping = {
     ['<C-e>'] = cmp.mapping.close(),
     ['<CR>'] = cmp.mapping.confirm({
