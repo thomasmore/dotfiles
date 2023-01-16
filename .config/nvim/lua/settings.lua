@@ -9,14 +9,11 @@ local g = vim.g
 set.number = true
 set.relativenumber = true
 set.signcolumn = 'yes:1'
+-- set.signcolumn = 'no'
+-- vim.o.stc = '%=%{v:relnum?v:relnum:v:lnum}│ '
+
 -- but not in terminal
 local settings_augroup = aucmd({ 'TermOpen', 'TermEnter' }, 'settings', { callback = function()
-  vim.wo.number = false
-  vim.wo.relativenumber = false
-  vim.wo.signcolumn = 'no'
-end })
-
-aucmd('FileType', settings_augroup, { pattern = 'mind', callback = function()
   vim.wo.number = false
   vim.wo.relativenumber = false
   vim.wo.signcolumn = 'no'
