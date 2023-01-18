@@ -115,20 +115,12 @@ require 'paq' {
     config = function() require('config.cmp') end,
   };
 
+  'andymass/vim-matchup';
   {
-    'windwp/nvim-autopairs',
+    'hrsh7th/nvim-insx',
     config = function()
-      require('nvim-autopairs').setup({
-        disable_filetype = { 'TelescopePrompt' , 'dap' },
-        ignored_next_char = '[%w%.]',
-      })
-      local cmp_autopairs = require('nvim-autopairs.completion.cmp')
-      local cmp = require('cmp')
-      cmp.event:on(
-        'confirm_done',
-        cmp_autopairs.on_confirm_done()
-      )
-    end
+      require('insx.preset.standard').setup()
+    end,
   };
 
   {
