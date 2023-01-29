@@ -101,6 +101,11 @@ aucmd('BufEnter', 'rooter_group', { callback = function()
   utils.rooter({ 'workspace', 'builds' }, { '.git' })
 end })
 
+-- auto-save
+aucmd({'InsertLeave', 'TextChanged'}, settings_augroup, { callback = function()
+  vim.cmd('silent! w')
+end })
+
 if g.neovide then
   g.neovide_cursor_animation_length = 0
   set.guifont = 'JetBrainsMono NF:h13'

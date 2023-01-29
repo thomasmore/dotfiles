@@ -44,18 +44,6 @@ require 'paq' {
   };
 
   {
-    'Pocco81/auto-save.nvim',
-    config = function()
-      require('auto-save').setup{
-        execution_message = {
-          message = function() return "" end,
-          dim = 0
-        },
-      }
-    end
-  };
-
-  {
     'mhinz/vim-startify',
     config = function()
       vim.g.startify_session_persistence = 1
