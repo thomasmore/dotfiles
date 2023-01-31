@@ -66,6 +66,7 @@ require('lualine').setup {
           info = ' '
         }
       },
+      { require('nomodoro').status },
     },
     lualine_y = {
       { 'filetype' },

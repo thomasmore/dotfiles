@@ -558,4 +558,9 @@ require 'paq' {
       }
     end
   };
+
+  {
+    'dbinagi/nomodoro',
+    config = function() require('nomodoro').setup {} end
+  };
 }
