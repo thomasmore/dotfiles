@@ -392,40 +392,6 @@ require 'paq' {
     defer = true,
   };
 
-  {
-    'dnlhc/glance.nvim',
-    config = function()
-      local glance = require('glance')
-      local actions = glance.actions
-      local nmap = require('utils').nmap
-
-      glance.setup {
-        border = {
-          enable = true,
-        },
-        hooks = {
-          before_open = function(results, open, jump, method)
-            if #results == 1 then
-              jump(results[1])
-            else
-              open(results)
-            end
-          end,
-        },
-        mappings = {
-          list = {
-            ['<C-v>'] = actions.jump_vsplit,
-            ['<C-x>'] = actions.jump_split,
-            ['<C-t>'] = actions.jump_tab,
-          }
-        }
-      }
-      nmap('gr', function() vim.cmd.Glance('references') end, 'List references')
-      nmap('gd', function() vim.cmd.Glance('definitions') end, 'List definitions')
-      nmap('gi', function() vim.cmd.Glance('implementations') end, 'List implementations')
-    end,
-  };
-
   'MunifTanjim/nui.nvim';
   {
     'folke/noice.nvim',
