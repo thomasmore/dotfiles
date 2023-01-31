@@ -237,17 +237,9 @@ require 'paq' {
   };
 
   {
-    'ggandor/lightspeed.nvim',
+    'ggandor/leap.nvim',
     config = function()
-      require('lightspeed').setup {
-        ignore_case = true,
-        jump_to_unique_chars = false,
-        match_only_the_start_of_same_char_seqs = true,
-        limit_ft_matches = 7,
-        labels = nil,
-        cycle_group_fwd_key = nil,
-        cycle_group_bwd_key = nil,
-      }
+      require('leap').add_default_mappings()
     end
   };
 
