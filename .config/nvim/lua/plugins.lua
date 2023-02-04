@@ -12,7 +12,6 @@ require 'paq' {
 
   'tpope/vim-repeat';
   'bogado/file-line';
-  'farmergreg/vim-lastplace';
   'tpope/vim-sleuth';
 
   {

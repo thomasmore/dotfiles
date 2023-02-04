@@ -106,6 +106,25 @@ aucmd({'InsertLeave', 'TextChanged'}, settings_augroup, { callback = function()
   vim.cmd('silent! w')
 end })
 
+-- go to last loc when opening a buffer
+aucmd('BufReadPost', settings_augroup, {
+  callback = function()
+    local mark = vim.api.nvim_buf_get_mark(0, '"')
+    local lcount = vim.api.nvim_buf_line_count(0)
+    if mark[1] > 0 and mark[1] <= lcount then
+      pcall(vim.api.nvim_win_set_cursor, 0, mark)
+    end
+  end,
+})
+
+aucmd('FileType', settings_augroup, {
+  pattern = { 'gitcommit', 'markdown', 'norg'},
+  callback = function()
+    vim.opt_local.wrap = true
+    vim.opt_local.spell = true
+  end,
+})
+
 if g.neovide then
   g.neovide_cursor_animation_length = 0
   set.guifont = 'JetBrainsMono NF:h13'
