@@ -224,6 +224,7 @@ require 'paq' {
     config = function()
       require('config.telescope')
     end,
+    defer = true
   };
   {
     'simrat39/symbols-outline.nvim',
@@ -248,7 +249,8 @@ require 'paq' {
   };
   {
     'rcarriga/nvim-dap-ui',
-    config = function() require('config.dapui') end
+    config = function() require('config.dapui') end,
+    defer = true
   };
   {
     'thomasmore/neovim-cmake',
