@@ -44,3 +44,9 @@ style = "bold blue"
 [env_var]
 variable = "LD_LIBRARY_PATH"
 format = "with [LD_LIBRARY_PATH=$env_value ](bold red)"
+
+[custom.shell]
+command = "echo $STARSHIP_SHELL"
+when = """ test "$STARSHIP_SHELL" != "fish" """
+format = "[in 🖥️$output]($style)"
+style = "cyan"
