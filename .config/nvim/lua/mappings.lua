@@ -17,7 +17,6 @@ nmap('<m-k>', '<c-w>k')
 nmap('<m-j>', '<c-w>j')
 
 -- Quickfix
-nmap('<leader>cl', vim.cmd.cclose, 'Close quickfix')
 nmap('<leader>o', function() vim.cmd.copen(); vim.cmd.cbottom() end, 'Open quickfix')
 nmap('<leader>n', vim.cmd.cnext, 'Next in quickfix')
 nmap('<leader>p', vim.cmd.cprev, 'Previous in quickfix')
@@ -38,7 +37,7 @@ nmap('<f2>', function()
   vim.cmd.diffupdate()
   require('notify').dismiss()
 end, 'Turn off last search highlight and diffupdate')
-nmap('<leader>rg', ':silent grep<space>', 'Find with rg (and put in quickfix)', { silent = false })
+nmap('<leader>r', ':silent grep<space>', 'Find with rg (and put in quickfix)', { silent = false })
 tmap('<esc>', [[<c-\><c-n>]], 'Exit terminal mode')
 
 nmap(']]', function()

@@ -126,6 +126,18 @@ aucmd('FileType', settings_augroup, {
   end,
 })
 
+aucmd('FileType', 'q_group', {
+  pattern = {
+    'qf',
+    'help',
+    'fugitive'
+  },
+  callback = function(event)
+    vim.bo[event.buf].buflisted = false
+    vim.keymap.set('n', 'q', '<cmd>close<cr>', { buffer = event.buf, silent = true })
+  end,
+})
+
 if g.neovide then
   g.neovide_cursor_animation_length = 0
   set.guifont = 'JetBrainsMono NF:h13'

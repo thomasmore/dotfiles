@@ -97,7 +97,7 @@ local function cmake_configure()
 end
 
 nmap('<leader>m', cmake_build, 'Build target')
-nmap('<leader>st', cmake.select_target, 'Select target')
+nmap('<leader>ct', cmake.select_target, 'Select target')
 nmap('<leader>d', cmake.debug, 'Debug target')
 nmap('<leader>cc', cmake_configure, 'CMake configure')
 nmap('<leader>cr', cmake.run, 'CMake run')
