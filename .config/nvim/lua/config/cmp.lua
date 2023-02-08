@@ -6,11 +6,36 @@ local has_words_before = function()
   return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
 
-local feedkey = function(key, mode)
-  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
-end
-
 local cmp = require('cmp')
+
+cmp.kind_icons = {
+  Text = "",
+  Method = "",
+  Function = "",
+  Constructor = "",
+  Field = "ﰠ",
+  Variable = "",
+  Class = "",
+  Interface = "",
+  Module = "",
+  Property = "ﰠ",
+  Unit = "塞",
+  Value = "",
+  Enum = "",
+  Keyword = "",
+  Snippet = "",
+  Color = "",
+  File = "",
+  Reference = "",
+  Folder = "",
+  EnumMember = "",
+  Constant = "",
+  Struct = "פּ",
+  Event = "",
+  Operator = "",
+  TypeParameter = "",
+}
+
 cmp.setup({
   completion = {
     keyword_length = 3,
@@ -18,6 +43,7 @@ cmp.setup({
   formatting = {
     format = function(_, item)
       item.abbr = string.sub(item.abbr, 1, 50)
+      item.kind = string.format('%s ', cmp.kind_icons[item.kind])
       return item
     end
   },
@@ -43,10 +69,15 @@ cmp.setup({
       end
     end, { "i", "s" }),
   },
+  window = {
+    completion = cmp.config.window.bordered(),
+  },
   sources = {
     { name = 'nvim_lsp_signature_help' },
     { name = 'nvim_lsp' },
-    { name = 'neorg'},
+    { name = 'neorg' },
+    { name = 'emoji' },
+    { name = 'nerdfont' },
     {
       name = 'buffer',
       option = {

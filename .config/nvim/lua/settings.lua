@@ -45,7 +45,6 @@ set.incsearch = true
 set.wrap = false
 set.completeopt = 'menuone,noselect'
 set.pumheight = 20
-set.pumblend = 10
 set.scrolloff = 5
 set.mouse = 'a'
 set.inccommand = 'split'

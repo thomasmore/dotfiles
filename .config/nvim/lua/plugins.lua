@@ -93,10 +93,11 @@ require 'paq' {
     config = function() require('config.lsp') end
   };
 
-
   'hrsh7th/cmp-nvim-lsp';
   'hrsh7th/cmp-buffer';
   'hrsh7th/cmp-nvim-lsp-signature-help';
+  'hrsh7th/cmp-emoji';
+  'chrisgrieser/cmp-nerdfont';
   {
     'hrsh7th/nvim-cmp',
     config = function() require('config.cmp') end,
@@ -383,14 +384,6 @@ require 'paq' {
       nmap('<leader>S', sub.eol, 'Substitute til EOL with default register')
       xmap('<laeder>s', sub.visual, 'Substitute visual selection with default register')
     end
-  };
-
-  {
-    'mrjones2014/legendary.nvim',
-    config = function()
-      require('legendary').setup{}
-    end,
-    defer = true,
   };
 
   'MunifTanjim/nui.nvim';
