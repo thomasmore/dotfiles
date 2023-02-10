@@ -292,7 +292,7 @@ require 'paq' {
         hl_snipe = 'HopNextKey',
         autoswap = true
       }
-      nmap('<leader>sw', vim.cmd.ISwapWith, 'Swap nodes')
+      nmap('<leader>s', vim.cmd.ISwapWith, 'Swap nodes')
     end
   };
 
@@ -379,10 +379,10 @@ require 'paq' {
       local nmap = require('utils').nmap
       local xmap = require('utils').xmap
       sub.setup{}
-      nmap('<leader>s', sub.operator, 'Substitute motion with default register')
-      nmap('<leader>ss', sub.line, 'Substitute line with default register')
-      nmap('<leader>S', sub.eol, 'Substitute til EOL with default register')
-      xmap('<laeder>s', sub.visual, 'Substitute visual selection with default register')
+      nmap('gr', sub.operator, 'Replace motion with default register')
+      nmap('grr', sub.line, 'Replace line with default register')
+      nmap('gR', sub.eol, 'Replace til EOL with default register')
+      xmap('gr', sub.visual, 'Replace visual selection with default register')
     end
   };
 

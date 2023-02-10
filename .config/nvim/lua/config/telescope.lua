@@ -39,23 +39,11 @@ telescope.setup{
 }
 telescope.load_extension('zf-native')
 
-local function spell_suggest()
-  builtins.spell_suggest(
-    themes.get_cursor {
-      prompt_title = "",
-      layout_config = {
-        height = 0.6,
-        width = 0.25
-      }
-    }
-  )
-end
-
 nmap('<c-p>', builtins.find_files, 'Find file')
 nmap('<c-l>', builtins.current_buffer_fuzzy_find, 'Live search in current file')
 nmap('<c-h>', builtins.oldfiles, 'Open recent file')
 nmap('<leader>gg', builtins.grep_string, 'Grep for word under the cursor')
-nmap('gr', builtins.lsp_references, 'List references')
+nmap('<leader>lr', builtins.lsp_references, 'List references')
 nmap('gd', builtins.lsp_definitions, 'List definitions')
 nmap('gi', builtins.lsp_implementations, 'List implementations')
 nmap('<leader>lc', builtins.lsp_incoming_calls, 'List LSP incoming calls')
@@ -63,7 +51,6 @@ nmap('<leader>gp', builtins.lsp_dynamic_workspace_symbols, 'Live grep for worksp
 nmap('<leader>gl', builtins.live_grep, 'Live grep for typed string')
 nmap('<leader>b', builtins.buffers, 'List open buffers')
 nmap('gco', builtins.git_branches, 'List git branches')
-nmap('<leader>sp', spell_suggest, 'Spell suggestions')
 nmap('<f1>', builtins.help_tags, 'Search in help')
 nmap('<leader>wl', function() builtins.live_grep({ search_dirs = { '~/notes' } }) end, 'Live grep in wiki')
 nmap('<leader>wf', function() builtins.find_files({ cwd = '~/notes' }) end, 'Find files in wiki')
