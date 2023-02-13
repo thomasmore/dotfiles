@@ -54,7 +54,7 @@ set.wildmode = 'longest,full'
 set.virtualedit = 'block'
 set.undofile = true
 set.clipboard = 'unnamedplus'
-set.foldtext = 'v:lua.require('utils').simple_fold()'
+set.foldtext = 'v:lua.require("utils").simple_fold()'
 
 aucmd({ 'VimEnter', 'WinEnter', 'BufWinEnter' }, settings_augroup, { callback = function()
   set.cursorline = true
