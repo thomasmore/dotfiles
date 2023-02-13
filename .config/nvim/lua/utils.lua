@@ -70,4 +70,25 @@ M.rooter = function(parent_names, root_names)
   end
 end
 
+M.simple_fold = function()
+  local fs, fe = vim.v.foldstart, vim.v.foldend
+  local start_line = vim.fn.getline(fs):gsub("\t", ("\t"):rep(vim.opt.ts:get()))
+  local end_line = vim.trim(vim.fn.getline(fe))
+  local lines = string.format("  [ %d lines ]", fe - fs + 1)
+  local spaces = (" "):rep( vim.o.columns - start_line:len() - end_line:len() - 7 - lines:len())
+  return start_line .. "  " .. end_line .. lines .. spaces
+end
+
+M.run_file = function(ht)
+    local fts = {
+        python     = 'python %',
+        ruby       = 'ruby %',
+        java       = 'java %',
+        lua        = 'luajit %',
+    }
+
+    local cmd = fts[vim.bo.ft]
+    vim.cmd(cmd and ((ht or '') .. 'sp | term ' .. cmd) or 'echo "No command for this filetype"')
+end
+
 return M
