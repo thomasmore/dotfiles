@@ -41,11 +41,14 @@ for _, v in ipairs({'', 'n', 'x', 'o', 'i', 'v', 't'}) do
   end
 end
 
-M.aucmd = function(event, group, opts)
+M.aucmd = function(event, group, pattern, callback)
   if type(group) == 'string' then
     group = vim.api.nvim_create_augroup(group, { clear = true })
   end
+  opts = {}
   opts.group = group
+  opts.pattern = pattern
+  opts.callback = callback
   vim.api.nvim_create_autocmd(event, opts)
   return group
 end

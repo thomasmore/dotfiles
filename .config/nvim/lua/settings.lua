@@ -13,17 +13,17 @@ set.signcolumn = 'yes:1'
 -- vim.o.stc = '%=%{v:relnum?v:relnum:v:lnum}│ '
 
 -- but not in terminal
-local settings_augroup = aucmd({ 'TermOpen', 'TermEnter' }, 'settings', { callback = function()
+local settings_augroup = aucmd({ 'TermOpen', 'TermEnter' }, 'settings', '*', function()
   vim.wo.number = false
   vim.wo.relativenumber = false
   vim.wo.signcolumn = 'no'
-end })
+end)
 
 -- open quickfix window below all vert-split windows
-aucmd('FileType', settings_augroup, { pattern = 'qf', callback = function()
+aucmd('FileType', settings_augroup, 'qf', function()
   vim.cmd.wincmd('J')
   vim.cmd.resize('15')
-end })
+end)
 
 -- windows layout
 set.winheight = 20
@@ -56,10 +56,12 @@ set.undofile = true
 set.clipboard = 'unnamedplus'
 set.foldtext = 'v:lua.require("utils").simple_fold()'
 
-aucmd({ 'VimEnter', 'WinEnter', 'BufWinEnter' }, settings_augroup, { callback = function()
+aucmd({ 'VimEnter', 'WinEnter', 'BufWinEnter' }, settings_augroup, '*', function()
   set.cursorline = true
-end })
-aucmd('WinLeave', settings_augroup, { callback = function() set.cursorline = false end })
+end)
+aucmd('WinLeave', settings_augroup, '*', function() set.cursorline = false end)
+
+-- aucmd('BufEnter', settings_augroup, 'norg', function() vim.opt_local.indentexpr = '' end)
 
 -- rg integration
 set.grepprg = 'rg --vimgrep --no-heading --smart-case'
@@ -88,9 +90,9 @@ g.loaded_matchparen = 1
 -- diff tool setting
 set.diffopt = 'vertical'
 
-aucmd('TextYankPost', settings_augroup, { callback = function()
+aucmd('TextYankPost', settings_augroup, '*', function()
   vim.highlight.on_yank()
-end })
+end)
 
 -- highlight long lines and add more patterns for errorformat
 vim.cmd([[
@@ -98,45 +100,33 @@ vim.cmd([[
 ]])
 vim.cmd.match([[ErrorMsg /\%121v.\+/]])
 
-aucmd('BufEnter', 'rooter_group', { callback = function()
+aucmd('BufEnter', 'rooter_group', '*', function()
   utils.rooter({ 'workspace', 'builds' }, { '.git' })
-end })
+end)
 
 -- auto-save
-aucmd({'InsertLeave', 'TextChanged'}, settings_augroup, { callback = function()
+aucmd({'InsertLeave', 'TextChanged'}, settings_augroup, '*', function()
   vim.cmd('silent! w')
-end })
+end)
 
 -- go to last loc when opening a buffer
-aucmd('BufReadPost', settings_augroup, {
-  callback = function()
+aucmd('BufReadPost', settings_augroup, '*', function()
     local mark = vim.api.nvim_buf_get_mark(0, '"')
     local lcount = vim.api.nvim_buf_line_count(0)
     if mark[1] > 0 and mark[1] <= lcount then
       pcall(vim.api.nvim_win_set_cursor, 0, mark)
     end
-  end,
-})
+end)
 
-aucmd('FileType', settings_augroup, {
-  pattern = { 'gitcommit', 'markdown', 'norg'},
-  callback = function()
+aucmd('FileType', settings_augroup, { 'gitcommit', 'markdown', 'norg'}, function()
     vim.opt_local.wrap = true
     vim.opt_local.spell = true
-  end,
-})
+end)
 
-aucmd('FileType', 'q_group', {
-  pattern = {
-    'qf',
-    'help',
-    'fugitive'
-  },
-  callback = function(event)
+aucmd('FileType', 'q_group', { 'qf', 'help', 'fugitive' }, function(event)
     vim.bo[event.buf].buflisted = false
     vim.keymap.set('n', 'q', '<cmd>close<cr>', { buffer = event.buf, silent = true })
-  end,
-})
+end)
 
 if g.neovide then
   g.neovide_cursor_animation_length = 0

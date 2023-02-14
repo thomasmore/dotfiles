@@ -467,6 +467,12 @@ require 'paq' {
               zen_mode = 'zen-mode'
             }
           },
+          ['core.norg.esupports.indent'] = {
+            config = {
+              format_on_enter = false,
+              format_on_escape = false,
+            }
+          },
         }
       }
     end,
@@ -501,6 +507,9 @@ require 'paq' {
     'shortcuts/no-neck-pain.nvim',
     config = function()
       require('no-neck-pain').setup {
+        toggleMapping = false,
+        widthUpMapping = false,
+        widthDownMapping = false,
         width = 120
       }
     end
@@ -519,4 +528,4 @@ require 'paq' {
     'dbinagi/nomodoro',
     config = function() require('nomodoro').setup {} end
   };
-}
+ }
