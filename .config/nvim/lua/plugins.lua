@@ -103,7 +103,11 @@ require 'paq' {
     config = function() require('config.cmp') end,
   };
 
-  'andymass/vim-matchup';
+  {
+    'andymass/vim-matchup',
+    defer = true
+  };
+
   {
     'hrsh7th/nvim-insx',
     config = function()
