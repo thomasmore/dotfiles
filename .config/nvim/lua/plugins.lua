@@ -467,12 +467,6 @@ require 'paq' {
               zen_mode = 'zen-mode'
             }
           },
-          ['core.norg.esupports.indent'] = {
-            config = {
-              format_on_enter = false,
-              format_on_escape = false,
-            }
-          },
         }
       }
     end,

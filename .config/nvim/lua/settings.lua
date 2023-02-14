@@ -61,8 +61,6 @@ aucmd({ 'VimEnter', 'WinEnter', 'BufWinEnter' }, settings_augroup, '*', function
 end)
 aucmd('WinLeave', settings_augroup, '*', function() set.cursorline = false end)
 
--- aucmd('BufEnter', settings_augroup, 'norg', function() vim.opt_local.indentexpr = '' end)
-
 -- rg integration
 set.grepprg = 'rg --vimgrep --no-heading --smart-case'
 set.grepformat = '%f:%l:%c:%m,%f:%l:%m'
