@@ -204,20 +204,18 @@ require 'paq' {
             enable = true
           },
         },
-        update_focused_file = {
-          enable = true,
-          update_root = true
-        }
       }
-      nmap('<leader>e', ntree_api.toggle, 'File explorer')
+      nmap('<leader>e', function()
+        ntree_api.toggle({ find_file = true, update_root = true, focus = true })
+      end, 'File explorer')
       nmap('<leader>cd', function()
         local project_config = require('cmake.project_config').new()
         local build_dir = project_config:get_build_dir()
-        ntree_api.open(build_dir.filename)
+        ntree_api.open({ path = build_dir.filename, focus = true })
       end, 'Open Nvim Tree for build dir')
       nmap('<leader>wt', function()
         local notes_dir = require('neorg.modules.core.norg.dirman.module').public.get_workspaces()['notes']
-        ntree_api.open(notes_dir)
+        ntree_api.open({ path = notes_dir, focus = true })
       end, 'Toggle personal wiki')
     end,
     defer = true
