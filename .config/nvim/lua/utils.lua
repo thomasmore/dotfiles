@@ -91,7 +91,11 @@ M.run_file = function(ht)
     }
 
     local cmd = fts[vim.bo.ft]
-    vim.cmd(cmd and ((ht or '') .. 'sp | term ' .. cmd) or 'echo "No command for this filetype"')
+    if not cmd then
+      vim.cmd.echo('"No command for this filetype"')
+    else
+      vim.cmd.TermExec('cmd="' .. cmd .. '"')
+    end
 end
 
 return M
