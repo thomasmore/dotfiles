@@ -14,6 +14,16 @@ local function toset(arr)
   return set
 end
 
+local function max_elem_len(a)
+  local max = 0
+  for _, v in ipairs(a) do
+    if max < #v then
+      max = #v
+    end
+  end
+  return max
+end
+
 local function rooter_find_parent(path, parent_names)
   parent_names = parent_names or {}
   local set = toset(parent_names)
@@ -96,6 +106,29 @@ M.run_file = function(ht)
     else
       vim.cmd.TermExec('cmd="' .. cmd .. '"')
     end
+end
+
+M.popup = function(text, user_opts)
+  if type(text) == 'string' then
+    text = vim.split(text, "\n", { plain = true, trimempty = true })
+  end
+  user_opts = user_opts or {}
+
+  local buf = vim.api.nvim_create_buf(false, true)
+  vim.api.nvim_buf_set_lines(buf, 0, -1, true, text)
+
+  local default_opts = {
+    width = max_elem_len(text),
+    height = #text,
+    relative = 'cursor',
+    col = 0,
+    row = 1,
+    focusable = false,
+    style = 'minimal',
+    border = 'rounded'
+  }
+  local opts = vim.tbl_extend('force', default_opts, user_opts)
+  return vim.api.nvim_open_win(buf, false, opts)
 end
 
 return M
