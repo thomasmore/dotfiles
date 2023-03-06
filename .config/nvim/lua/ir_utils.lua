@@ -46,7 +46,7 @@ M.show_input_context = function()
   local line_index = def_cursor[1]
   local context = vim.api.nvim_buf_get_lines(0, line_index - 2, line_index, true)
   local result = { ltrim(context[1]), ltrim(context[2]) }
-  local win = local win = popup(result)
+  local win = popup(result)
   vim.api.nvim_create_autocmd({ 'CursorMoved', 'ModeChanged', 'WinScrolled' }, { once = true, callback = function()
     if win then
       vim.api.nvim_win_close(win, true)
