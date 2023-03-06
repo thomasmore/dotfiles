@@ -1,17 +1,9 @@
+local popup = require('utils').popup
+
 local M = {}
 
 local function ltrim(s)
   return s:match'^%s*(.*)'
-end
-
-local function max_elem_len(a)
-  local max = 0
-  for _, v in ipairs(a) do
-    if max < #v then
-      max = #v
-    end
-  end
-  return max
 end
 
 local function get_input_def_cursor()
@@ -45,7 +37,6 @@ local function get_input_def_cursor()
   return { found_row, found_col }
 end
 
-
 M.show_input_context = function()
   local def_cursor = get_input_def_cursor()
   if not def_cursor then
@@ -55,19 +46,7 @@ M.show_input_context = function()
   local line_index = def_cursor[1]
   local context = vim.api.nvim_buf_get_lines(0, line_index - 2, line_index, true)
   local result = { ltrim(context[1]), ltrim(context[2]) }
-  local buf = vim.api.nvim_create_buf(false, true)
-  vim.api.nvim_buf_set_lines(buf, 0, -1, true, result)
-  local opts = {
-    width = max_elem_len(result),
-    height = 2,
-    relative = 'cursor',
-    col = 0,
-    row = 1,
-    focusable = false,
-    style = 'minimal',
-    border = 'rounded'
-  }
-  local win = vim.api.nvim_open_win(buf, false, opts)
+  local win = local win = popup(result)
   vim.api.nvim_create_autocmd({ 'CursorMoved', 'ModeChanged', 'WinScrolled' }, { once = true, callback = function()
     if win then
       vim.api.nvim_win_close(win, true)
