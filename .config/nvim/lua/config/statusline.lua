@@ -1,3 +1,4 @@
+local popup = require('utils').popup
 local gps = require('nvim-gps')
 local cmake = require('cmake')
 
@@ -33,6 +34,8 @@ end
 
 gps.setup()
 
+_G.status_win = nil
+
 require('lualine').setup {
   options = {
     theme = 'catppuccin',
@@ -49,7 +52,24 @@ require('lualine').setup {
     lualine_a = {
       {'mode', fmt = function(mode_name) return mode_name:sub(1, 1) end}
     },
-    lualine_b = {'branch'},
+    lualine_b = {
+      {
+        'branch' ,
+        on_click = function()
+          if _G.status_win then
+            vim.api.nvim_win_close(_G.status_win, true)
+            _G.status_win = nil
+          else
+            local scriptname = './git_branch.sh'
+            if not vim.fn.filereadable(scriptname) then
+              return
+            end
+            local output = vim.fn.system(scriptname)
+            _G.status_win = popup(output, { relative = 'mouse', anchor = 'SW', row = 0 })
+          end
+        end
+      }
+    },
     lualine_c = {
       {'filename', file_status = true, symbols = {modified = '*', readonly = '[-]'}},
       { gps.get_location, cond = gps.is_available },
