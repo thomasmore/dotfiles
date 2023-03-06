@@ -499,9 +499,9 @@ require 'paq' {
     'shortcuts/no-neck-pain.nvim',
     config = function()
       require('no-neck-pain').setup {
-        toggleMapping = false,
-        widthUpMapping = false,
-        widthDownMapping = false,
+        mappings = {
+          enabled = false,
+        },
         width = 120
       }
     end
