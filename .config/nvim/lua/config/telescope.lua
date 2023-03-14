@@ -5,9 +5,13 @@ local config = require('telescope.config')
 
 local nmap = require('utils').nmap
 
-
 local vimgrep_arguments = { unpack(config.values.vimgrep_arguments) }
 table.insert(vimgrep_arguments, '--no-ignore')
+
+local picker_config = {}
+for b, _ in pairs(builtins) do
+  picker_config[b] = { fname_width = 60 }
+end
 
 telescope.setup{
   defaults = {
@@ -17,7 +21,7 @@ telescope.setup{
     },
     layout_strategy = 'vertical',
   },
-  pickers = {
+  pickers = vim.tbl_extend('force', picker_config, {
     find_files = {
       layout_strategy = 'horizontal',
       no_ignore = true,
@@ -34,8 +38,12 @@ telescope.setup{
     },
     grep_string = {
       vimgrep_arguments = vimgrep_arguments,
-    }
-  }
+    },
+    lsp_references = {
+      include_declaration = false,
+      fname_width = 60,
+    },
+  })
 }
 telescope.load_extension('zf-native')
 
