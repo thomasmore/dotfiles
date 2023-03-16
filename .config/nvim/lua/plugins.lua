@@ -153,7 +153,7 @@ require 'paq' {
       local nmap = require('utils').nmap
       local vmap = require('utils').vmap
       nmap('<leader>gh', function() vim.cmd.DiffviewFileHistory('%') end, 'View Git history for current file')
-      vmap('<leader>gh', vim.cmd.DiffviewFileHistory, 'View Git history for selected range')
+      vmap('<leader>gh', ':DiffviewFileHistory<cr>', 'View Git history for selected range')
       nmap('<leader>go', function() vim.cmd.DiffviewOpen('HEAD^') end, 'View diff for last commit')
       nmap('<leader>gc', vim.cmd.DiffviewClose, 'Close Diffview tab')
     end,
