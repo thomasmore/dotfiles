@@ -71,7 +71,7 @@ require('lualine').setup {
       }
     },
     lualine_c = {
-      {'filename', file_status = true, symbols = {modified = '*', readonly = '[-]'}},
+      {'filename', file_status = true, path = 1, symbols = {modified = '*', readonly = '[-]'}},
       { gps.get_location, cond = gps.is_available },
     },
     lualine_x = {
