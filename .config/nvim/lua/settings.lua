@@ -55,6 +55,7 @@ set.virtualedit = 'block'
 set.undofile = true
 set.clipboard = 'unnamedplus'
 set.foldtext = 'v:lua.require("utils").simple_fold()'
+set.conceallevel = 3
 
 aucmd({ 'VimEnter', 'WinEnter', 'BufWinEnter' }, settings_augroup, '*', function()
   set.cursorline = true
