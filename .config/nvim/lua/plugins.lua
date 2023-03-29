@@ -519,7 +519,7 @@ require 'paq' {
   };
 
   {
-    'dbinagi/nomodoro',
-    config = function() require('nomodoro').setup {} end
+    'willothy/flatten.nvim',
+    config = function() require('flatten').setup{} end
   };
- }
+}

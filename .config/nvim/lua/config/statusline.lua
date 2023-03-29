@@ -20,18 +20,6 @@ end
 
 vim.o.shortmess = vim.o.shortmess .. "S"
 
-local function search_count()
-  if vim.api.nvim_get_vvar("hlsearch") == 1 then
-    local res = vim.fn.searchcount({ maxcount = 999, timeout = 500 })
-
-    if res.total > 0 then
-      return string.format("🔎︎ %d/%d", res.current, res.total)
-    end
-  end
-
-  return ""
-end
-
 gps.setup()
 
 _G.status_win = nil
@@ -75,7 +63,7 @@ require('lualine').setup {
       { gps.get_location, cond = gps.is_available },
     },
     lualine_x = {
-      { search_count, type = "lua_expr" },
+      { 'searchcount' },
       { cmake.progress , color = function(_) return cmake.color end },
       {
         'diagnostics',
@@ -86,7 +74,6 @@ require('lualine').setup {
           info = ' '
         }
       },
-      { require('nomodoro').status },
     },
     lualine_y = {
       { 'filetype' },
