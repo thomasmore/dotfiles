@@ -262,7 +262,7 @@ require 'paq' {
     config = function() require('config.cmake') end
   };
 
-  'SmiteshP/nvim-gps';
+  'SmiteshP/nvim-navic';
 
   {
     'hoob3rt/lualine.nvim',

@@ -1,7 +1,12 @@
+local nmap = require('utils').nmap
+local vmap = require('utils').vmap
+local imap = require('utils').imap
+local navic = require('nvim-navic')
+
 local on_attach = function(client, bufnr)
-  local nmap = require('utils').nmap
-  local vmap = require('utils').vmap
-  local imap = require('utils').imap
+  if client.server_capabilities.documentSymbolProvider then
+    navic.attach(client, bufnr)
+  end
 
   nmap('gD', vim.lsp.buf.declaration, 'Go to declaration')
   nmap('H', vim.lsp.buf.hover, 'Hover window for word under cursor')

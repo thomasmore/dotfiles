@@ -1,5 +1,5 @@
 local popup = require('utils').popup
-local gps = require('nvim-gps')
+local navic = require('nvim-navic')
 local cmake = require('cmake')
 
 local get_lsp_client = function ()
@@ -18,9 +18,16 @@ local get_lsp_client = function ()
   return ''
 end
 
-vim.o.shortmess = vim.o.shortmess .. "S"
+local function show_macro_recording()
+  local recording_register = vim.fn.reg_recording()
+  if recording_register == "" then
+    return ""
+  else
+    return "Recording @" .. recording_register
+  end
+end
 
-gps.setup()
+vim.o.shortmess = vim.o.shortmess .. "S"
 
 _G.status_win = nil
 
@@ -60,9 +67,10 @@ require('lualine').setup {
     },
     lualine_c = {
       {'filename', file_status = true, path = 1, symbols = {modified = '*', readonly = '[-]'}},
-      { gps.get_location, cond = gps.is_available },
+      { function() return navic.get_location() end, cond = function() return navic.is_available() end },
     },
     lualine_x = {
+      { show_macro_recording },
       { 'searchcount' },
       { cmake.progress , color = function(_) return cmake.color end },
       {
