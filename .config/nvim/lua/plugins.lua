@@ -73,9 +73,28 @@ require 'paq' {
     end
   };
 
-  'michaeljsmith/vim-indent-object';
-  'chaoren/vim-wordmotion';
-  'wellle/targets.vim';
+  {
+    'chrisgrieser/nvim-spider',
+    config = function()
+      local spider = require('spider')
+      vim.keymap.set({"n", "o", "x"}, "w", function() spider.motion("w") end, { desc = "Move to next subword begin" })
+      vim.keymap.set({"n", "o", "x"}, "e", function() spider.motion("e") end, { desc = "Move to next subword end" })
+      vim.keymap.set({"n", "o", "x"}, "b", function() spider.motion("b") end, { desc = "Move to previous subword begin" })
+      vim.keymap.set({"n", "o", "x"}, "ge", function() spider.motion("ge") end, { desc = "Move to previous subword end" })
+    end
+  };
+  {
+    'chrisgrieser/nvim-various-textobjs',
+    config = function()
+      require('various-textobjs').setup {
+        useDefaultKeymaps = true
+      }
+    end
+  };
+  {
+    'echasnovski/mini.ai',
+    config = function() require('mini.ai').setup() end
+  };
   'David-Kunz/treesitter-unit';
 
   {
