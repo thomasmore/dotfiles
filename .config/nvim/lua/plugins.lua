@@ -1,3 +1,8 @@
+local nmap = require('utils').nmap
+local vmap = require('utils').vmap
+local tmap = require('utils').tmap
+local xmap = require('utils').xmap
+
 require 'paq' {
   'thomasmore/paq-nvim';
 
@@ -125,7 +130,6 @@ require 'paq' {
     'tanvirtin/vgit.nvim',
     config = function()
       local vgit = require('vgit')
-      local nmap = require('utils').nmap
       vgit.setup{
         settings = {
           live_gutter = {
@@ -150,8 +154,6 @@ require 'paq' {
     'sindrets/diffview.nvim',
     config = function()
       require('diffview').setup()
-      local nmap = require('utils').nmap
-      local vmap = require('utils').vmap
       nmap('<leader>gh', function() vim.cmd.DiffviewFileHistory('%') end, 'View Git history for current file')
       vmap('<leader>gh', ':DiffviewFileHistory<cr>', 'View Git history for selected range')
       nmap('<leader>go', function() vim.cmd.DiffviewOpen('HEAD^') end, 'View diff for last commit')
@@ -174,8 +176,6 @@ require 'paq' {
   {
     'akinsho/nvim-toggleterm.lua',
     config = function()
-      local nmap = require('utils').nmap
-      local tmap = require('utils').tmap
       require('toggleterm').setup{
         size = function(term)
           if term.direction == "horizontal" then
@@ -197,7 +197,6 @@ require 'paq' {
   {
     'kyazdani42/nvim-tree.lua',
     config = function()
-      local nmap = require('utils').nmap
       local ntree = require('nvim-tree')
       local ntree_api = require('nvim-tree.api').tree
       ntree.setup {
@@ -234,7 +233,6 @@ require 'paq' {
   {
     'simrat39/symbols-outline.nvim',
     config = function()
-      local nmap = require('utils').nmap
       local symbols = require('symbols-outline')
       symbols.setup()
       nmap('<leader>u', symbols.toggle_outline, 'SymbolsOutline')
@@ -291,7 +289,6 @@ require 'paq' {
   {
     'mizlan/iswap.nvim',
     config = function()
-      local nmap = require('utils').nmap
       require('iswap').setup{
         hl_snipe = 'HopNextKey',
         autoswap = true
@@ -312,7 +309,6 @@ require 'paq' {
     'stevearc/overseer.nvim',
     config = function()
       local overseer = require('overseer')
-      local nmap = require('utils').nmap
       overseer.setup()
       nmap('<leader>gs', function() overseer.load_task_bundle('git_sync') end, 'Git Sync')
     end
@@ -380,8 +376,6 @@ require 'paq' {
     'gbprod/substitute.nvim',
     config = function()
       local sub = require('substitute')
-      local nmap = require('utils').nmap
-      local xmap = require('utils').xmap
       sub.setup{}
       nmap('gr', sub.operator, 'Replace motion with default register')
       nmap('grr', sub.line, 'Replace line with default register')
@@ -476,14 +470,13 @@ require 'paq' {
   {
     'ckolkey/ts-node-action',
     config = function()
-      require('utils').nmap('<leader>t', require('ts-node-action').node_action, 'Trigger node action')
+      nmap('<leader>t', require('ts-node-action').node_action, 'Trigger node action')
     end
   };
 
   {
     'eandrju/cellular-automaton.nvim',
     config = function()
-      local nmap = require('utils').nmap
       nmap('<f3>', function() vim.cmd.CellularAutomaton('make_it_rain') end, 'Make it rain')
     end,
   };
@@ -491,7 +484,6 @@ require 'paq' {
   {
     'tamton-aquib/duck.nvim',
     config = function()
-      local nmap = require('utils').nmap
       nmap('<f4>', require('duck').hatch, 'Hatch Duck')
       nmap('<f5>', require('duck').cook, 'Cook Duck')
     end
