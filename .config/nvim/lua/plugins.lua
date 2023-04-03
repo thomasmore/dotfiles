@@ -374,8 +374,6 @@ require 'paq' {
     end,
   };
 
-  'lewis6991/impatient.nvim';
-
   {
     'RRethy/vim-illuminate',
     config = function()
