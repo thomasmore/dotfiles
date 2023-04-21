@@ -449,17 +449,17 @@ require 'paq' {
       require('neorg').setup {
         load = {
           ['core.defaults'] = {},
-          ['core.norg.concealer'] = {
+          ['core.concealer'] = {
             config = {
               folds = false,
             }
           },
-          ['core.norg.completion'] = {
+          ['core.completion'] = {
             config = {
               engine = 'nvim-cmp'
             }
           },
-          ['core.norg.dirman'] = {
+          ['core.dirman'] = {
             config = {
               workspaces = {
                 notes = '~/notes'
@@ -467,7 +467,7 @@ require 'paq' {
               default_workspace = 'notes',
             }
           },
-          ['core.norg.journal'] = {
+          ['core.journal'] = {
             config = {
               workspace = 'notes',
               journal_folder = 'journal'
