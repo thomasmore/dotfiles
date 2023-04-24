@@ -1,8 +1,8 @@
-local wezterm = require 'wezterm'
-local act = wezterm.action
+local wezterm = require 'wezterm' 
+local act =  wezterm.action
 
 local config = {
-    window_decorations = "RESIZE",
+    window_decorations = 'RESIZE',
     window_padding = {
         left = 0,
         right = 0,
@@ -10,15 +10,16 @@ local config = {
         bottom = 0,
     },
     font_size = 13,
-    font = wezterm.font {
-        family = "VictorMono NF",
-        weight = "Medium",
+    font =  wezterm.font {
+        family = 'VictorMono NF',
+        weight = 'Medium',
     },
     default_domain = 'WSL:Ubuntu-20.04',
-    --freetype_load_target = "Light",
-    freetype_load_flags = "NO_HINTING|NO_AUTOHINT",
-    hyperlink_rules = wezterm.default_hyperlink_rules(),
+    --freetype_load_target = 'Light',
+    freetype_load_flags = 'NO_HINTING|NO_AUTOHINT',
+    hyperlink_rules =  wezterm.default_hyperlink_rules(),
     color_scheme = 'Catppuccin Macchiato',
+    switch_to_last_active_tab_when_closing_tab = true,
     leader = { key = '\\', mods = '', timeout_milliseconds = 1000 },
     keys = {
         { key = '\\', mods = 'LEADER', action = act.SendKey { key = '\\' } },
@@ -29,17 +30,20 @@ local config = {
         { key = 'w', mods = 'LEADER', action = act.ActivateTab(1) },
         { key = 'e', mods = 'LEADER', action = act.ActivateTab(2) },
         { key = 'r', mods = 'LEADER', action = act.ActivateTab(3) },
-        { key = 't', mods = 'LEADER', action = act.ActivateTab(4) },
-        { key = 'y', mods = 'LEADER', action = act.ActivateTab(5) },
-        { key = 'u', mods = 'LEADER', action = act.ActivateTab(6) },
-        { key = 'i', mods = 'LEADER', action = act.ActivateTab(7) },
         { key = 'p', mods = 'LEADER', action = act.ActivateCommandPalette },
         { key = 'x', mods = 'LEADER', action = act.CloseCurrentPane { confirm = false } },
+        { key = 't', mods = 'LEADER', action = act.SpawnTab 'CurrentPaneDomain' },
+        --{ key = 'h', mods = 'ALT', action = act.ActivatePaneDirection 'Left' },
+        --{ key = 'j', mods = 'ALT', action = act.ActivatePaneDirection 'Down' },
+        --{ key = 'k', mods = 'ALT', action = act.ActivatePaneDirection 'Up' },
+        --{ key = 'l', mods = 'ALT', action = act.ActivatePaneDirection 'Right' },
+        { key = 'h', mods = 'LEADER', action = act.SpawnCommandInNewTab { args = { 'htop' } } },
+        { key = 'o', mods = 'LEADER', action = act.ActivateLastTab },
     }
 }
 
 table.insert(config.hyperlink_rules, {
-    regex = [[["']([\w\d]{1}[-\w\d]+)(/){1}([-\w\d\.]+)["']?]],
+    regex = [[['']([\w\d]{1}[-\w\d]+)(/){1}([-\w\d\.]+)['']?]],
     format = 'https://www.github.com/$1/$3',
 })
 table.insert(config.hyperlink_rules, {
