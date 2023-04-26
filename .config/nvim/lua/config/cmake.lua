@@ -101,3 +101,8 @@ nmap('<leader>ct', cmake.select_target, 'Select target')
 nmap('<leader>d', cmake.debug, 'Debug target')
 nmap('<leader>cc', cmake_configure, 'CMake configure')
 nmap('<leader>cr', cmake.run, 'CMake run')
+nmap('<leader>cw', function()
+  local conf = cmake_project_config.new()
+  local build_dir = conf:get_build_dir().filename
+  require('wezterm').spawn(nil, { cwd = build_dir})
+end, 'Open WezTerm tab in build dir')
