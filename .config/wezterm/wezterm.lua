@@ -39,7 +39,10 @@ local config = {
         --{ key = 'l', mods = 'ALT', action = act.ActivatePaneDirection 'Right' },
         { key = 'h', mods = 'LEADER', action = act.SpawnCommandInNewTab { args = { 'htop' } } },
         { key = 'o', mods = 'LEADER', action = act.ActivateLastTab },
-    }
+    },
+    use_fancy_tab_bar = false,
+    show_new_tab_button_in_tab_bar = false,
+    tab_max_width = 32,
 }
 
 table.insert(config.hyperlink_rules, {
