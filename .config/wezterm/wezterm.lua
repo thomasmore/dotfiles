@@ -53,5 +53,52 @@ table.insert(config.hyperlink_rules, {
     regex = [[\bpanda#(\d+)\b]],
     format = 'https://rnd-gitlab-msc.huawei.com/rus-os-team/virtual-machines-and-tools/panda/-/issues/$1',
 })
+
+--[[
+local colors = wezterm.color.get_default_colors()
+
+local SOLID_LEFT_ARROW = wezterm.nerdfonts.ple_lower_right_triangle
+local SOLID_RIGHT_ARROW = wezterm.nerdfonts.ple_lower_left_triangle
+
+function tab_title(tab_info)
+  local title = tab_info.tab_title
+  if title and #title > 0 then
+    return title
+  end
+  return tab_info.active_pane.title
+end
+
+wezterm.on(
+  'format-tab-title',
+  function(tab, tabs, panes, config, hover, max_width)
+    local edge_background = colors.background
+    local background = colors.brights[1]
+    local foreground = colors.foreground
+    if tab.is_active then
+      background = colors.ansi[7]
+      foreground = colors.background
+    elseif hover then
+      background = colors.ansi[6]
+      foreground = colors.background
+    end
+    local edge_foreground = background
+
+    local title = tab_title(tab)
+    title = wezterm.truncate_right(title, max_width - 2)
+
+    return {
+        { Background = { Color = edge_background } },
+        { Foreground = { Color = edge_foreground } },
+        { Text = SOLID_LEFT_ARROW },
+        { Background = { Color = background } },
+        { Foreground = { Color = foreground } },
+        { Text = title },
+        { Background = { Color = edge_background } },
+        { Foreground = { Color = edge_foreground } },
+        { Text = SOLID_RIGHT_ARROW },
+    }
+  end
+)
+--]]
  
 return config
