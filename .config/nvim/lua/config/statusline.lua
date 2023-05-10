@@ -56,7 +56,7 @@ require('lualine').setup {
             _G.status_win = nil
           else
             local scriptname = './git_branch.sh'
-            if not vim.fn.filereadable(scriptname) then
+            if vim.fn.filereadable(scriptname) == 0 then
               return
             end
             local output = vim.fn.system(scriptname)
@@ -80,7 +80,8 @@ require('lualine').setup {
           error = ' ',
           warn = ' ',
           info = ' '
-        }
+        },
+        on_click = function() vim.diagnostics.setloclist() end,
       },
     },
     lualine_y = {

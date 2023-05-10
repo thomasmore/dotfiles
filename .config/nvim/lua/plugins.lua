@@ -208,7 +208,7 @@ require 'paq' {
       }
       nmap('<leader>j', function() vim.cmd.ToggleTerm('direction=horizontal') end, 'Terminal')
       nmap('<leader>v', function() vim.cmd.ToggleTerm('direction=vertical') end, 'Vertical terminal')
-      nmap('<leader>f', function() vim.cmd.ToggleTerm('direction=float') end, 'Floating terminal')
+      nmap('<leader>f', function() vim.cmd.ToggleTerm('direction=float'); vim.opt.winblend=15 end, 'Floating terminal')
       tmap('<leader>j', vim.cmd.ToggleTerm, 'Close terminal')
     end
   };
@@ -234,7 +234,7 @@ require 'paq' {
         ntree_api.open({ path = build_dir.filename, focus = true })
       end, 'Open Nvim Tree for build dir')
       nmap('<leader>wt', function()
-        local notes_dir = require('neorg.modules.core.norg.dirman.module').public.get_workspaces()['notes']
+        local notes_dir = require('neorg.modules.core.dirman.module').public.get_workspaces()['notes']
         ntree_api.open({ path = notes_dir, focus = true })
       end, 'Toggle personal wiki')
     end,
@@ -531,4 +531,13 @@ require 'paq' {
     'willothy/flatten.nvim',
     config = function() require('flatten').setup{} end
   };
+
+  {
+    'willothy/wezterm.nvim',
+    config = function()
+      require('wezterm').setup {
+        create_commands = false
+      }
+    end
+  }
 }

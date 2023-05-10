@@ -15,7 +15,7 @@ local config = {
         weight = 'Medium',
     },
     default_domain = 'WSL:Ubuntu-20.04',
-    --freetype_load_target = 'Light',
+    freetype_load_target = 'Light',
     freetype_load_flags = 'NO_HINTING|NO_AUTOHINT',
     hyperlink_rules =  wezterm.default_hyperlink_rules(),
     color_scheme = 'Catppuccin Macchiato',
@@ -43,11 +43,15 @@ local config = {
     use_fancy_tab_bar = false,
     show_new_tab_button_in_tab_bar = false,
     tab_max_width = 32,
+    hide_tab_bar_if_only_one_tab = true,
+    quick_select_patterns = {
+        'git push --set-upstream .*'
+    },
 }
 
 table.insert(config.hyperlink_rules, {
     regex = [[['']([\w\d]{1}[-\w\d]+)(/){1}([-\w\d\.]+)['']?]],
     format = 'https://www.github.com/$1/$3',
 })
- 
+
 return config
