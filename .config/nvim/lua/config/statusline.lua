@@ -81,7 +81,7 @@ require('lualine').setup {
           warn = ' ',
           info = ' '
         },
-        on_click = function() vim.diagnostics.setloclist() end,
+        on_click = function() vim.diagnostic.setloclist() end,
       },
     },
     lualine_y = {
