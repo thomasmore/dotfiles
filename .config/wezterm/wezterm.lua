@@ -54,4 +54,23 @@ table.insert(config.hyperlink_rules, {
     format = 'https://www.github.com/$1/$3',
 })
 
+local INTERVAL = 5*60
+local counter = 0
+local weather = ''
+wezterm.on('update-right-status', function(window, pane)
+    if counter <= 0 then
+        local success, stdout, _ = wezterm.run_child_process{'curl', 'wttr.in/Moscow?format=1'}
+        if success then
+            weather = stdout
+        end
+        counter = INTERVAL
+    else
+        counter = counter - 1
+    end
+
+    window:set_right_status(wezterm.format {
+        { Text = weather },
+    })
+end)
+
 return config
