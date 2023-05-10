@@ -71,8 +71,15 @@ require('lualine').setup {
     },
     lualine_x = {
       { show_macro_recording },
-      { 'searchcount' },
-      { cmake.progress , color = function(_) return cmake.color end },
+      {
+        'searchcount',
+        on_click = function() vim.cmd.nohlsearch() end
+      },
+      {
+        cmake.progress ,
+        color = function(_) return cmake.color end,
+        on_click = function() cmake.select_build_type() end
+      },
       {
         'diagnostics',
         sources = {'nvim_diagnostic'},
