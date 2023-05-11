@@ -54,9 +54,12 @@ table.insert(config.hyperlink_rules, {
     format = 'https://www.github.com/$1/$3',
 })
 
+
 local INTERVAL = 5*60
 local counter = 0
 local weather = ''
+local cpu_buf = {'▁', '▁', '▁', '▁', '▁'}
+local mem_buf = {'▁', '▁', '▁', '▁', '▁'}
 wezterm.on('update-right-status', function(window, pane)
     if counter <= 0 then
         local success, stdout, _ = wezterm.run_child_process{'curl', 'wttr.in/Moscow?format=1'}
@@ -68,9 +71,84 @@ wezterm.on('update-right-status', function(window, pane)
         counter = counter - 1
     end
 
+    local _, cpu, _ = wezterm.run_child_process{'bash', '$HOME/.local/bin/cpu.sh'}
+    local _, mem, _ = wezterm.run_child_process{'bash', '$HOME/.local/bin/mem.sh'}
+
+    weather = weather:gsub('\n', '')
+    cpu = tonumber(cpu)
+    mem = tonumber(mem)
+
+    table.remove(cpu_buf, 1)
+    cpu_buf[5] = bar(cpu)
+
+    table.remove(mem_buf, 1)
+    mem_buf[5] = bar(mem)
+
     window:set_right_status(wezterm.format {
+        { Foreground = { Color = '#795F80' } },
+        { Text = table.concat(cpu_buf, '') .. ' ' },
+        { Foreground = { Color = '#658CBB' } },
+        { Text = table.concat(mem_buf, '') .. ' ' },
+        { Foreground = { Color = '#cccccc' } },
         { Text = weather },
     })
 end)
 
+--[[
+    cpu.sh:
+#!/bin/bash
+
+sleepDurationSeconds=0.2
+
+previousDate=$(date +%s%N | cut -b1-13)
+previousLine=$(cat /proc/stat | head -n 1)
+
+sleep $sleepDurationSeconds
+
+currentDate=$(date +%s%N | cut -b1-13)
+currentLine=$(cat /proc/stat | head -n 1)
+
+user=$(echo "$currentLine" | awk -F " " '{print $2}')
+nice=$(echo "$currentLine" | awk -F " " '{print $3}')
+system=$(echo "$currentLine" | awk -F " " '{print $4}')
+idle=$(echo "$currentLine" | awk -F " " '{print $5}')
+iowait=$(echo "$currentLine" | awk -F " " '{print $6}')
+irq=$(echo "$currentLine" | awk -F " " '{print $7}')
+softirq=$(echo "$currentLine" | awk -F " " '{print $8}')
+steal=$(echo "$currentLine" | awk -F " " '{print $9}')
+guest=$(echo "$currentLine" | awk -F " " '{print $10}')
+guest_nice=$(echo "$currentLine" | awk -F " " '{print $11}')
+
+prevuser=$(echo "$previousLine" | awk -F " " '{print $2}')
+prevnice=$(echo "$previousLine" | awk -F " " '{print $3}')
+prevsystem=$(echo "$previousLine" | awk -F " " '{print $4}')
+previdle=$(echo "$previousLine" | awk -F " " '{print $5}')
+previowait=$(echo "$previousLine" | awk -F " " '{print $6}')
+previrq=$(echo "$previousLine" | awk -F " " '{print $7}')
+prevsoftirq=$(echo "$previousLine" | awk -F " " '{print $8}')
+prevsteal=$(echo "$previousLine" | awk -F " " '{print $9}')
+prevguest=$(echo "$previousLine" | awk -F " " '{print $10}')
+prevguest_nice=$(echo "$previousLine" | awk -F " " '{print $11}')
+
+PrevIdle=$((previdle + previowait))
+Idle=$((idle + iowait))
+
+PrevNonIdle=$((prevuser + prevnice + prevsystem + previrq + prevsoftirq + prevsteal))
+NonIdle=$((user + nice + system + irq + softirq + steal))
+
+PrevTotal=$((PrevIdle + PrevNonIdle))
+Total=$((Idle + NonIdle))
+
+totald=$((Total - PrevTotal))
+idled=$((Idle - PrevIdle))
+
+CPU_Percentage=$(awk "BEGIN {print ($totald - $idled)/$totald*100}")
+
+echo $CPU_Percentage
+
+   mem.sh:
+#!/bin/bash
+
+free | grep Mem | awk '{print $3/$2 * 100.0}'
+]]
 return config
