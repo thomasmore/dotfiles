@@ -46,7 +46,6 @@ local config = {
     use_fancy_tab_bar = false,
     show_new_tab_button_in_tab_bar = false,
     tab_max_width = 32,
-    hide_tab_bar_if_only_one_tab = true,
     quick_select_patterns = {
         'git push --set-upstream .*'
     },
@@ -125,6 +124,46 @@ wezterm.on('update-right-status', function(window, pane)
         { Foreground = { Color = '#cccccc' } },
         { Text = weather },
     })
+end)
+
+local function tab_title(tab_info)
+  local title = tab_info.tab_title
+  -- if the tab title is explicitly set, take that
+  if title and #title > 0 then
+    return title
+  end
+  -- Otherwise, use the title from the active pane
+  -- in that tab
+  return tab_info.active_pane.title
+end
+
+wezterm.on('format-tab-title', function(tab, tabs, panes, config, hover, max_width)
+    local edge_background = ''
+    local edge_foreground = ''
+    local separator = nf.ple_lower_left_triangle
+    local cells = {}
+
+    if tab.is_active then
+        edge_background = colors.tab_bar.inactive_tab.bg_color
+        edge_foreground = colors.tab_bar.active_tab.bg_color
+        if tab.tab_index ~= 0 then
+            table.insert(cells, { Background = { Color = edge_foreground } })
+            table.insert(cells, { Foreground = { Color = edge_background } })
+            table.insert(cells, { Text = separator })
+        end
+    else
+        edge_background = colors.tab_bar.inactive_tab.bg_color
+        edge_foreground = colors.tab_bar.inactive_tab.bg_color
+    end
+
+    local title = ' ' .. tab_title(tab) .. ' '
+
+    table.insert(cells, { Text = title })
+    table.insert(cells, { Background = { Color = edge_background } })
+    table.insert(cells, { Foreground = { Color = edge_foreground } })
+    table.insert(cells, { Text = separator })
+
+    return cells
 end)
 
 return config
