@@ -54,12 +54,34 @@ table.insert(config.hyperlink_rules, {
     format = 'https://www.github.com/$1/$3',
 })
 
-
 local INTERVAL = 5*60
 local counter = 0
 local weather = ''
-local cpu_buf = {'▁', '▁', '▁', '▁', '▁'}
-local mem_buf = {'▁', '▁', '▁', '▁', '▁'}
+local cpu_buf = {}
+local mem_buf = {}
+local LENGTH = 7
+
+local function buf_init(buf, n)
+    for i = 1, n do
+        buf[i] = '▁'
+    end
+end
+
+local function bar(num)
+    local dots = math.ceil(num / 12.5)
+    if dots == 0 then dots = 1 end
+    local unicode = {'▁', '▂', '▃', '▄', '▅', '▆', '▇', '█'}
+    return unicode[dots]
+end
+
+local function buf_shift(buf, num)
+    table.remove(buf, 1)
+    buf[LENGTH] = bar(num)
+end
+
+buf_init(cpu_buf, LENGTH)
+buf_init(mem_buf, LENGTH)
+
 wezterm.on('update-right-status', function(window, pane)
     if counter <= 0 then
         local success, stdout, _ = wezterm.run_child_process{'curl', 'wttr.in/Moscow?format=1'}
@@ -74,15 +96,8 @@ wezterm.on('update-right-status', function(window, pane)
     local _, cpu, _ = wezterm.run_child_process{'bash', '$HOME/.local/bin/cpu.sh'}
     local _, mem, _ = wezterm.run_child_process{'bash', '$HOME/.local/bin/mem.sh'}
 
-    weather = weather:gsub('\n', '')
-    cpu = tonumber(cpu)
-    mem = tonumber(mem)
-
-    table.remove(cpu_buf, 1)
-    cpu_buf[5] = bar(cpu)
-
-    table.remove(mem_buf, 1)
-    mem_buf[5] = bar(mem)
+    buf_shift(cpu_buf, tonumber(cpu))
+    buf_shift(mem_buf, tonumber(mem))
 
     window:set_right_status(wezterm.format {
         { Foreground = { Color = '#795F80' } },
@@ -151,4 +166,5 @@ echo $CPU_Percentage
 
 free | grep Mem | awk '{print $3/$2 * 100.0}'
 ]]
+
 return config
