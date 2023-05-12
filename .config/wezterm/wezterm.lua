@@ -1,5 +1,8 @@
 local wezterm = require 'wezterm'
 local act =  wezterm.action
+local nf = wezterm.nerdfonts
+local COLORSCHEME = 'Catppuccin Macchiato'
+local colors = wezterm.color.get_builtin_schemes()[COLORSCHEME]
 
 local config = {
     window_decorations = 'RESIZE',
@@ -14,11 +17,11 @@ local config = {
         family = 'VictorMono NF',
         weight = 'Medium',
     },
-    default_domain = 'WSL:Ubuntu-20.04',
+    default_domain = 'WSL:Ubuntu-22.04',
     freetype_load_target = 'Light',
     freetype_load_flags = 'NO_HINTING|NO_AUTOHINT',
     hyperlink_rules =  wezterm.default_hyperlink_rules(),
-    color_scheme = 'Catppuccin Macchiato',
+    color_scheme = COLORSCHEME,
     switch_to_last_active_tab_when_closing_tab = true,
     leader = { key = '\\', mods = '', timeout_milliseconds = 1000 },
     keys = {
@@ -99,11 +102,26 @@ wezterm.on('update-right-status', function(window, pane)
     buf_shift(cpu_buf, tonumber(cpu))
     buf_shift(mem_buf, tonumber(mem))
 
+    local separator = nf.ple_lower_right_triangle
+    -- local separator_left = nf.ple_lower_left_triangle
+    local separator_inner = nf.ple_forwardslash_separator
+    -- local separator_inner_left = nf.ple_backslash_separator
+
+    local base_color = wezterm.color.parse(colors.tab_bar.background)
     window:set_right_status(wezterm.format {
+        { Foreground = { Color = base_color:lighten_fixed(0.1) } },
+        { Text = separator },
+        { Background = { Color = base_color:lighten_fixed(0.1) } },
         { Foreground = { Color = '#795F80' } },
-        { Text = table.concat(cpu_buf, '') .. ' ' },
-        { Foreground = { Color = '#658CBB' } },
         { Text = table.concat(mem_buf, '') .. ' ' },
+        { Foreground = { Color = base_color:lighten_fixed(0.2) } },
+        { Text = separator },
+        { Background = { Color = base_color:lighten_fixed(0.2) } },
+        { Foreground = { Color = '#658CBB' } },
+        { Text = table.concat(cpu_buf, '') .. ' ' },
+        { Foreground = { Color = base_color:lighten_fixed(0.3) } },
+        { Text = separator },
+        { Background = { Color = base_color:lighten_fixed(0.3) } },
         { Foreground = { Color = '#cccccc' } },
         { Text = weather },
     })
