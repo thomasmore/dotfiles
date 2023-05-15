@@ -143,7 +143,10 @@ wezterm.on('format-tab-title', function(tab, tabs, panes, config, hover, max_wid
     local separator = nf.ple_lower_left_triangle
     local cells = {}
 
+    local title = ' ' .. tab_title(tab)
+
     if tab.is_active then
+        title = title .. ' '
         edge_background = colors.tab_bar.inactive_tab.bg_color
         edge_foreground = colors.tab_bar.active_tab.bg_color
         if tab.tab_index ~= 0 then
@@ -155,8 +158,6 @@ wezterm.on('format-tab-title', function(tab, tabs, panes, config, hover, max_wid
         edge_background = colors.tab_bar.inactive_tab.bg_color
         edge_foreground = colors.tab_bar.inactive_tab.bg_color
     end
-
-    local title = ' ' .. tab_title(tab) .. ' '
 
     table.insert(cells, { Text = title })
     table.insert(cells, { Background = { Color = edge_background } })
