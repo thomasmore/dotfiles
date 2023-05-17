@@ -141,7 +141,11 @@ require 'paq' {
 
   {
     'alvarosevilla95/luatab.nvim',
-    config = function() require('luatab').setup() end
+    config = function()
+      require('luatab').setup {
+        windowCount = function() return '' end,
+      }
+    end
   };
 
   'tpope/vim-fugitive';
