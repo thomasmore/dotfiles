@@ -13,7 +13,7 @@ end
 
 local last_frame = 0
 local function animate()
-  local frames = { '⠏', '⠛', '⠹', '⠼', '⠶', '⠧'}
+  local frames = { '⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏' }
   last_frame = (last_frame + 1) % #frames
   return frames[last_frame + 1]
 end
