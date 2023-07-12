@@ -69,6 +69,14 @@ require 'paq' {
         highlight = {
           enable = true,
         },
+        incremental_selection = {
+          enable = true,
+          keymaps = {
+            init_selection = '<cr>',
+            node_incremental = '<cr>',
+            node_decremental = '<bs>',
+          }
+        }
       }
     end
   };
@@ -77,10 +85,10 @@ require 'paq' {
     'chrisgrieser/nvim-spider',
     config = function()
       local spider = require('spider')
-      vim.keymap.set({"n", "o", "x"}, "w", function() spider.motion("w") end, { desc = "Move to next subword begin" })
-      vim.keymap.set({"n", "o", "x"}, "e", function() spider.motion("e") end, { desc = "Move to next subword end" })
-      vim.keymap.set({"n", "o", "x"}, "b", function() spider.motion("b") end, { desc = "Move to previous subword begin" })
-      vim.keymap.set({"n", "o", "x"}, "ge", function() spider.motion("ge") end, { desc = "Move to previous subword end" })
+      vim.keymap.set({'n', 'o', 'x'}, 'w', function() spider.motion('w', {}) end, { desc = 'Move to next subword begin' })
+      vim.keymap.set({'n', 'o', 'x'}, 'e', function() spider.motion('e', {}) end, { desc = 'Move to next subword end' })
+      vim.keymap.set({'n', 'o', 'x'}, 'b', function() spider.motion('b', {}) end, { desc = 'Move to previous subword begin' })
+      vim.keymap.set({'n', 'o', 'x'}, 'ge', function() spider.motion('ge', {}) end, { desc = 'Move to previous subword end' })
     end
   };
   {
@@ -109,6 +117,13 @@ require 'paq' {
       vim.g.strip_only_modified_lines = 1
       vim.g.show_spaces_that_precede_tabs = 1
       vim.g.better_whitespace_filetypes_blacklist = {'toggleterm'}
+    end
+  };
+
+  {
+    'folke/neodev.nvim',
+    config = function()
+      require('neodev').setup {}
     end
   };
 
@@ -440,14 +455,6 @@ require 'paq' {
   };
 
   {
-    'folke/zen-mode.nvim',
-    config = function()
-      require('zen-mode').setup {}
-    end,
-    defer = true
-  };
-
-  {
     'nvim-neorg/neorg',
     run = function() vim.cmd.Neorg('sync-parsers') end,
     config = function()
@@ -478,11 +485,6 @@ require 'paq' {
               journal_folder = 'journal'
             }
           },
-          ['core.presenter'] = {
-            config = {
-              zen_mode = 'zen-mode'
-            }
-          },
         }
       }
     end,
@@ -497,17 +499,10 @@ require 'paq' {
   };
 
   {
-    'eandrju/cellular-automaton.nvim',
-    config = function()
-      nmap('<f3>', function() vim.cmd.CellularAutomaton('make_it_rain') end, 'Make it rain')
-    end,
-  };
-
-  {
     'tamton-aquib/duck.nvim',
     config = function()
-      nmap('<f4>', require('duck').hatch, 'Hatch Duck')
-      nmap('<f5>', require('duck').cook, 'Cook Duck')
+      nmap('<f3>', require('duck').hatch, 'Hatch Duck')
+      nmap('<f4>', require('duck').cook, 'Cook Duck')
     end
   };
 
@@ -544,5 +539,28 @@ require 'paq' {
         create_commands = false
       }
     end
-  }
+  };
+
+  {
+    'm4xshen/hardtime.nvim',
+    config = function()
+      require('hardtime').setup {
+        disable_mouse = false,
+        notification = false,
+        restricted_keys = {
+          ['h'] = { 'n', 'x' },
+          ['j'] = { 'n', 'x' },
+          ['k'] = { 'n', 'x' },
+          ['l'] = { 'n', 'x' },
+          ['-'] = { 'n', 'x' },
+          ['+'] = { 'n', 'x' },
+          ['gj'] = { 'n', 'x' },
+          ['gk'] = { 'n', 'x' },
+          ['<CR>'] = { 'n', 'x' },
+          ['<C-M>'] = { 'n', 'x' },
+          ['<C-N>'] = { 'n', 'x' },
+        },
+      }
+    end
+  };
 }

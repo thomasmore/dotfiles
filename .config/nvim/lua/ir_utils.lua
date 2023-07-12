@@ -7,7 +7,7 @@ local function ltrim(s)
 end
 
 local function get_input_def_cursor()
-  local word = vim.call('expand','<cword>')
+  local word = vim.call('expand', '<cword>')
   local cur_line = vim.api.nvim_win_get_cursor(0)[1]
   local prev_lines = vim.api.nvim_buf_get_lines(0, 0, cur_line, false)
   local patterns = {
@@ -19,8 +19,8 @@ local function get_input_def_cursor()
   local found_col = 0
   local matched = nil
   for i = #prev_lines, 1, -1 do
-    for j, pattern in ipairs(patterns) do
-      matched, _ = string.find(prev_lines[i], pattern, 1, true)
+    for _, pattern in ipairs(patterns) do
+      matched = string.find(prev_lines[i], pattern, 1, true)
       if matched then
         break
       end
@@ -48,7 +48,7 @@ M.show_input_context = function()
   local result = { ltrim(context[1]), ltrim(context[2]) }
   local win = popup(result)
   vim.api.nvim_create_autocmd({ 'CursorMoved', 'ModeChanged', 'WinScrolled' }, { once = true, callback = function()
-    if win then
+    if win ~= 0 then
       vim.api.nvim_win_close(win, true)
       win = nil
     end

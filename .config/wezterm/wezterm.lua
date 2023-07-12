@@ -17,7 +17,7 @@ local config = {
         family = 'VictorMono NF',
         weight = 'Medium',
     },
-    default_domain = 'WSL:Ubuntu-22.04',
+    default_domain = 'WSL:Ubuntu',
     freetype_load_target = 'Light',
     freetype_load_flags = 'NO_HINTING|NO_AUTOHINT',
     hyperlink_rules =  wezterm.default_hyperlink_rules(),

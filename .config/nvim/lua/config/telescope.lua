@@ -1,6 +1,5 @@
 local telescope = require('telescope')
 local builtins = require('telescope.builtin')
-local themes = require('telescope.themes')
 local config = require('telescope.config')
 
 local nmap = require('utils').nmap

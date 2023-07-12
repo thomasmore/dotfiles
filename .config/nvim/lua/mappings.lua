@@ -3,7 +3,6 @@ local aucmd = utils.aucmd
 local nmap = utils.nmap
 local xmap = utils.xmap
 local omap = utils.omap
-local imap = utils.imap
 local tmap = utils.tmap
 
 -- Better arrows and window movement
@@ -35,7 +34,7 @@ nmap('gx', '<cmd>let _curf=expand("<cWORD>")<cr><c-w>p:execute("e "._curf)<cr>',
 nmap('<f2>', function()
   vim.cmd.nohlsearch()
   vim.cmd.diffupdate()
-  require('notify').dismiss()
+  require('notify').dismiss{}
 end, 'Turn off last search highlight and diffupdate')
 nmap('<leader>rg', ':silent grep<space>', 'Find with rg (and put in quickfix)', { silent = false })
 nmap('<leader>rf', utils.run_file, 'Run file in terminal')
@@ -54,6 +53,10 @@ xmap('iu', ':lua require("treesitter-unit").select()<cr>', 'inner treesitter uni
 xmap('au', ':lua require("treesitter-unit").select(true)<cr>', 'a treesitter unit')
 omap('iu', ':<c-u>lua require("treesitter-unit").select()<cr>', 'inner treesitter unit')
 omap('au', ':<c-u>lua require("treesitter-unit").select(true)<cr>', 'a treesitter unit')
+
+nmap('<space>', 'ciw', 'Replace word')
+nmap('gh', '^', 'Go to line begin')
+nmap('gl', '$', 'Go to line end')
 
 aucmd('BufRead', 'irtoc', 'irtoc_code.cpp', function()
   local ir_utils = require('ir_utils')

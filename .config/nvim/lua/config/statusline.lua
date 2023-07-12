@@ -3,7 +3,7 @@ local navic = require('nvim-navic')
 local cmake = require('cmake')
 
 local get_lsp_client = function ()
-  local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
+  local buf_ft = vim.api.nvim_get_option_value('filetype', { scope = 'local' })
   local clients = vim.lsp.get_active_clients()
   if next(clients) == nil then
     return ''
@@ -11,7 +11,7 @@ local get_lsp_client = function ()
 
   for _,client in ipairs(clients) do
     local filetypes = client.config.filetypes
-    if filetypes and vim.fn.index(filetypes,buf_ft) ~= -1 then
+    if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
       return ''
     end
   end

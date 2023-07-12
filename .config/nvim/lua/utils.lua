@@ -28,7 +28,7 @@ local function rooter_find_parent(path, parent_names)
   parent_names = parent_names or {}
   local set = toset(parent_names)
   for dir in vim.fs.parents(path) do
-    parent = vim.fs.basename(vim.fs.dirname(dir))
+    local parent = vim.fs.basename(vim.fs.dirname(dir))
     if set[parent] then
       return dir
     end
@@ -55,7 +55,7 @@ M.aucmd = function(event, group, pattern, callback)
   if type(group) == 'string' then
     group = vim.api.nvim_create_augroup(group, { clear = true })
   end
-  opts = {}
+  local opts = {}
   opts.group = group
   opts.pattern = pattern
   opts.callback = callback
@@ -92,7 +92,7 @@ M.simple_fold = function()
   return start_line .. "  " .. end_line .. lines .. spaces
 end
 
-M.run_file = function(ht)
+M.run_file = function()
     local fts = {
         python     = 'python %',
         ruby       = 'ruby %',

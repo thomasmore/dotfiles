@@ -3,7 +3,7 @@ local nmap = require('utils').nmap
 
 dap.adapters.lldb = {
   type = 'executable',
-  command = 'lldb-vscode-14',
+  command = 'lldb-vscode-15',
   name = "lldb"
 }
 dap.configurations.cpp = {
