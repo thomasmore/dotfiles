@@ -50,7 +50,7 @@ M.show_input_context = function()
   vim.api.nvim_create_autocmd({ 'CursorMoved', 'ModeChanged', 'WinScrolled' }, { once = true, callback = function()
     if win ~= 0 then
       vim.api.nvim_win_close(win, true)
-      win = nil
+      win = 0
     end
   end })
 end
