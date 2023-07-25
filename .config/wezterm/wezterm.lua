@@ -83,11 +83,13 @@ end
 buf_init(cpu_buf, LENGTH)
 buf_init(mem_buf, LENGTH)
 
-wezterm.on('update-right-status', function(window, pane)
+wezterm.on('update-right-status', function(window)
     if counter <= 0 then
         local success, stdout, _ = wezterm.run_child_process{'curl', 'wttr.in/Moscow?format=1'}
-        if success then
+        if success and stdout:len() < 100 then
             weather = stdout
+        else
+            weather = ''
         end
         counter = INTERVAL
     else
@@ -102,7 +104,7 @@ wezterm.on('update-right-status', function(window, pane)
 
     local separator = nf.ple_lower_right_triangle
     -- local separator_left = nf.ple_lower_left_triangle
-    local separator_inner = nf.ple_forwardslash_separator
+    -- local separator_inner = nf.ple_forwardslash_separator
     -- local separator_inner_left = nf.ple_backslash_separator
 
     local base_color = wezterm.color.parse(colors.tab_bar.background)
@@ -136,7 +138,7 @@ local function tab_title(tab_info)
   return tab_info.active_pane.title
 end
 
-wezterm.on('format-tab-title', function(tab, tabs, panes, config, hover, max_width)
+wezterm.on('format-tab-title', function(tab)
     local edge_background = ''
     local edge_foreground = ''
     local separator = nf.ple_lower_left_triangle
