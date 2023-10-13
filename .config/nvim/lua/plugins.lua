@@ -22,12 +22,15 @@ require 'paq' {
   {
     'lukas-reineke/indent-blankline.nvim',
     config = function()
-      require('indent_blankline').setup {
-        char = '▏',
-        use_treesitter = true,
-        show_first_indent_level = false,
-        filetype_exclude = { 'json', 'startify' },
-        buftype_exclude = { 'terminal' },
+      local hooks = require('ibl.hooks')
+      hooks.register(hooks.type.WHITESPACE, hooks.builtin.hide_first_space_indent_level)
+      require('ibl').setup {
+        indent = { char = '▏', },
+        scope = { enabled = false },
+        exclude = {
+          filetypes = { 'josn', 'startify' },
+          buftypes = { 'terminal' },
+        }
       }
     end
   };
@@ -262,6 +265,7 @@ require 'paq' {
   };
 
   'natecraddock/telescope-zf-native.nvim';
+  'nvim-telescope/telescope-live-grep-args.nvim';
   {
     'nvim-telescope/telescope.nvim',
     config = function()
@@ -547,6 +551,12 @@ require 'paq' {
       require('hardtime').setup {
         disable_mouse = false,
         notification = false,
+        disabled_keys = {
+          ['<Up>'] = {},
+          ['<Down>'] = {},
+          ['<Left>'] = {},
+          ['<Right>'] = {},
+        },
         restricted_keys = {
           ['h'] = { 'n', 'x' },
           ['j'] = { 'n', 'x' },

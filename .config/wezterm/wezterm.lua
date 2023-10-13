@@ -24,6 +24,7 @@ local config = {
     color_scheme = COLORSCHEME,
     switch_to_last_active_tab_when_closing_tab = true,
     leader = { key = '\\', mods = '', timeout_milliseconds = 1000 },
+    disable_default_key_bindings = true,
     keys = {
         { key = '\\', mods = 'LEADER', action = act.SendKey { key = '\\' } },
         { key = '|', mods = 'LEADER|SHIFT', action = act.SplitHorizontal { domain = 'CurrentPaneDomain' } },
@@ -41,6 +42,10 @@ local config = {
         { key = ' ', mods = 'LEADER', action = act.QuickSelect },
         { key = 'c', mods = 'LEADER', action = act.ActivateCopyMode },
         { key = 's', mods = 'LEADER', action = act.Search 'CurrentSelectionOrEmptyString' },
+        { key = 'Tab', mods = 'LEADER', action = act.ActivateTabRelative(1) },
+        { key = 'Tab', mods = 'LEADER|SHIFT', action = act.ActivateTabRelative(-1) },
+        { key = 'Tab', mods = 'CTRL', action = act.ActivateTabRelative(1) },
+        { key = 'Tab', mods = 'CTRL|SHIFT', action = act.ActivateTabRelative(-1) },
     },
     use_fancy_tab_bar = false,
     show_new_tab_button_in_tab_bar = false,

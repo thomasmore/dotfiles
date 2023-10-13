@@ -11,7 +11,7 @@ local picker_config = {}
 for b, _ in pairs(builtins) do
   picker_config[b] = { fname_width = 60 }
 end
-
+local lga_actions = require('telescope-live-grep-args.actions')
 telescope.setup{
   defaults = {
     layout_config = {
@@ -43,9 +43,22 @@ telescope.setup{
       include_declaration = false,
       fname_width = 60,
     },
-  })
+  }),
+  extensions = {
+    live_grep_args = {
+      auto_quoting = true,
+      mappings = {
+        i = {
+          ['<c-k>'] = lga_actions.quote_prompt(),
+          ['<c-i>'] = lga_actions.quote_prompt({ postfix = ' --iglob ' }),
+        },
+      },
+      vimgrep_arguments = vimgrep_arguments,
+    }
+  }
 }
 telescope.load_extension('zf-native')
+telescope.load_extension('live_grep_args')
 
 nmap('<c-p>', builtins.find_files, 'Find file')
 nmap('<c-l>', builtins.current_buffer_fuzzy_find, 'Live search in current file')
@@ -56,7 +69,7 @@ nmap('gd', builtins.lsp_definitions, 'List definitions')
 nmap('gi', builtins.lsp_implementations, 'List implementations')
 nmap('<leader>lc', builtins.lsp_incoming_calls, 'List LSP incoming calls')
 nmap('<leader>gp', builtins.lsp_dynamic_workspace_symbols, 'Live grep for workspace symbol')
-nmap('<leader>gl', builtins.live_grep, 'Live grep for typed string')
+nmap('<leader>gl', telescope.extensions.live_grep_args.live_grep_args, 'Live grep for typed string')
 nmap('<leader>b', builtins.buffers, 'List open buffers')
 nmap('gco', builtins.git_branches, 'List git branches')
 nmap('<f1>', builtins.help_tags, 'Search in help')

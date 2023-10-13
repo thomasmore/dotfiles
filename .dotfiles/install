@@ -6,7 +6,7 @@ sudo apt update
 sudo apt install clang gcc clangd gdb lldb cmake make ninja-build neovim ruby ruby-dev gem htop tig tmux pip fish lolcat cowsay fortunes fortune-mod ripgrep fasd tldr npm
 
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-brew install fd bat fzf git-delta lua-language-server
+brew install fd bat fzf git-delta lua-language-server broot
 
 gem install --user-install solargraph
 
