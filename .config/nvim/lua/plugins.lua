@@ -83,6 +83,7 @@ require 'paq' {
       }
     end
   };
+  'nvim-treesitter/nvim-treesitter-context';
 
   {
     'chrisgrieser/nvim-spider',
@@ -138,8 +139,6 @@ require 'paq' {
   'hrsh7th/cmp-nvim-lsp';
   'hrsh7th/cmp-buffer';
   'hrsh7th/cmp-nvim-lsp-signature-help';
-  'hrsh7th/cmp-emoji';
-  'chrisgrieser/cmp-nerdfont';
   {
     'hrsh7th/nvim-cmp',
     config = function() require('config.cmp') end,
