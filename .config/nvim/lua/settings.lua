@@ -129,6 +129,6 @@ end)
 
 if g.neovide then
   g.neovide_cursor_animation_length = 0
-  set.guifont = 'JetBrainsMono NF:h13'
+  set.guifont = 'VictorMono NF:h12'
   nmap('<f11>', ':let g:neovide_fullscreen = !g:neovide_fullscreen<cr>')
 end

@@ -12,6 +12,8 @@ set -x PATH $HOME/.cargo/bin $HOME/.local/bin $HOME/bin /home/linuxbrew/.linuxbr
 
 starship init fish | source
 
+status --is-interactive; and rbenv init - fish | source
+
 # TokyoNight Color Palette
 set -l foreground c0caf5
 set -l selection 364A82

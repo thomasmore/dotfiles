@@ -42,11 +42,15 @@ tmap('<esc>', [[<c-\><c-n>]], 'Exit terminal mode')
 
 nmap(']]', function()
   require('tree-climber').goto_next({ skip_comments = true })
-  require('neoscroll').zz(250)
+  if not vim.g.neovide then
+    require('neoscroll').zz(250)
+  end
 end, 'Go to next sibling in syntax tree')
 nmap('[[', function()
   require('tree-climber').goto_prev({ skip_comments = true })
-  require('neoscroll').zz(250)
+  if not vim.g.neovide then
+    require('neoscroll').zz(250)
+  end
 end, 'Go to prev sibling in syntax tree')
 
 xmap('iu', ':lua require("treesitter-unit").select()<cr>', 'inner treesitter unit')

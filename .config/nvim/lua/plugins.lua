@@ -37,7 +37,11 @@ require 'paq' {
 
   {
     'karb94/neoscroll.nvim',
-    config = function() require('neoscroll').setup() end
+    config = function()
+      if not vim.g.neovide then
+        require('neoscroll').setup()
+      end
+    end
   };
 
   {
