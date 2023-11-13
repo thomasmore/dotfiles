@@ -100,7 +100,7 @@ vim.cmd([[
 vim.cmd.match([[ErrorMsg /\%121v.\+/]])
 
 aucmd('BufEnter', 'rooter_group', '*', function()
-  utils.rooter({ 'workspace', 'builds' }, { '.git' })
+  utils.rooter({ 'static_core' },{ 'workspace', 'builds' }, { '.git' })
 end)
 
 -- auto-save

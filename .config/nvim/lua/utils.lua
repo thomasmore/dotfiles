@@ -24,6 +24,16 @@ local function max_elem_len(a)
   return max
 end
 
+local function rooter_find_root(dir_name, root_names)
+  root_names = root_names or {}
+  local set = toset(root_names)
+  local base_name = vim.fs.basename(dir_name)
+  if set[base_name] then
+    return dir_name
+  end
+  return nil
+end
+
 local function rooter_find_parent(path, parent_names)
   parent_names = parent_names or {}
   local set = toset(parent_names)
@@ -36,9 +46,9 @@ local function rooter_find_parent(path, parent_names)
   return nil
 end
 
-local function rooter_find_root(path, root_names)
-  root_names = root_names or {}
-  local root_file = vim.fs.find(root_names, { path = path, upward = true, limit = 1 })[1]
+local function rooter_find_in_root(path, in_root_names)
+  in_root_names = in_root_names or {}
+  local root_file = vim.fs.find(in_root_names, { path = path, upward = true, limit = 1 })[1]
   if root_file == nil then
     return nil
   end
@@ -65,7 +75,7 @@ end
 
 local rooter_cache = {}
 
-M.rooter = function(parent_names, root_names)
+M.rooter = function(root_names, parent_names, in_root_names)
   local buf_name = vim.api.nvim_buf_get_name(0)
   if buf_name == '' then
     buf_name = vim.fn.getcwd() .. '/tmp.tmp'
@@ -74,11 +84,14 @@ M.rooter = function(parent_names, root_names)
     return
   end
   local dir_name = vim.fs.dirname(buf_name)
-  local root = rooter_cache[dir_name] or
-    rooter_find_parent(buf_name, parent_names) or
-    rooter_find_root(buf_name, root_names)
-  if root then
+  local root = rooter_cache[dir_name]
+  if not root then
+    root = rooter_find_root(dir_name, root_names) or
+      rooter_find_parent(buf_name, parent_names) or
+      rooter_find_in_root(buf_name, in_root_names)
     rooter_cache[dir_name] = root
+  end
+  if root then
     vim.fn.chdir(root)
   end
 end
