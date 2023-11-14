@@ -130,5 +130,23 @@ end)
 if g.neovide then
   g.neovide_cursor_animation_length = 0
   set.guifont = 'VictorMono NF:h12'
+  if g.terminal_color_0 == nil then
+    g.terminal_color_0 = '#494D64'
+    g.terminal_color_1 = '#ED8796'
+    g.terminal_color_2 = '#A6DA95'
+    g.terminal_color_3 = '#EED49F'
+    g.terminal_color_4 = '#8AADF4'
+    g.terminal_color_5 = '#F5BDE6'
+    g.terminal_color_6 = '#8BD5CA'
+    g.terminal_color_7 = '#B8C0E0'
+    g.terminal_color_8 = '#5B6078'
+    g.terminal_color_9 = '#ED8796'
+    g.terminal_color_10 = '#A6DA95'
+    g.terminal_color_11 = '#EED49F'
+    g.terminal_color_12 = '#8AADF4'
+    g.terminal_color_13 = '#F5BDE6'
+    g.terminal_color_14 = '#8BD5CA'
+    g.terminal_color_15 = '#A5ADCB'
+  end
   nmap('<f11>', ':let g:neovide_fullscreen = !g:neovide_fullscreen<cr>')
 end
