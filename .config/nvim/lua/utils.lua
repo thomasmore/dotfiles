@@ -24,12 +24,14 @@ local function max_elem_len(a)
   return max
 end
 
-local function rooter_find_root(dir_name, root_names)
+local function rooter_find_root(path, root_names)
   root_names = root_names or {}
   local set = toset(root_names)
-  local base_name = vim.fs.basename(dir_name)
-  if set[base_name] then
-    return dir_name
+  for dir in vim.fs.parents(path) do
+    local base_name = vim.fs.basename(dir)
+    if set[base_name] then
+      return dir
+    end
   end
   return nil
 end
@@ -86,7 +88,7 @@ M.rooter = function(root_names, parent_names, in_root_names)
   local dir_name = vim.fs.dirname(buf_name)
   local root = rooter_cache[dir_name]
   if not root then
-    root = rooter_find_root(dir_name, root_names) or
+    root = rooter_find_root(buf_name, root_names) or
       rooter_find_parent(buf_name, parent_names) or
       rooter_find_in_root(buf_name, in_root_names)
     rooter_cache[dir_name] = root
