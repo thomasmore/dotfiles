@@ -14,6 +14,12 @@ end
 local lga_actions = require('telescope-live-grep-args.actions')
 telescope.setup{
   defaults = {
+    mappings = {
+      n = {
+        ['l'] = require('telescope.actions').cycle_history_next,
+        ['h'] = require('telescope.actions').cycle_history_prev,
+      },
+    },
     layout_config = {
       vertical = { width = 0.9 },
       horizontal = { width = 0.9, preview_width = 0.5 },

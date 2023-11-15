@@ -277,11 +277,11 @@ require 'paq' {
     defer = true
   };
   {
-    'simrat39/symbols-outline.nvim',
+    'hedyhli/outline.nvim',
     config = function()
-      local symbols = require('symbols-outline')
-      symbols.setup()
-      nmap('<leader>u', symbols.toggle_outline, 'SymbolsOutline')
+      local outline = require('outline')
+      outline.setup()
+      nmap('<leader>u', outline.toggle_outline, 'Toggle outline')
     end
   };
 
