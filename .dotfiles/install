@@ -18,6 +18,7 @@ $HOME/.fzf/install
 git clone --depth=1 https://github.com/thomasmore/paq-nvim.git "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/pack/paqs/start/paq-nvim
 nvim --headless -c 'autocmd User PaqDoneSync quitall' -c 'PaqSync'
 
+curl https://sh.rustup.rs -sSf | sh
 
 sh -c "$(curl -fsSL https://starship.rs/install.sh)"
 
