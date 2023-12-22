@@ -8,7 +8,7 @@ sudo apt install clang gcc clangd gdb lldb cmake make ninja-build curl neovim ru
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 brew install fd bat fzf git-delta lua-language-server broot
 
-gem install --user-install solargraph
+sudo snap install solargraph
 
 npm i -g bash-language-server
 
