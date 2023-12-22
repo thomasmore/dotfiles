@@ -4,6 +4,11 @@ local nf = wezterm.nerdfonts
 local COLORSCHEME = 'Catppuccin Macchiato'
 local colors = wezterm.color.get_builtin_schemes()[COLORSCHEME]
 
+local default_domain = nil
+if wezterm.running_under_wsl() then
+    default_domain = 'WSL:Ubuntu'
+end
+
 local config = {
     window_decorations = 'RESIZE',
     window_padding = {
@@ -17,7 +22,7 @@ local config = {
         family = 'VictorMono NF',
         weight = 'Medium',
     },
-    default_domain = 'WSL:Ubuntu',
+    default_domain = default_domain,
     freetype_load_target = 'Light',
     freetype_load_flags = 'NO_HINTING|NO_AUTOHINT',
     hyperlink_rules =  wezterm.default_hyperlink_rules(),

@@ -127,6 +127,8 @@ aucmd('FileType', 'q_group', { 'qf', 'help', 'fugitive' }, function(event)
     vim.keymap.set('n', 'q', '<cmd>close<cr>', { buffer = event.buf, silent = true })
 end)
 
+vim.filetype.add({extension = {ets = 'typescript'}})
+
 if g.neovide then
   g.neovide_cursor_animation_length = 0
   set.guifont = 'VictorMono NF:h12'
