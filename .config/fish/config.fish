@@ -13,3 +13,13 @@ set -x PATH $HOME/.cargo/bin $HOME/.local/bin $HOME/bin /home/linuxbrew/.linuxbr
 starship init fish | source
 
 status --is-interactive; and rbenv init - fish | source
+
+function last_history_item
+  echo $history[1]
+end
+abbr !! --position anywhere --function last_history_item
+abbr pat bat -p
+abbr L --position anywhere --set-cursor "% | bat"
+abbr dt dotfiles
+abbr gco git checkout
+
