@@ -19,7 +19,7 @@ $character"""
 
 [git_branch]
 style = "bold green"
-symbol = " "
+symbol = " "
 
 [git_status]
 format = '([\[$conflicted$deleted$renamed$modified$staged$untracked$ahead_behind\]]($style) )'

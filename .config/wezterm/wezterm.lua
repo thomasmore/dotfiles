@@ -19,8 +19,7 @@ local config = {
     },
     font_size = 13,
     font =  wezterm.font {
-        family = 'VictorMono NF',
-        weight = 'Medium',
+        family = 'VictorMono Nerd Font',
     },
     default_domain = default_domain,
     freetype_load_target = 'Light',

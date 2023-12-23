@@ -1,5 +1,5 @@
 if status is-interactive
-  if test -z "$VIMRUNTIME"
+  if test -z "$NVIM"
     fortune -sa | cowsay | lolcat
   end
 end
