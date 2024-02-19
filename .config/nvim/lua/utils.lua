@@ -113,6 +113,7 @@ M.run_file = function()
         ruby       = 'ruby %',
         java       = 'java %',
         lua        = 'luajit %',
+        typescript = 'bin/es2panda --opt-level=2 --output=temp.abc % && bin/ark --boot-panda-files=plugins/ets/etsstdlib.abc --load-runtimes=ets temp.abc ETSGLOBAL::main'
     }
 
     local cmd = fts[vim.bo.ft]

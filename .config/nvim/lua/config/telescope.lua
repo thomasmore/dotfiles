@@ -25,6 +25,7 @@ telescope.setup{
       horizontal = { width = 0.9, preview_width = 0.5 },
     },
     layout_strategy = 'vertical',
+    path_display = { 'truncate' },
     file_ignore_patterns = { 'compile_commands.json', 'third_party' }
   },
   pickers = vim.tbl_extend('force', picker_config, {
