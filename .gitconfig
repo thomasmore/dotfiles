@@ -8,6 +8,7 @@
     st = status
     dt = difftool
     mt = mergetool
+    fpush = push --force-with-lease
 [interactive]
     diffFilter = delta --color-only
 [color]
@@ -28,6 +29,15 @@
     cursor = magenta default reverse
 [pull]
     ff = only
+[rerere]
+    enabled = true
+    autoUpdate = true
+[branch]
+    sort = -committerdate
+[column]
+    ui = auto
 [user]
     name = Thomas More
     email = thomasmore@github.com
+[includeIf "gitdir:~/workspace/"]
+    path = ~/.gitconfig-work
