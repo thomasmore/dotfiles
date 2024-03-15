@@ -62,6 +62,8 @@ nmap('<space>', 'ciw', 'Replace word')
 nmap('gh', '^', 'Go to line begin')
 nmap('gl', '$', 'Go to line end')
 
+nmap('<leader>st', function() vim.cmd.StripWhitespace(); vim.cmd('%s/\r$//') end, 'Strip Whitespaces')
+
 aucmd('BufRead', 'irtoc', 'irtoc_code.cpp', function()
   local ir_utils = require('ir_utils')
   nmap('<leader>i', ir_utils.show_input_context, 'Show context for ir input')

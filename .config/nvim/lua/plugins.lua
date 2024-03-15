@@ -339,7 +339,7 @@ require 'paq' {
         hl_snipe = 'HopNextKey',
         autoswap = true
       }
-      nmap('<leader>s', vim.cmd.ISwapWith, 'Swap nodes')
+      nmap('<leader>sw', vim.cmd.ISwapWith, 'Swap nodes')
     end
   };
 
