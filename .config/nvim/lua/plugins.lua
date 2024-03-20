@@ -292,6 +292,7 @@ require 'paq' {
     end
   };
 
+  'nvim-neotest/nvim-nio';
   {
     'mfussenegger/nvim-dap',
     config = function() require('config.dap') end
@@ -510,18 +511,6 @@ require 'paq' {
     config = function()
       nmap('<f3>', require('duck').hatch, 'Hatch Duck')
       nmap('<f4>', require('duck').cook, 'Cook Duck')
-    end
-  };
-
-  {
-    'shortcuts/no-neck-pain.nvim',
-    config = function()
-      require('no-neck-pain').setup {
-        mappings = {
-          enabled = false,
-        },
-        width = 120
-      }
     end
   };
 
