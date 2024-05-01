@@ -4,20 +4,20 @@ local tmap = require('utils').tmap
 local xmap = require('utils').xmap
 
 require 'paq' {
-  'thomasmore/paq-nvim';
+  'thomasmore/paq-nvim',
 
-  'nvim-lua/popup.nvim';
-  'nvim-lua/plenary.nvim';
+  'nvim-lua/popup.nvim',
+  'nvim-lua/plenary.nvim',
   {
     'rcarriga/nvim-notify',
     config = function() vim.notify = require('notify') end
-  };
-  'stevearc/dressing.nvim';
-  'kyazdani42/nvim-web-devicons';
+  },
+  'stevearc/dressing.nvim',
+  'kyazdani42/nvim-web-devicons',
 
-  'tpope/vim-repeat';
-  'bogado/file-line';
-  'tpope/vim-sleuth';
+  'tpope/vim-repeat',
+  'bogado/file-line',
+  'tpope/vim-sleuth',
 
   {
     'lukas-reineke/indent-blankline.nvim',
@@ -33,7 +33,7 @@ require 'paq' {
         }
       }
     end
-  };
+  },
 
   {
     'karb94/neoscroll.nvim',
@@ -42,7 +42,7 @@ require 'paq' {
         require('neoscroll').setup()
       end
     end
-  };
+  },
 
   {
     'b3nj5m1n/kommentary',
@@ -52,7 +52,7 @@ require 'paq' {
         ignore_whitespace = false,
       })
     end
-  };
+  },
 
   {
     'mhinz/vim-startify',
@@ -65,10 +65,10 @@ require 'paq' {
         { type = 'files', header = { '   MRU' } },
       }
     end
-  };
+  },
   {
     'nvim-treesitter/nvim-treesitter',
-    run = vim.cmd.TSUpdate,
+    build = vim.cmd.TSUpdate,
     config = function()
       require('nvim-treesitter.configs').setup {
         ensure_installed = { 'lua', 'vim', 'c', 'cpp', 'java', 'ruby', 'python', 'cmake', 'bash',
@@ -86,8 +86,8 @@ require 'paq' {
         }
       }
     end
-  };
-  'nvim-treesitter/nvim-treesitter-context';
+  },
+  'nvim-treesitter/nvim-treesitter-context',
 
   {
     'chrisgrieser/nvim-spider',
@@ -98,7 +98,7 @@ require 'paq' {
       vim.keymap.set({'n', 'o', 'x'}, 'b', function() spider.motion('b', {}) end, { desc = 'Move to previous subword begin' })
       vim.keymap.set({'n', 'o', 'x'}, 'ge', function() spider.motion('ge', {}) end, { desc = 'Move to previous subword end' })
     end
-  };
+  },
   {
     'chrisgrieser/nvim-various-textobjs',
     config = function()
@@ -106,17 +106,17 @@ require 'paq' {
         useDefaultKeymaps = true
       }
     end
-  };
+  },
   {
     'echasnovski/mini.ai',
     config = function() require('mini.ai').setup() end
-  };
-  'David-Kunz/treesitter-unit';
+  },
+  'David-Kunz/treesitter-unit',
 
   {
     'kylechui/nvim-surround',
     config = function() require('nvim-surround').setup() end
-  };
+  },
 
   {
     'ntpeters/vim-better-whitespace',
@@ -126,39 +126,39 @@ require 'paq' {
       vim.g.show_spaces_that_precede_tabs = 1
       vim.g.better_whitespace_filetypes_blacklist = {'toggleterm'}
     end
-  };
+  },
 
   {
     'folke/neodev.nvim',
     config = function()
       require('neodev').setup {}
     end
-  };
+  },
 
   {
     'neovim/nvim-lspconfig',
     config = function() require('config.lsp') end
-  };
+  },
 
-  'hrsh7th/cmp-nvim-lsp';
-  'hrsh7th/cmp-buffer';
-  'hrsh7th/cmp-nvim-lsp-signature-help';
+  'hrsh7th/cmp-nvim-lsp',
+  'hrsh7th/cmp-buffer',
+  'hrsh7th/cmp-nvim-lsp-signature-help',
   {
     'hrsh7th/nvim-cmp',
     config = function() require('config.cmp') end,
-  };
+  },
 
   {
     'andymass/vim-matchup',
     defer = true
-  };
+  },
 
   {
     'hrsh7th/nvim-insx',
     config = function()
       require('insx.preset.standard').setup()
     end,
-  };
+  },
 
   {
     'alvarosevilla95/luatab.nvim',
@@ -167,9 +167,9 @@ require 'paq' {
         windowCount = function() return '' end,
       }
     end
-  };
+  },
 
-  'tpope/vim-fugitive';
+  'tpope/vim-fugitive',
   {
     'tanvirtin/vgit.nvim',
     config = function()
@@ -193,7 +193,7 @@ require 'paq' {
       nmap('<leader>gv', vgit.buffer_hunk_preview, 'View hunk diff')
     end,
     defer = true
-  };
+  },
   {
     'sindrets/diffview.nvim',
     config = function()
@@ -204,8 +204,9 @@ require 'paq' {
       nmap('<leader>gc', vim.cmd.DiffviewClose, 'Close Diffview tab')
     end,
     defer = true
-  };
-  'ray-x/guihua.lua';
+  },
+
+  'ray-x/guihua.lua',
   {
     'ray-x/forgit.nvim',
     config = function()
@@ -215,7 +216,7 @@ require 'paq' {
       })
     end,
     defer = true
-  };
+  },
 
   {
     'akinsho/nvim-toggleterm.lua',
@@ -236,7 +237,7 @@ require 'paq' {
       nmap('<leader>f', function() vim.cmd.ToggleTerm('direction=float'); vim.opt.winblend=15 end, 'Floating terminal')
       tmap('<leader>j', vim.cmd.ToggleTerm, 'Close terminal')
     end
-  };
+  },
 
   {
     'kyazdani42/nvim-tree.lua',
@@ -265,17 +266,17 @@ require 'paq' {
       end, 'Toggle personal wiki')
     end,
     defer = true
-  };
+  },
 
-  'natecraddock/telescope-zf-native.nvim';
-  'nvim-telescope/telescope-live-grep-args.nvim';
+  'natecraddock/telescope-zf-native.nvim',
+  'nvim-telescope/telescope-live-grep-args.nvim',
   {
     'nvim-telescope/telescope.nvim',
     config = function()
       require('config.telescope')
     end,
     defer = true
-  };
+  },
   {
     'hedyhli/outline.nvim',
     config = function()
@@ -283,41 +284,41 @@ require 'paq' {
       outline.setup()
       nmap('<leader>u', outline.toggle_outline, 'Toggle outline')
     end
-  };
+  },
 
   {
     'ggandor/leap.nvim',
     config = function()
       require('leap').add_default_mappings()
     end
-  };
+  },
 
-  'nvim-neotest/nvim-nio';
+  'nvim-neotest/nvim-nio',
   {
     'mfussenegger/nvim-dap',
     config = function() require('config.dap') end
-  };
+  },
   {
     'rcarriga/nvim-dap-ui',
     config = function() require('config.dapui') end,
     defer = true
-  };
+  },
   {
     'thomasmore/neovim-cmake',
     config = function() require('config.cmake') end
-  };
+  },
 
-  'SmiteshP/nvim-navic';
+  'SmiteshP/nvim-navic',
 
   {
     'hoob3rt/lualine.nvim',
     config = function() require('config.statusline') end
-  };
+  },
 
   {
     'folke/which-key.nvim',
     config = function() require('config.whichkey') end
-  };
+  },
 
   {
     'catppuccin/nvim',
@@ -331,7 +332,7 @@ require 'paq' {
       }
       vim.cmd.colorscheme('catppuccin')
     end
-  };
+  },
 
   {
     'mizlan/iswap.nvim',
@@ -342,15 +343,15 @@ require 'paq' {
       }
       nmap('<leader>sw', vim.cmd.ISwapWith, 'Swap nodes')
     end
-  };
+  },
 
-  'drybalka/tree-climber.nvim';
-  'kevinhwang91/nvim-bqf';
+  'drybalka/tree-climber.nvim',
+  'kevinhwang91/nvim-bqf',
 
   {
     'iamcco/markdown-preview.nvim',
-    run = function() vim.fn["mkdp#util#install"]() end,
-  };
+    build = function() vim.fn["mkdp#util#install"]() end,
+  },
 
   {
     'stevearc/overseer.nvim',
@@ -359,16 +360,16 @@ require 'paq' {
       overseer.setup()
       nmap('<leader>gs', function() overseer.load_task_bundle('git_sync') end, 'Git Sync')
     end
-  };
+  },
 
   {
     'folke/todo-comments.nvim',
     config = function()
       require('todo-comments').setup {
         signs = false
-      };
+      }
     end
-  };
+  },
 
   {
     'b0o/incline.nvim',
@@ -389,7 +390,7 @@ require 'paq' {
         },
       }
     end
-  };
+  },
 
   {
     'smjonas/live-command.nvim',
@@ -400,7 +401,7 @@ require 'paq' {
         },
       }
     end,
-  };
+  },
 
   {
     'RRethy/vim-illuminate',
@@ -410,12 +411,12 @@ require 'paq' {
         filetypes_denylist = { 'NvimTree', 'qf' },
         delay = 50,
         large_file_cutoff = 10000,
-      };
+      }
       vim.api.nvim_set_hl(0, 'IlluminatedWordText', { link = 'Visual' })
       vim.api.nvim_set_hl(0, 'IlluminatedWordRead', { link = 'Visual' })
       vim.api.nvim_set_hl(0, 'IlluminatedWordWrite', { link = 'Visual' })
     end
-  };
+  },
 
   {
     'gbprod/substitute.nvim',
@@ -427,9 +428,9 @@ require 'paq' {
       nmap('gR', sub.eol, 'Replace til EOL with default register')
       xmap('gr', sub.visual, 'Replace visual selection with default register')
     end
-  };
+  },
 
-  'MunifTanjim/nui.nvim';
+  'MunifTanjim/nui.nvim',
   {
     'folke/noice.nvim',
     config = function()
@@ -460,11 +461,11 @@ require 'paq' {
         },
       }
     end
-  };
+  },
 
   {
     'nvim-neorg/neorg',
-    run = function() vim.cmd.Neorg('sync-parsers') end,
+    build = function() vim.cmd.Neorg('sync-parsers') end,
     config = function()
       require('neorg').setup {
         load = {
@@ -496,15 +497,16 @@ require 'paq' {
         }
       }
     end,
+    branch = 'v7.0.0',
     defer = true
-  };
+  },
 
   {
     'ckolkey/ts-node-action',
     config = function()
       nmap('<leader>t', require('ts-node-action').node_action, 'Trigger node action')
     end
-  };
+  },
 
   {
     'tamton-aquib/duck.nvim',
@@ -512,7 +514,7 @@ require 'paq' {
       nmap('<f3>', require('duck').hatch, 'Hatch Duck')
       nmap('<f4>', require('duck').cook, 'Cook Duck')
     end
-  };
+  },
 
   {
     'chomosuke/term-edit.nvim',
@@ -521,12 +523,12 @@ require 'paq' {
         prompt_end = '[🔥💩] '
       }
     end
-  };
+  },
 
   {
     'willothy/flatten.nvim',
     config = function() require('flatten').setup{} end
-  };
+  },
 
   {
     'willothy/wezterm.nvim',
@@ -535,7 +537,7 @@ require 'paq' {
         create_commands = false
       }
     end
-  };
+  },
 
   {
     'm4xshen/hardtime.nvim',
@@ -564,5 +566,5 @@ require 'paq' {
         },
       }
     end
-  };
+  },
 }
