@@ -15,10 +15,6 @@ local on_attach = function(client, bufnr)
   nmap('gn', vim.diagnostic.goto_next, 'Go to next diagnostic')
   nmap('<leader>q', vim.diagnostic.setloclist, 'Move diagnostic into location list')
   nmap('<leader>ln', vim.diagnostic.open_float, 'Diagnostic for current line')
-  nmap('<leader>rn', vim.lsp.buf.rename, 'Rename symbol')
-  nmap('<leader>la', vim.lsp.buf.code_action, 'Code action')
-  vmap('<leader>la', vim.lsp.buf.code_action, 'Code action')
-  imap('<c-k>', vim.lsp.buf.signature_help, 'Signature help')
   nmap('<leader>lf', function() vim.lsp.buf.format({ async = false }) end, 'Format code')
 end
 

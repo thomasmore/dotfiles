@@ -45,16 +45,6 @@ require 'paq' {
   },
 
   {
-    'b3nj5m1n/kommentary',
-    config = function()
-      require('kommentary.config').configure_language("default", {
-        prefer_single_line_comments = true,
-        ignore_whitespace = false,
-      })
-    end
-  },
-
-  {
     'mhinz/vim-startify',
     config = function()
       vim.g.startify_session_persistence = 1
@@ -202,18 +192,6 @@ require 'paq' {
       vmap('<leader>gh', ':DiffviewFileHistory<cr>', 'View Git history for selected range')
       nmap('<leader>go', function() vim.cmd.DiffviewOpen('HEAD^') end, 'View diff for last commit')
       nmap('<leader>gc', vim.cmd.DiffviewClose, 'Close Diffview tab')
-    end,
-    defer = true
-  },
-
-  'ray-x/guihua.lua',
-  {
-    'ray-x/forgit.nvim',
-    config = function()
-      require'forgit'.setup({
-        vsplit = false,
-        fugitive = true,
-      })
     end,
     defer = true
   },
