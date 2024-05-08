@@ -35,6 +35,7 @@ nmap('<f2>', function()
   vim.cmd.nohlsearch()
   vim.cmd.diffupdate()
   require('notify').dismiss{}
+  utils.strip_windows_line_ending()
 end, 'Turn off last search highlight and diffupdate')
 nmap('<leader>rg', ':silent grep<space>', 'Find with rg (and put in quickfix)', { silent = false })
 nmap('<leader>rf', utils.run_file, 'Run file in terminal')
