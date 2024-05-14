@@ -105,8 +105,8 @@ wezterm.on('update-right-status', function(window)
         counter = counter - 1
     end
 
-    local _, cpu, _ = wezterm.run_child_process{'bash', '$HOME/.config/wezterm/cpu.sh'}
-    local _, mem, _ = wezterm.run_child_process{'bash', '$HOME/.config/wezterm/mem.sh'}
+    local _, cpu, _ = wezterm.run_child_process{'bash', os.getenv('HOME')..'/.config/wezterm/cpu.sh'}
+    local _, mem, _ = wezterm.run_child_process{'bash', os.getenv('HOME')..'/.config/wezterm/mem.sh'}
 
     buf_shift(cpu_buf, tonumber(cpu))
     buf_shift(mem_buf, tonumber(mem))
