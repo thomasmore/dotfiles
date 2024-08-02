@@ -1,9 +1,9 @@
 local wk = require('which-key')
-wk.setup()
+wk.setup { notify = false }
 
-wk.register {
-  ['<leader>g'] = { name = '+Git/Grep' },
-  ['<leader>w'] = { name = '+Wiki' },
-  ['<leader>l'] = { name = '+LSP' },
-  ['<leader>c'] = { name = '+CMake' },
+wk.add {
+  {'<leader>g', group = 'Git/Grep' },
+  {'<leader>w', group = 'Wiki' },
+  {'<leader>l', group = 'LSP' },
+  {'<leader>c', group = 'CMake' },
 }
