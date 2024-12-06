@@ -401,10 +401,10 @@ require 'paq' {
     config = function()
       local sub = require('substitute')
       sub.setup{}
-      nmap('gr', sub.operator, 'Replace motion with default register')
-      nmap('grr', sub.line, 'Replace line with default register')
-      nmap('gR', sub.eol, 'Replace til EOL with default register')
-      xmap('gr', sub.visual, 'Replace visual selection with default register')
+      nmap('x', sub.operator, 'Exchange motion with default register')
+      nmap('xx', sub.line, 'Exchange line with default register')
+      nmap('X', sub.eol, 'Exchange til EOL with default register')
+      xmap('x', sub.visual, 'Exchange visual selection with default register')
     end
   },
 

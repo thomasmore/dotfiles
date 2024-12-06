@@ -150,7 +150,7 @@ end
 M.strip_windows_line_ending = function()
   local saved_view = vim.fn.winsaveview()
   -- do this for the whole buffer currently
-  vim.cmd('%s/\r//')
+  pcall(vim.cmd, '%s/\r//')
   vim.fn.winrestview(saved_view)
 end
 

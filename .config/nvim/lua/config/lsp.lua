@@ -1,6 +1,4 @@
 local nmap = require('utils').nmap
-local vmap = require('utils').vmap
-local imap = require('utils').imap
 local navic = require('nvim-navic')
 
 local on_attach = function(client, bufnr)
@@ -11,25 +9,32 @@ local on_attach = function(client, bufnr)
   nmap('gD', vim.lsp.buf.declaration, 'Go to declaration')
   nmap('H', vim.lsp.buf.hover, 'Hover window for word under cursor')
   nmap('<c-LeftMouse>', '<LeftMouse><cmd>lua vim.lsp.buf.hover()<cr>', 'ctrl-click to hover word')
-  nmap('gp', vim.diagnostic.goto_prev, 'Go to previous diagnostic')
-  nmap('gn', vim.diagnostic.goto_next, 'Go to next diagnostic')
+  nmap('gp', function() vim.diagnostic.jump{ count = -1, float = true} end, 'Go to previous diagnostic')
+  nmap('gn', function() vim.diagnostic.jump{ count = 1, float = true} end, 'Go to next diagnostic')
   nmap('<leader>q', vim.diagnostic.setloclist, 'Move diagnostic into location list')
   nmap('<leader>ln', vim.diagnostic.open_float, 'Diagnostic for current line')
   nmap('<leader>lf', function() vim.lsp.buf.format({ async = false }) end, 'Format code')
 end
 
-for _, name in ipairs({"Error", "Warn", "Info", "Hint"}) do
-  vim.fn.sign_define("DiagnosticSign" .. name, {text = "", numhl = "Diagnostic" .. name})
-end
-
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-  vim.lsp.diagnostic.on_publish_diagnostics, {
-    virtual_text = false,
-    signs = true,
-    update_in_insert = false,
-    underline = false,
-  }
-)
+vim.diagnostic.config({
+  virtual_text = false,
+  update_in_insert = false,
+  underline = false,
+  signs = {
+    numhl = {
+      [vim.diagnostic.severity.ERROR] = 'DiagnosticError',
+      [vim.diagnostic.severity.WARN] = 'DiagnosticWarn',
+      [vim.diagnostic.severity.INFO] = 'DiagnosticInfo',
+      [vim.diagnostic.severity.HINT] = 'DiagnosticHint',
+    },
+    text = {
+      [vim.diagnostic.severity.ERROR] = '',
+      [vim.diagnostic.severity.WARN] = '',
+      [vim.diagnostic.severity.INFO] = '',
+      [vim.diagnostic.severity.HINT] = '',
+    },
+  },
+})
 
 local capabilites = require('cmp_nvim_lsp').default_capabilities()
 local nvim_lsp = require('lspconfig')

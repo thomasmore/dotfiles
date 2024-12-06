@@ -60,6 +60,7 @@ omap('iu', ':<c-u>lua require("treesitter-unit").select()<cr>', 'inner treesitte
 omap('au', ':<c-u>lua require("treesitter-unit").select(true)<cr>', 'a treesitter unit')
 
 nmap('<space>', 'ciw', 'Replace word')
+nmap('<backspace>', 'X', 'Remove previous symbol')
 nmap('gh', '^', 'Go to line begin')
 nmap('gl', '$', 'Go to line end')
 
