@@ -38,7 +38,7 @@ vim.diagnostic.config({
 
 local capabilites = require('cmp_nvim_lsp').default_capabilities()
 local nvim_lsp = require('lspconfig')
-local servers = { 'clangd', 'solargraph', 'bashls', 'lua_ls', 'pylsp' }
+local servers = { 'clangd', 'solargraph', 'bashls', 'lua_ls', 'pylsp', 'ts_ls' }
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup {
     on_attach = on_attach,

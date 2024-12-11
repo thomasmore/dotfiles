@@ -25,10 +25,10 @@ require 'paq' {
       local hooks = require('ibl.hooks')
       hooks.register(hooks.type.WHITESPACE, hooks.builtin.hide_first_space_indent_level)
       require('ibl').setup {
-        indent = { char = '▏', },
+        indent = { char = '▏' },
         scope = { enabled = false },
         exclude = {
-          filetypes = { 'josn', 'startify' },
+          filetypes = { 'json', 'startify' },
           buftypes = { 'terminal' },
         }
       }
@@ -61,7 +61,7 @@ require 'paq' {
     build = vim.cmd.TSUpdate,
     config = function()
       require('nvim-treesitter.configs').setup {
-        ensure_installed = { 'lua', 'vim', 'c', 'cpp', 'java', 'ruby', 'python', 'cmake', 'bash',
+        ensure_installed = { 'lua', 'vim', 'c', 'cpp', 'java', 'ruby', 'python', 'cmake', 'bash', 'json',
             'markdown', 'markdown_inline', },
         highlight = {
           enable = true,
@@ -93,7 +93,9 @@ require 'paq' {
     'chrisgrieser/nvim-various-textobjs',
     config = function()
       require('various-textobjs').setup {
-        useDefaultKeymaps = true
+        keymaps = {
+          useDefaults = true
+        }
       }
     end
   },
