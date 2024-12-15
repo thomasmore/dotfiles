@@ -241,7 +241,7 @@ require 'paq' {
         ntree_api.open({ path = build_dir.filename, focus = true })
       end, 'Open Nvim Tree for build dir')
       nmap('<leader>wt', function()
-        local notes_dir = require('neorg.modules.core.dirman.module').public.get_workspaces()['notes']
+        local notes_dir = vim.fn.expand('~/notes')
         ntree_api.open({ path = notes_dir, focus = true })
       end, 'Toggle personal wiki')
     end,
@@ -444,44 +444,6 @@ require 'paq' {
   },
 
   {
-    'nvim-neorg/neorg',
-    build = function() vim.cmd.Neorg('sync-parsers') end,
-    config = function()
-      require('neorg').setup {
-        load = {
-          ['core.defaults'] = {},
-          ['core.concealer'] = {
-            config = {
-              folds = false,
-            }
-          },
-          ['core.completion'] = {
-            config = {
-              engine = 'nvim-cmp'
-            }
-          },
-          ['core.dirman'] = {
-            config = {
-              workspaces = {
-                notes = '~/notes'
-              },
-              default_workspace = 'notes',
-            }
-          },
-          ['core.journal'] = {
-            config = {
-              workspace = 'notes',
-              journal_folder = 'journal'
-            }
-          },
-        }
-      }
-    end,
-    branch = 'v7.0.0',
-    defer = true
-  },
-
-  {
     'ckolkey/ts-node-action',
     config = function()
       nmap('<leader>t', require('ts-node-action').node_action, 'Trigger node action')
@@ -545,6 +507,13 @@ require 'paq' {
           ['<C-N>'] = { 'n', 'x' },
         },
       }
+    end
+  },
+
+  {
+    'MeanderingProgrammer/render-markdown.nvim',
+    config = function()
+      require('render-markdown').setup({})
     end
   },
 }

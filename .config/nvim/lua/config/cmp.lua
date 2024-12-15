@@ -90,5 +90,6 @@ cmp.setup({
         end
       }
     },
+    { name = 'render-markdown' },
   }
 })
