@@ -9,8 +9,7 @@ local g = vim.g
 set.number = true
 set.relativenumber = true
 set.signcolumn = 'yes:1'
--- set.signcolumn = 'no'
--- vim.o.stc = '%=%{v:relnum?v:relnum:v:lnum}│ '
+vim.o.stc = '%=%{v:relnum?v:relnum:v:lnum}%s'
 
 -- but not in terminal
 local settings_augroup = aucmd({ 'TermOpen', 'TermEnter' }, 'settings', '*', function()

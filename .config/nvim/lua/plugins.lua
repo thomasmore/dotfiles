@@ -163,26 +163,18 @@ require 'paq' {
 
   'tpope/vim-fugitive',
   {
-    'tanvirtin/vgit.nvim',
+    'lewis6991/gitsigns.nvim',
     config = function()
-      local vgit = require('vgit')
-      vgit.setup{
-        settings = {
-          live_gutter = {
-            edge_navigation = false,
-          },
-          authorship_code_lens = {
-            enabled = false,
-          },
-          scene = {
-            diff_preference = 'split',
-          },
-        },
+      require('gitsigns').setup {
+        on_attach = function()
+          local gitsigns = require('gitsigns')
+          nmap('<leader>gu', function() gitsigns.nav_hunk('prev') end, 'Go to hunk above')
+          nmap('<leader>gu', function() gitsigns.nav_hunk('prev') end, 'Go to hunk above')
+          nmap('<leader>gr', gitsigns.reset_hunk, 'Reset hunk to HEAD')
+          nmap('<leader>gv', gitsigns.preview_hunk, 'View hunk diff')
+        end,
+        current_line_blame = true,
       }
-      nmap('<leader>gu', vgit.hunk_up, 'Go to hunk above')
-      nmap('<leader>gd', vgit.hunk_down, 'Go to hunk below')
-      nmap('<leader>gr', vgit.buffer_hunk_reset, 'Reset hunk to HEAD')
-      nmap('<leader>gv', vgit.buffer_hunk_preview, 'View hunk diff')
     end,
     defer = true
   },
