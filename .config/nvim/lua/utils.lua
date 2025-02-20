@@ -109,11 +109,12 @@ end
 
 M.run_file = function()
     local fts = {
+        cpp        = 'g++ % && ./a.out',
         python     = 'python %',
         ruby       = 'ruby %',
-        java       = 'java %',
+        java       = 'javac % && java %:t:r',
         lua        = 'luajit %',
-        typescript = 'bin/es2panda --opt-level=2 --output=temp.abc % && bin/ark --boot-panda-files=plugins/ets/etsstdlib.abc --load-runtimes=ets temp.abc ETSGLOBAL::main'
+        typescript = 'bin/es2panda % && bin/ark --boot-panda-files=plugins/ets/etsstdlib.abc --load-runtimes=ets %:t:r.abc %:t:r.ETSGLOBAL::main'
     }
 
     local cmd = fts[vim.bo.ft]

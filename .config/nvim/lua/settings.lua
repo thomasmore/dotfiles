@@ -127,7 +127,9 @@ aucmd('FileType', 'q_group', { 'qf', 'help', 'fugitive' }, function(event)
     vim.keymap.set('n', 'q', '<cmd>close<cr>', { buffer = event.buf, silent = true })
 end)
 
-vim.filetype.add({extension = {ets = 'typescript'}})
+vim.filetype.add({ extension = { ets = 'typescript' } })
+vim.filetype.add({ extension = { sts = 'typescript' } })
+vim.filetype.add({ extension = { irt = 'ruby' } })
 
 if g.neovide then
   g.neovide_cursor_animation_length = 0
