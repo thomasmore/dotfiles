@@ -50,6 +50,8 @@ local config = {
         { key = 'Tab', mods = 'LEADER|SHIFT', action = act.ActivateTabRelative(-1) },
         { key = 'Tab', mods = 'CTRL', action = act.ActivateTabRelative(1) },
         { key = 'Tab', mods = 'CTRL|SHIFT', action = act.ActivateTabRelative(-1) },
+        { key = 'C', mods = 'CTRL|SHIFT', action = act.CopyTo 'ClipboardAndPrimarySelection' },
+        { key = 'V', mods = 'CTRL|SHIFT', action = act.PasteFrom 'Clipboard' },
     },
     use_fancy_tab_bar = false,
     show_new_tab_button_in_tab_bar = false,
