@@ -477,11 +477,26 @@ require 'paq' {
     end
   },
 
-
   {
     'MeanderingProgrammer/render-markdown.nvim',
     config = function()
       require('render-markdown').setup({})
+    end
+  },
+
+  {
+    'olimorris/codecompanion.nvim',
+    config = function()
+      require('codecompanion').setup {
+        strategies = {
+          chat = {
+            adapter = 'ollama',
+          },
+          inline = {
+            adapter = 'ollama',
+          },
+        },
+      }
     end
   },
 }
