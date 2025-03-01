@@ -215,7 +215,8 @@ require 'paq' {
     'kyazdani42/nvim-tree.lua',
     config = function()
       local ntree = require('nvim-tree')
-      local ntree_api = require('nvim-tree.api').tree
+      local api = require('nvim-tree.api')
+      local ntree_api = api.tree
       ntree.setup {
         view = { width = {} },  -- dynamic width
         renderer = {
@@ -236,6 +237,9 @@ require 'paq' {
         local notes_dir = vim.fn.expand('~/notes')
         ntree_api.open({ path = notes_dir, focus = true })
       end, 'Toggle personal wiki')
+      api.events.subscribe(api.events.Event.TreeOpen, function()
+        vim.opt_local.stc = ''
+      end)
     end,
     defer = true
   },

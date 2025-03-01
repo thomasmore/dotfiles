@@ -11,11 +11,12 @@ set.relativenumber = true
 set.signcolumn = 'yes:1'
 vim.o.stc = '%=%{v:relnum?v:relnum:v:lnum}%s'
 
--- but not in terminal
+-- but not in terminal and startify
 local settings_augroup = aucmd({ 'TermOpen', 'TermEnter' }, 'settings', '*', function()
-  vim.wo.number = false
-  vim.wo.relativenumber = false
-  vim.wo.signcolumn = 'no'
+  vim.opt_local.stc = ''
+end)
+aucmd('FileType', settings_augroup, 'startify', function()
+  vim.opt_local.stc = ''
 end)
 
 -- open quickfix window below all vert-split windows
@@ -153,3 +154,4 @@ if g.neovide then
   end
   nmap('<f11>', ':let g:neovide_fullscreen = !g:neovide_fullscreen<cr>')
 end
+
