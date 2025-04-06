@@ -9,18 +9,11 @@ local g = vim.g
 set.number = true
 set.relativenumber = true
 set.signcolumn = 'yes:1'
-vim.o.stc = '%=%{v:relnum?v:relnum:v:lnum}%s'
-
--- but not in terminal and startify
-local settings_augroup = aucmd({ 'TermOpen', 'TermEnter' }, 'settings', '*', function()
-  vim.opt_local.stc = ''
-end)
-aucmd('FileType', settings_augroup, 'startify', function()
-  vim.opt_local.stc = ''
-end)
+set.numberwidth = 1
+vim.o.stc = '%=%l%s'
 
 -- open quickfix window below all vert-split windows
-aucmd('FileType', settings_augroup, 'qf', function()
+local settings_augroup = aucmd('FileType', 'settings', 'qf', function()
   vim.cmd.wincmd('J')
   vim.cmd.resize('15')
 end)
