@@ -488,15 +488,33 @@ require 'paq' {
     'olimorris/codecompanion.nvim',
     config = function()
       require('codecompanion').setup {
+        adapters = {
+          deepseek = function()
+            return require('codecompanion.adapters').extend('deepseek', {
+              schema = {
+                model = {
+                  default = 'deepseek-chat',
+                  -- default = 'deepseek-reasoner',
+                }
+              },
+              env = {
+                api_key = 'MY_DEEPSEEK_KEY',
+              },
+            })
+          end
+        },
         strategies = {
           chat = {
-            adapter = 'ollama',
+            adapter = 'deepseek',
+            -- adapter = 'ollama',
           },
           inline = {
-            adapter = 'ollama',
+            adapter = 'deepseek',
+            -- adapter = 'ollama',
           },
         },
       }
+      nmap('<leader>a', '<cmd>CodeCompanionChat Toggle<cr>', 'AI chat toggle')
     end
   },
 }
