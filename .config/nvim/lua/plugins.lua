@@ -218,7 +218,7 @@ require 'paq' {
       local api = require('nvim-tree.api')
       local ntree_api = api.tree
       ntree.setup {
-        view = { width = {} },  -- dynamic width
+        view = { width = { max = 50 } },  -- dynamic width
         renderer = {
           indent_markers = {
             enable = true

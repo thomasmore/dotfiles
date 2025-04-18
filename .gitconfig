@@ -41,3 +41,5 @@
     email = thomasmore@github.com
 [includeIf "gitdir:~/workspace/"]
     path = ~/.gitconfig-work
+[credential]
+    helper = store
