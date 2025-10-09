@@ -352,7 +352,7 @@ require 'paq' {
     config = function()
       require('incline').setup {
         hide = {
-          focused_win = true,
+          focused_win = false,
         },
         window = {
           margin = {
@@ -489,19 +489,21 @@ require 'paq' {
     config = function()
       require('codecompanion').setup {
         adapters = {
-          deepseek = function()
-            return require('codecompanion.adapters').extend('deepseek', {
-              schema = {
-                model = {
-                  default = 'deepseek-chat',
-                  -- default = 'deepseek-reasoner',
-                }
-              },
-              env = {
-                api_key = 'MY_DEEPSEEK_KEY',
-              },
-            })
-          end
+          http = {
+            deepseek = function()
+              return require('codecompanion.adapters').extend('deepseek', {
+                schema = {
+                  model = {
+                    default = 'deepseek-chat',
+                    -- default = 'deepseek-reasoner',
+                  }
+                },
+                env = {
+                  api_key = 'MY_DEEPSEEK_KEY',
+                },
+              })
+            end
+          }
         },
         strategies = {
           chat = {
