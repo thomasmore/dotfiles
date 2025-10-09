@@ -517,4 +517,14 @@ require 'paq' {
       nmap('<leader>a', '<cmd>CodeCompanionChat Toggle<cr>', 'AI chat toggle')
     end
   },
+
+  'nvzone/volt',
+  'nvzone/timerly',
+
+  {
+    'bngarren/checkmate.nvim',
+    config = function()
+      require('checkmate').setup()
+    end
+  }
 }
