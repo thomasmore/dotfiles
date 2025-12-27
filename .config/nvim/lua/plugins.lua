@@ -265,7 +265,12 @@ require 'paq' {
   {
     'ggandor/leap.nvim',
     config = function()
-      require('leap').add_default_mappings()
+      local set = vim.keymap.set
+      set({'n', 'x', 'o'}, 's', '<Plug>(leap-forward)')
+      set({'n', 'x', 'o'}, 'S', '<Plug>(leap-backward)')
+      set('n', 'gs', '<Plug>(leap-from-window)')
+      set({'x', 'o'}, 'x', '<Plug>(leap-forward-till)')
+      set({'x', 'o'}, 'X', '<Plug>(leap-backward-till)')
     end
   },
 
@@ -484,42 +489,6 @@ require 'paq' {
     end
   },
 
-  {
-    'olimorris/codecompanion.nvim',
-    config = function()
-      require('codecompanion').setup {
-        adapters = {
-          http = {
-            deepseek = function()
-              return require('codecompanion.adapters').extend('deepseek', {
-                schema = {
-                  model = {
-                    default = 'deepseek-chat',
-                    -- default = 'deepseek-reasoner',
-                  }
-                },
-                env = {
-                  api_key = 'MY_DEEPSEEK_KEY',
-                },
-              })
-            end
-          }
-        },
-        strategies = {
-          chat = {
-            adapter = 'deepseek',
-            -- adapter = 'ollama',
-          },
-          inline = {
-            adapter = 'deepseek',
-            -- adapter = 'ollama',
-          },
-        },
-      }
-      nmap('<leader>a', '<cmd>CodeCompanionChat Toggle<cr>', 'AI chat toggle')
-    end
-  },
-
   'nvzone/volt',
   'nvzone/timerly',
 
@@ -527,6 +496,22 @@ require 'paq' {
     'bngarren/checkmate.nvim',
     config = function()
       require('checkmate').setup()
+    end
+  },
+
+  {
+    'NickvanDyke/opencode.nvim',
+    config = function()
+      -- Required for `opts.events.reload`.
+      vim.o.autoread = true
+
+      -- Recommended/example keymaps.
+      vim.keymap.set({ "n", "x" }, "<C-a>", function() require("opencode").ask("@this: ", { submit = true }) end, { desc = "Ask opencode" })
+      vim.keymap.set({ "n", "x" }, "<C-x>", function() require("opencode").select() end,                          { desc = "Execute opencode action…" })
+      vim.keymap.set({ "n", "t" }, "<C-.>", function() require("opencode").toggle() end,                          { desc = "Toggle opencode" })
+
+      vim.keymap.set({ "n", "x" }, "go",  function() return require("opencode").operator("@this ") end,        { expr = true, desc = "Add range to opencode" })
+      vim.keymap.set("n",          "goo", function() return require("opencode").operator("@this ") .. "_" end, { expr = true, desc = "Add line to opencode" })
     end
   }
 }
