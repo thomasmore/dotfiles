@@ -2,6 +2,7 @@ local nmap = require('utils').nmap
 local vmap = require('utils').vmap
 local tmap = require('utils').tmap
 local xmap = require('utils').xmap
+local omap = require('utils').omap
 
 require 'paq' {
   'thomasmore/paq-nvim',
@@ -265,12 +266,17 @@ require 'paq' {
   {
     'ggandor/leap.nvim',
     config = function()
-      local set = vim.keymap.set
-      set({'n', 'x', 'o'}, 's', '<Plug>(leap-forward)')
-      set({'n', 'x', 'o'}, 'S', '<Plug>(leap-backward)')
-      set('n', 'gs', '<Plug>(leap-from-window)')
-      set({'x', 'o'}, 'x', '<Plug>(leap-forward-till)')
-      set({'x', 'o'}, 'X', '<Plug>(leap-backward-till)')
+      nmap('s', '<Plug>(leap-forward)', 'Leap forward')
+      xmap('s', '<Plug>(leap-forward)', 'Leap forward')
+      omap('s', '<Plug>(leap-forward)', 'Leap forward')
+      nmap('S', '<Plug>(leap-backward)', 'Leap backward')
+      xmap('S', '<Plug>(leap-backward)', 'Leap backward')
+      omap('S', '<Plug>(leap-backward)', 'Leap backward')
+      nmap('gs', '<Plug>(leap-from-window)', 'Leap from window')
+      xmap('x', '<Plug>(leap-forward-till)', 'Leap forward till')
+      omap('x', '<Plug>(leap-forward-till)', 'Leap forward till')
+      xmap('X', '<Plug>(leap-backward-till)', 'Leap backward till')
+      omap('X', '<Plug>(leap-backward-till)', 'Leap backward till')
     end
   },
 
@@ -506,12 +512,17 @@ require 'paq' {
       vim.o.autoread = true
 
       -- Recommended/example keymaps.
-      vim.keymap.set({ "n", "x" }, "<C-a>", function() require("opencode").ask("@this: ", { submit = true }) end, { desc = "Ask opencode" })
-      vim.keymap.set({ "n", "x" }, "<C-x>", function() require("opencode").select() end,                          { desc = "Execute opencode action…" })
-      vim.keymap.set({ "n", "t" }, "<C-.>", function() require("opencode").toggle() end,                          { desc = "Toggle opencode" })
+      nmap('<C-a>', function() require('opencode').ask('@this: ', { submit = true }) end, 'Ask opencode')
+      xmap('<C-a>', function() require('opencode').ask('@this: ', { submit = true }) end, 'Ask opencode')
+      nmap('<C-x>', function() require('opencode').select() end, 'Execute opencode action…')
+      xmap('<C-x>', function() require('opencode').select() end, 'Execute opencode action…')
+      nmap('<C-.>', function() require('opencode').toggle() end, 'Toggle opencode')
+      tmap('<C-.>', function() require('opencode').toggle() end, 'Toggle opencode')
 
-      vim.keymap.set({ "n", "x" }, "go",  function() return require("opencode").operator("@this ") end,        { expr = true, desc = "Add range to opencode" })
-      vim.keymap.set("n",          "goo", function() return require("opencode").operator("@this ") .. "_" end, { expr = true, desc = "Add line to opencode" })
+      nmap('go', function() return require('opencode').operator('@this ') end, 'Add range to opencode', { expr = true })
+      xmap('go', function() return require('opencode').operator('@this ') end, 'Add range to opencode', { expr = true })
+      nmap('goo', function() return require('opencode').operator('@this ') .. '_' end, 'Add line to opencode', { expr = true })
+
     end
   }
 }
