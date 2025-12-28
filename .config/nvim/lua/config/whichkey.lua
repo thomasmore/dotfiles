@@ -6,4 +6,5 @@ wk.add {
   {'<leader>w', group = 'Wiki' },
   {'<leader>l', group = 'LSP' },
   {'<leader>c', group = 'CMake' },
+  {'<leader>a', group = 'Opencode' },
 }

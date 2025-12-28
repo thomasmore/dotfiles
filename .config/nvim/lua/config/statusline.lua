@@ -94,6 +94,7 @@ require('lualine').setup {
     lualine_y = {
       { 'filetype' },
       { get_lsp_client, padding = { left = 0, right = 1 } },
+      { require('opencode').statusline }
     },
     lualine_z = {'location'}
   },

@@ -169,7 +169,7 @@ require 'paq' {
       require('gitsigns').setup {
         on_attach = function()
           local gitsigns = require('gitsigns')
-          nmap('<leader>gu', function() gitsigns.nav_hunk('prev') end, 'Go to hunk above')
+          nmap('<leader>gd', function() gitsigns.nav_hunk('next') end, 'Go to hunk down')
           nmap('<leader>gu', function() gitsigns.nav_hunk('prev') end, 'Go to hunk above')
           nmap('<leader>gr', gitsigns.reset_hunk, 'Reset hunk to HEAD')
           nmap('<leader>gv', gitsigns.preview_hunk, 'View hunk diff')
@@ -511,18 +511,22 @@ require 'paq' {
       -- Required for `opts.events.reload`.
       vim.o.autoread = true
 
+      vim.g.opencode_opts = {
+        provider = {
+          enabled = 'terminal',
+        }
+      }
+
       -- Recommended/example keymaps.
-      nmap('<C-a>', function() require('opencode').ask('@this: ', { submit = true }) end, 'Ask opencode')
-      xmap('<C-a>', function() require('opencode').ask('@this: ', { submit = true }) end, 'Ask opencode')
-      nmap('<C-x>', function() require('opencode').select() end, 'Execute opencode action…')
-      xmap('<C-x>', function() require('opencode').select() end, 'Execute opencode action…')
-      nmap('<C-.>', function() require('opencode').toggle() end, 'Toggle opencode')
-      tmap('<C-.>', function() require('opencode').toggle() end, 'Toggle opencode')
+      nmap('<leader>aa', function() require('opencode').ask('', { submit = true }) end, 'Ask opencode')
+      xmap('<leader>aa', function() require('opencode').ask('', { submit = true }) end, 'Ask opencode')
+      nmap('<leader>as', function() require('opencode').select() end, 'Select opencode action…')
+      xmap('<leader>as', function() require('opencode').select() end, 'Select opencode action…')
+      nmap('<leader>at', function() require('opencode').toggle() end, 'Toggle opencode')
 
       nmap('go', function() return require('opencode').operator('@this ') end, 'Add range to opencode', { expr = true })
       xmap('go', function() return require('opencode').operator('@this ') end, 'Add range to opencode', { expr = true })
       nmap('goo', function() return require('opencode').operator('@this ') .. '_' end, 'Add line to opencode', { expr = true })
-
     end
   }
 }
