@@ -114,10 +114,15 @@ M.run_file = function()
         ruby       = 'ruby %',
         java       = 'javac % && java %:t:r',
         lua        = 'luajit %',
-        typescript = 'bin/es2panda % && bin/ark --boot-panda-files=plugins/ets/etsstdlib.abc --load-runtimes=ets %:t:r.abc %:t:r.ETSGLOBAL::main'
+        typescript = 'BUILD_DIR/bin/es2panda % --output /tmp/%:t:r.abc && '
+          .. 'BUILD_DIR/bin/ark_disasm --verbose /tmp/%:t:r.abc /tmp/%:t:r.dis && '
+          .. 'BUILD_DIR/bin/ark --boot-panda-files=BUILD_DIR/plugins/ets/etsstdlib.abc --load-runtimes=ets '
+          .. '/tmp/%:t:r.abc %:t:r.ETSGLOBAL::main'
     }
 
-    local cmd = fts[vim.bo.ft]
+    local template = fts[vim.bo.ft]
+    local build_dir = os.getenv('PI_BUILD_DIR')
+    local cmd = template:gsub('BUILD_DIR', build_dir)
     if not cmd then
       vim.cmd.echo('"No command for this filetype"')
     else

@@ -1,0 +1,11 @@
+{
+  "lastChangelogVersion": "0.68.0",
+  "packages": [
+    "npm:pi-multi-pass",
+    "npm:@ogulcancelik/pi-minimal-footer",
+    "npm:pi-updater"
+  ],
+  "defaultProvider": "openai-codex",
+  "defaultModel": "gpt-5.4",
+  "defaultThinkingLevel": "medium"
+}
