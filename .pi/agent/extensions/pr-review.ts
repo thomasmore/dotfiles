@@ -1,5 +1,4 @@
 import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
-import { isToolCallEventType } from "@mariozechner/pi-coding-agent";
 
 const REMOTE_NAME = "alt";
 const SPEC_DIR = process.env.PI_LANG_SPEC;
@@ -16,129 +15,18 @@ async function execChecked(pi: ExtensionAPI, command: string, args: string[]): P
 	return result.stdout.trim();
 }
 
-function shellSplit(command: string): string[] {
-	return command
-		.split(/&&|\|\||;|\|/)
-		.map((part) => part.trim())
-		.filter(Boolean);
-}
-
-function isReadOnlyGitSegment(tokens: string[]): boolean {
-	if (tokens.length < 2 || tokens[0] !== "git") {
-		return false;
-	}
-
-	const subcommand = tokens[1];
-	return new Set([
-		"show",
-		"diff",
-		"diff-tree",
-		"log",
-		"rev-parse",
-		"status",
-		"ls-tree",
-		"ls-files",
-		"cat-file",
-		"merge-base",
-		"blame",
-		"grep",
-	]).has(subcommand);
-}
-
-function isReadOnlyUtilitySegment(tokens: string[]): boolean {
-	if (tokens.length === 0) {
-		return true;
-	}
-
-	const command = tokens[0];
-	return new Set([
-		"pwd",
-		"ls",
-		"find",
-		"grep",
-		"rg",
-		"head",
-		"tail",
-		"sed",
-		"awk",
-		"cut",
-		"sort",
-		"uniq",
-		"wc",
-		"printf",
-		"echo",
-		"true",
-		"false",
-		"test",
-		"basename",
-		"dirname",
-		"realpath",
-	]).has(command);
-}
-
-function isSafeReadOnlyBash(command: string): boolean {
-	if (!command.trim()) {
-		return true;
-	}
-
-	if (/>|>>|<</.test(command)) {
-		return false;
-	}
-
-	const forbiddenPatterns = [
-		/\brm\b/,
-		/\bmv\b/,
-		/\bcp\b/,
-		/\btouch\b/,
-		/\bmkdir\b/,
-		/\brmdir\b/,
-		/\bchmod\b/,
-		/\bchown\b/,
-		/\btee\b/,
-		/\btruncate\b/,
-		/\binstall\b/,
-		/\bpatch\b/,
-		/\bsed\s+-i\b/,
-		/\bperl\s+-p?i\b/,
-		/\bgit\s+(fetch|pull|push|commit|add|apply|am|checkout|switch|restore|reset|revert|rebase|merge|cherry-pick|stash|tag|clean)\b/,
-	];
-
-	if (forbiddenPatterns.some((pattern) => pattern.test(command))) {
-		return false;
-	}
-
-	for (const segment of shellSplit(command)) {
-		const cleaned = segment.replace(/^\([^)]*\)\s*/, "").trim();
-		if (!cleaned) {
-			continue;
-		}
-
-		const tokens = cleaned.match(/(?:"[^"]*"|'[^']*'|\S+)/g) ?? [];
-		if (tokens.length === 0) {
-			continue;
-		}
-
-		if (isReadOnlyGitSegment(tokens) || isReadOnlyUtilitySegment(tokens)) {
-			continue;
-		}
-
-		return false;
-	}
-
-	return true;
-}
-
 function buildReviewPrompt(params: {
 	prNumber: number;
 	remoteUrl: string;
 	localRef: string;
+	checkedOutBranch: string;
 	lastSha: string;
 	lastSubject: string;
 	focus: string;
 	mode?: "review" | "rereview";
 	rereviewNotes?: string;
 }): string {
-	const { prNumber, remoteUrl, localRef, lastSha, lastSubject, focus, mode, rereviewNotes } = params;
+	const { prNumber, remoteUrl, localRef, checkedOutBranch, lastSha, lastSubject, focus, mode, rereviewNotes } = params;
 
 	const focusBlock = focus.trim()
 		? `Pay extra attention to these pain-points:\n- ${focus.trim()}`
@@ -167,6 +55,7 @@ function buildReviewPrompt(params: {
 		`- remote name: ${REMOTE_NAME}`,
 		`- remote URL: ${remoteUrl}`,
 		`- local ref: ${localRef}`,
+		`- checked out local branch: ${checkedOutBranch}`,
 		`- last commit SHA: ${lastSha}`,
 		`- last commit subject: ${lastSubject || "(unknown)"}`,
 		"",
@@ -176,10 +65,11 @@ function buildReviewPrompt(params: {
 		`Rules:`,
 		`1. Review only the last commit, not the full MR history.`,
 		`2. Inspect only files touched by the last commit.`,
-		`3. Do not modify files or git state.`,
+		`3. The PR branch is already checked out locally. You may inspect, build, run tests, and make temporary local modifications if that helps validate behavior, but do not create commits or switch away from the checked out PR branch.`,
 		`4. Check correctness against the language specification first, then look for regressions, edge cases, missing tests, and the requested pain-points.`,
 		`5. Use concrete file and symbol references whenever possible.`,
-		`6. If no issues are found, say "No issues found" and summarize what you checked.`,
+		`6. If you make local modifications to validate a hypothesis, mention that briefly in the review output.`,
+		`7. If no issues are found, say "No issues found" and summarize what you checked.`,
 		"",
 		`Suggested commands:`,
 		`- git show --stat --summary ${lastSha}`,
@@ -188,7 +78,7 @@ function buildReviewPrompt(params: {
 		`- git show ${lastSha} --`,
 		`- find relevant .rst files under ${SPEC_DIR}`,
 		`- read the relevant spec sections from ${SPEC_DIR}`,
-		`- inspect changed files with read, grep, find, ls, and read-only bash as needed`,
+		`- inspect changed files with read, grep, find, ls, bash, edit, and write as needed`,
 		`- if ${lastSha} has no parent, use git show ${lastSha} instead of git diff ${lastSha}^ ${lastSha}`,
 		"",
 		`Output format:`,
@@ -236,20 +126,6 @@ export default function prReviewExtension(pi: ExtensionAPI) {
 
 		reviewInProgress = false;
 		restoreTools();
-	});
-
-	pi.on("tool_call", async (event) => {
-		if (!reviewInProgress) {
-			return;
-		}
-
-		if (isToolCallEventType("bash", event) && !isSafeReadOnlyBash(event.input.command)) {
-			return {
-				block: true,
-				reason:
-					"Read-only review mode is active. Only non-mutating inspection commands are allowed during /pr-review and /pr-rereview.",
-			};
-		}
 	});
 
 	async function startReview(
@@ -312,19 +188,22 @@ export default function prReviewExtension(pi: ExtensionAPI) {
 			const remoteUrl = await execChecked(pi, "git", ["remote", "get-url", REMOTE_NAME]);
 			const prNumber = Number(prNumberText);
 			const localRef = `pr_${prNumber}`;
+			const checkedOutBranch = localRef;
 
 			await execChecked(pi, "git", [
 				"fetch",
 				remoteUrl,
 				`+refs/merge-requests/${prNumber}/head:${localRef}`,
 			]);
+			await execChecked(pi, "git", ["checkout", checkedOutBranch]);
+			await execChecked(pi, "git", ["reset", "--hard", localRef]);
 
 			lastReviewedPrNumber = prNumber;
-			const lastSha = await execChecked(pi, "git", ["rev-parse", localRef]);
+			const lastSha = await execChecked(pi, "git", ["rev-parse", checkedOutBranch]);
 			const lastSubject = await execChecked(pi, "git", ["show", "-s", "--format=%s", lastSha]);
 
 			const availableTools = new Set(pi.getAllTools().map((tool) => tool.name));
-			const reviewTools = ["read", "bash", "grep", "find", "ls"].filter((name) => availableTools.has(name));
+			const reviewTools = ["read", "bash", "edit", "write", "grep", "find", "ls"].filter((name) => availableTools.has(name));
 
 			previousTools = pi.getActiveTools();
 			if (reviewTools.length > 0) {
@@ -338,6 +217,7 @@ export default function prReviewExtension(pi: ExtensionAPI) {
 					prNumber,
 					remoteUrl,
 					localRef,
+					checkedOutBranch,
 					lastSha,
 					lastSubject,
 					focus,
@@ -346,7 +226,7 @@ export default function prReviewExtension(pi: ExtensionAPI) {
 				}),
 			);
 
-			ctx.ui.notify(`Started last-commit ${mode} for MR #${prNumber}`, "info");
+			ctx.ui.notify(`Started last-commit ${mode} for MR #${prNumber} on local branch ${checkedOutBranch}`, "info");
 		} catch (error) {
 			reviewInProgress = false;
 			restoreTools();
