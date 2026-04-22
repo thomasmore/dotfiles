@@ -1,12 +1,15 @@
 function __pienv_usage
     printf '%s\n' \
         'Usage:' \
-        '  pienv' \
-        '  pienv <runtime-repo-path>' \
+        '  pienv [--silent]' \
+        '  pienv [--silent] <runtime-repo-path>' \
         '' \
         'Description:' \
         '  Magically detects project/resource paths from the current directory and' \
         '  export fish environment variables for pi-related resources.' \
+        '' \
+        'Options:' \
+        '  --silent  Do not print exported variables on success.' \
         '' \
         '  Optionally accept a runtime repo path (relative or absolute). When provided,' \
         '  it overrides automatic runtime repo detection.'
@@ -90,24 +93,29 @@ function __pienv_read_cmake_cache_value --argument cache_file key
 end
 
 function pienv --description 'Populate PI_* path environment variables for the current fish shell'
-    if test (count $argv) -ge 1
-        switch $argv[1]
+    set -l silent 0
+    set -l runtime_repo_override
+
+    for arg in $argv
+        switch $arg
             case -h --help
                 __pienv_usage
                 return 0
+            case --silent
+                set silent 1
+            case '-*'
+                echo "pienv: unknown option: $arg" >&2
+                return 1
+            case '*'
+                if test -n "$runtime_repo_override"
+                    echo "pienv: expected at most one optional argument: <runtime-repo-path>" >&2
+                    return 1
+                end
+                set runtime_repo_override $arg
         end
     end
 
-    if test (count $argv) -gt 1
-        echo "pienv: expected at most one optional argument: <runtime-repo-path>" >&2
-        return 1
-    end
-
     set -l cwd (pwd -P)
-    set -l runtime_repo_override
-    if test (count $argv) -eq 1
-        set runtime_repo_override $argv[1]
-    end
 
     set -l build_dir
     set -l runtime_repo
@@ -173,10 +181,12 @@ function pienv --description 'Populate PI_* path environment variables for the c
     set -gx PI_RESOURCE_RUNTIME_REPO "$runtime_repo"
     set -gx PI_RESOURCE_FRONTEND_REPO "$frontend_repo"
 
-    printf '%s\n' \
-        "PI_BUILD_DIR=$PI_BUILD_DIR" \
-        "PI_TEST_DIR=$PI_TEST_DIR" \
-        "PI_LANG_SPEC=$PI_LANG_SPEC" \
-        "PI_RESOURCE_RUNTIME_REPO=$PI_RESOURCE_RUNTIME_REPO" \
-        "PI_RESOURCE_FRONTEND_REPO=$PI_RESOURCE_FRONTEND_REPO"
+    if test $silent -eq 0
+        printf '%s\n' \
+            "PI_BUILD_DIR=$PI_BUILD_DIR" \
+            "PI_TEST_DIR=$PI_TEST_DIR" \
+            "PI_LANG_SPEC=$PI_LANG_SPEC" \
+            "PI_RESOURCE_RUNTIME_REPO=$PI_RESOURCE_RUNTIME_REPO" \
+            "PI_RESOURCE_FRONTEND_REPO=$PI_RESOURCE_FRONTEND_REPO"
+    end
 end

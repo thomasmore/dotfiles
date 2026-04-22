@@ -2,7 +2,7 @@ import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
 import { isToolCallEventType } from "@mariozechner/pi-coding-agent";
 
 const REMOTE_NAME = "alt";
-const SPEC_DIR = "/home/mbolshov/arkcompiler_runtime_core/static_core/plugins/ets/doc/spec/";
+const SPEC_DIR = process.env.PI_LANG_SPEC;
 
 function formatExecError(command: string, args: string[], stdout: string, stderr: string): string {
 	return [`$ ${command} ${args.join(" ")}`, stdout.trim(), stderr.trim()].filter(Boolean).join("\n");
@@ -135,15 +135,26 @@ function buildReviewPrompt(params: {
 	lastSha: string;
 	lastSubject: string;
 	focus: string;
+	mode?: "review" | "rereview";
+	rereviewNotes?: string;
 }): string {
-	const { prNumber, remoteUrl, localRef, lastSha, lastSubject, focus } = params;
+	const { prNumber, remoteUrl, localRef, lastSha, lastSubject, focus, mode, rereviewNotes } = params;
 
 	const focusBlock = focus.trim()
 		? `Pay extra attention to these pain-points:\n- ${focus.trim()}`
 		: "No extra pain-points were specified.";
+	const rereviewBlock = rereviewNotes?.trim()
+		? [
+			"Rereview context:",
+			"- The author says previous review comments were addressed.",
+			"- First verify whether the issues described below are actually fixed.",
+			"- Then check whether the fix introduced any regressions or missed edge cases.",
+			`- Previously reported issues / comments: ${rereviewNotes.trim()}`,
+		].join("\n")
+		: "";
 
 	return [
-		`Review GitCode merge request #${prNumber}, but review ONLY the last commit.`,
+		`${mode === "rereview" ? "Rereview" : "Review"} GitCode merge request #${prNumber}, but review ONLY the last commit.`,
 		"",
 		`Language specification:`,
 		`- Spec root directory: ${SPEC_DIR}`,
@@ -160,6 +171,7 @@ function buildReviewPrompt(params: {
 		`- last commit subject: ${lastSubject || "(unknown)"}`,
 		"",
 		focusBlock,
+		rereviewBlock,
 		"",
 		`Rules:`,
 		`1. Review only the last commit, not the full MR history.`,
@@ -189,6 +201,26 @@ function buildReviewPrompt(params: {
 export default function prReviewExtension(pi: ExtensionAPI) {
 	let previousTools: string[] | undefined;
 	let reviewInProgress = false;
+	let lastReviewedPrNumber: number | undefined;
+
+	function getRememberedPrNumber(): number | undefined {
+		if (lastReviewedPrNumber !== undefined) {
+			return lastReviewedPrNumber;
+		}
+
+		const sessionName = pi.getSessionName()?.trim();
+		if (!sessionName) {
+			return undefined;
+		}
+
+		const match = sessionName.match(/(?:^|\b)(?:MR|PR)\s+(\d+)\b/i);
+		if (!match) {
+			return undefined;
+		}
+
+		const prNumber = Number(match[1]);
+		return Number.isFinite(prNumber) ? prNumber : undefined;
+	}
 
 	function restoreTools(): void {
 		if (previousTools) {
@@ -215,81 +247,124 @@ export default function prReviewExtension(pi: ExtensionAPI) {
 			return {
 				block: true,
 				reason:
-					"Read-only review mode is active. Only non-mutating inspection commands are allowed during /pr-review.",
+					"Read-only review mode is active. Only non-mutating inspection commands are allowed during /pr-review and /pr-rereview.",
 			};
 		}
 	});
 
+	async function startReview(
+		args: string,
+		ctx: any,
+		options?: {
+			mode?: "review" | "rereview";
+			defaultNotes?: string;
+		},
+	): Promise<void> {
+		const mode = options?.mode ?? "review";
+		const commandName = mode === "rereview" ? "/pr-rereview" : "/pr-review";
+
+		if (!ctx.isIdle()) {
+			ctx.ui.notify(`Wait for the current task to finish, then run ${commandName} again.`, "warning");
+			return;
+		}
+
+		const trimmedArgs = args.trim();
+		const match = trimmedArgs.match(/^(\d+)(?:\s+(.*))?$/s);
+		let prNumberText = match?.[1] ?? "";
+		let focus = match ? match[2]?.trim() ?? "" : trimmedArgs;
+		const rememberedPrNumber = getRememberedPrNumber();
+
+		if (!prNumberText && rememberedPrNumber !== undefined) {
+			prNumberText = String(rememberedPrNumber);
+		}
+
+		if (!prNumberText) {
+			prNumberText =
+				(await ctx.ui.input(
+					"Merge request number",
+					rememberedPrNumber !== undefined ? String(rememberedPrNumber) : "10439",
+				))?.trim() ?? "";
+		}
+		if (!prNumberText) {
+			return;
+		}
+
+		if (!focus) {
+			focus =
+				(await ctx.ui.input(
+					"Pain-points to check (optional)",
+					"e.g. nullability, error handling, missing tests",
+				))?.trim() ?? "";
+		}
+
+		let rereviewNotes = options?.defaultNotes ?? "";
+		if (mode === "rereview") {
+			rereviewNotes =
+				(await ctx.ui.input(
+					"Previously reported issues/comments to verify",
+					"e.g. null-check is missing in foo(), test coverage for empty input is missing",
+				))?.trim() ?? "";
+		}
+
+		try {
+			await execChecked(pi, "git", ["rev-parse", "--is-inside-work-tree"]);
+
+			const remoteUrl = await execChecked(pi, "git", ["remote", "get-url", REMOTE_NAME]);
+			const prNumber = Number(prNumberText);
+			const localRef = `pr_${prNumber}`;
+
+			await execChecked(pi, "git", [
+				"fetch",
+				remoteUrl,
+				`+refs/merge-requests/${prNumber}/head:${localRef}`,
+			]);
+
+			lastReviewedPrNumber = prNumber;
+			const lastSha = await execChecked(pi, "git", ["rev-parse", localRef]);
+			const lastSubject = await execChecked(pi, "git", ["show", "-s", "--format=%s", lastSha]);
+
+			const availableTools = new Set(pi.getAllTools().map((tool) => tool.name));
+			const reviewTools = ["read", "bash", "grep", "find", "ls"].filter((name) => availableTools.has(name));
+
+			previousTools = pi.getActiveTools();
+			if (reviewTools.length > 0) {
+				pi.setActiveTools(reviewTools);
+			}
+
+			reviewInProgress = true;
+			pi.setSessionName(`MR ${prNumber} last-commit ${mode}`);
+			pi.sendUserMessage(
+				buildReviewPrompt({
+					prNumber,
+					remoteUrl,
+					localRef,
+					lastSha,
+					lastSubject,
+					focus,
+					mode,
+					rereviewNotes,
+				}),
+			);
+
+			ctx.ui.notify(`Started last-commit ${mode} for MR #${prNumber}`, "info");
+		} catch (error) {
+			reviewInProgress = false;
+			restoreTools();
+			ctx.ui.notify(error instanceof Error ? error.message : String(error), "error");
+		}
+	}
+
 	pi.registerCommand("pr-review", {
 		description: "Fetch a GitCode MR from remote 'alt' and review only its last commit",
 		handler: async (args, ctx) => {
-			if (!ctx.isIdle()) {
-				ctx.ui.notify("Wait for the current task to finish, then run /pr-review again.", "warning");
-				return;
-			}
+			await startReview(args, ctx, { mode: "review" });
+		},
+	});
 
-			const match = args.trim().match(/^(\d+)(?:\s+(.*))?$/s);
-			let prNumberText = match?.[1] ?? "";
-			let focus = match?.[2]?.trim() ?? "";
-
-			if (!prNumberText) {
-				prNumberText = (await ctx.ui.input("Merge request number", "10439"))?.trim() ?? "";
-			}
-			if (!prNumberText) {
-				return;
-			}
-
-			if (!focus) {
-				focus =
-					(await ctx.ui.input(
-						"Pain-points to check (optional)",
-						"e.g. nullability, error handling, missing tests",
-					))?.trim() ?? "";
-			}
-
-			try {
-				await execChecked(pi, "git", ["rev-parse", "--is-inside-work-tree"]);
-
-				const remoteUrl = await execChecked(pi, "git", ["remote", "get-url", REMOTE_NAME]);
-				const prNumber = Number(prNumberText);
-				const localRef = `pr_${prNumber}`;
-
-				await execChecked(pi, "git", [
-					"fetch",
-					remoteUrl,
-					`+refs/merge-requests/${prNumber}/head:${localRef}`,
-				]);
-
-				const lastSha = await execChecked(pi, "git", ["rev-parse", localRef]);
-				const lastSubject = await execChecked(pi, "git", ["show", "-s", "--format=%s", lastSha]);
-
-				const availableTools = new Set(pi.getAllTools().map((tool) => tool.name));
-				const reviewTools = ["read", "bash", "grep", "find", "ls"].filter((name) => availableTools.has(name));
-
-				previousTools = pi.getActiveTools();
-				if (reviewTools.length > 0) {
-					pi.setActiveTools(reviewTools);
-				}
-
-				reviewInProgress = true;
-				pi.setSessionName(`MR ${prNumber} last-commit review`);
-				pi.sendUserMessage(
-					buildReviewPrompt({
-						prNumber,
-						remoteUrl,
-						localRef,
-						lastSha,
-						lastSubject,
-						focus,
-					}),
-				);
-
-				ctx.ui.notify(`Started last-commit review for MR #${prNumber}`, "info");
-			} catch (error) {
-				reviewInProgress = false;
-				restoreTools();
-				ctx.ui.notify(error instanceof Error ? error.message : String(error), "error");
-			}
+	pi.registerCommand("pr-rereview", {
+		description: "Fetch a GitCode MR from remote 'alt' and rereview only its last commit after comments were addressed",
+		handler: async (args, ctx) => {
+			await startReview(args, ctx, { mode: "rereview" });
 		},
 	});
 }
