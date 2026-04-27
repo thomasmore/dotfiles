@@ -96,7 +96,7 @@ buf_init(mem_buf, LENGTH)
 
 wezterm.on('update-right-status', function(window)
     if counter <= 0 then
-        local success, stdout, _ = wezterm.run_child_process{'curl', 'wttr.in/Moscow?format=1'}
+        local success, stdout, _ = wezterm.run_child_process{'curl', 'wttr.in?format=1'}
         if success and stdout:len() < 100 then
             weather = stdout
         else

@@ -33,7 +33,6 @@ _G.status_win = nil
 
 require('lualine').setup {
   options = {
-    theme = 'catppuccin',
     section_separators = { left = '', right = ''},
     component_separators = '',
     always_divide_middle = false,

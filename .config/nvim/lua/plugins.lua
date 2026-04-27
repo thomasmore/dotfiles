@@ -60,6 +60,7 @@ require 'paq' {
   {
     'nvim-treesitter/nvim-treesitter',
     build = vim.cmd.TSUpdate,
+    branch = "master",
     config = function()
       require('nvim-treesitter.configs').setup {
         ensure_installed = { 'lua', 'vim', 'c', 'cpp', 'java', 'ruby', 'python', 'cmake', 'bash', 'json',
@@ -298,11 +299,6 @@ require 'paq' {
   'SmiteshP/nvim-navic',
 
   {
-    'hoob3rt/lualine.nvim',
-    config = function() require('config.statusline') end
-  },
-
-  {
     'folke/which-key.nvim',
     config = function() require('config.whichkey') end
   },
@@ -319,6 +315,11 @@ require 'paq' {
       }
       vim.cmd.colorscheme('catppuccin')
     end
+  },
+
+  {
+    'hoob3rt/lualine.nvim',
+    config = function() require('config.statusline') end
   },
 
   {
@@ -510,12 +511,6 @@ require 'paq' {
     config = function()
       -- Required for `opts.events.reload`.
       vim.o.autoread = true
-
-      vim.g.opencode_opts = {
-        provider = {
-          enabled = 'terminal',
-        }
-      }
 
       -- Recommended/example keymaps.
       nmap('<leader>aa', function() require('opencode').ask('', { submit = true }) end, 'Ask opencode')
