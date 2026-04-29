@@ -23,4 +23,4 @@ abbr L --position anywhere --set-cursor "% | bat"
 abbr dt dotfiles
 abbr gco git checkout
 
-pienv --silent $HOME/arkcompiler_runtime_core/static_core
+pienv --silent $HOME/workspace/panda/static_core

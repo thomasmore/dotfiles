@@ -3,8 +3,7 @@ import * as path from "node:path";
 import type { ExtensionAPI, ExtensionContext } from "@mariozechner/pi-coding-agent";
 
 const EXTENSION_TYPE = "paths-from-env";
-// const WORKSPACE_ROOT = path.join(os.homedir(), "workspace");
-const WORKSPACE_ROOT = os.homedir();
+const WORKSPACE_ROOT = path.join(os.homedir(), "workspace");
 
 const KNOWN_PATH_VARS: ReadonlyArray<readonly [string, string]> = [
 	["Runtime repo", "PI_RESOURCE_RUNTIME_REPO"],
