@@ -1,8 +1,11 @@
 {
-  "lastChangelogVersion": "0.70.0",
+  "lastChangelogVersion": "0.74.0",
   "packages": [
     "npm:pi-multi-pass",
-    "npm:@ogulcancelik/pi-minimal-footer"
+    "git:github.com/cgxeiji/pi-emote",
+    "npm:@juicesharp/rpiv-ask-user-question",
+    "npm:@juicesharp/rpiv-btw",
+    "npm:@samfp/pi-memory"
   ],
   "defaultProvider": "openai-codex",
   "defaultModel": "gpt-5.5",

@@ -2,6 +2,9 @@ import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
 
 const REMOTE_NAME = "alt";
 const SPEC_DIR = process.env.PI_LANG_SPEC;
+const MAX_AUTO_REREVIEW_NOTES_CHARS = 12000;
+
+type ReviewMode = "review" | "rereview";
 
 function formatExecError(command: string, args: string[], stdout: string, stderr: string): string {
 	return [`$ ${command} ${args.join(" ")}`, stdout.trim(), stderr.trim()].filter(Boolean).join("\n");
@@ -23,7 +26,7 @@ function buildReviewPrompt(params: {
 	lastSha: string;
 	lastSubject: string;
 	focus: string;
-	mode?: "review" | "rereview";
+	mode?: ReviewMode;
 	rereviewNotes?: string;
 }): string {
 	const { prNumber, remoteUrl, localRef, checkedOutBranch, lastSha, lastSubject, focus, mode, rereviewNotes } = params;
@@ -35,9 +38,13 @@ function buildReviewPrompt(params: {
 		? [
 			"Rereview context:",
 			"- The author says previous review comments were addressed.",
-			"- First verify whether the issues described below are actually fixed.",
+			"- The previous review output below was auto-filled from this pi session.",
+			"- Extract the concrete previously reported issues/comments from it first.",
+			"- First verify whether those issues are actually fixed.",
 			"- Then check whether the fix introduced any regressions or missed edge cases.",
-			`- Previously reported issues / comments: ${rereviewNotes.trim()}`,
+			"",
+			"Previous review output:",
+			rereviewNotes.trim(),
 		].join("\n")
 		: "";
 
@@ -88,6 +95,91 @@ function buildReviewPrompt(params: {
 	].join("\n");
 }
 
+function textFromContent(content: unknown): string {
+	if (typeof content === "string") {
+		return content;
+	}
+
+	if (!Array.isArray(content)) {
+		return "";
+	}
+
+	return content
+		.map((block) => {
+			if (block && typeof block === "object" && (block as { type?: unknown }).type === "text") {
+				const text = (block as { text?: unknown }).text;
+				return typeof text === "string" ? text : "";
+			}
+			return "";
+		})
+		.filter(Boolean)
+		.join("\n");
+}
+
+function getMessageText(entry: unknown, role?: string): string {
+	if (!entry || typeof entry !== "object") {
+		return "";
+	}
+
+	const maybeEntry = entry as { type?: unknown; message?: { role?: unknown; content?: unknown } };
+	if (maybeEntry.type !== "message" || !maybeEntry.message) {
+		return "";
+	}
+
+	if (role !== undefined && maybeEntry.message.role !== role) {
+		return "";
+	}
+
+	return textFromContent(maybeEntry.message.content).trim();
+}
+
+function getGeneratedReviewPrNumber(text: string): number | undefined {
+	const match = text.trim().match(/^(?:Review|Rereview) GitCode merge request #(\d+), but review ONLY the last commit\./);
+	if (!match) {
+		return undefined;
+	}
+
+	const prNumber = Number(match[1]);
+	return Number.isFinite(prNumber) ? prNumber : undefined;
+}
+
+function truncateAutoNotes(text: string): string {
+	const trimmed = text.trim();
+	if (trimmed.length <= MAX_AUTO_REREVIEW_NOTES_CHARS) {
+		return trimmed;
+	}
+
+	return `${trimmed.slice(0, MAX_AUTO_REREVIEW_NOTES_CHARS)}\n\n[Truncated to ${MAX_AUTO_REREVIEW_NOTES_CHARS} characters.]`;
+}
+
+function findLatestReviewOutput(ctx: any, prNumber: number): string | undefined {
+	const branch = ctx.sessionManager.getBranch();
+
+	for (let promptIndex = branch.length - 1; promptIndex >= 0; promptIndex--) {
+		const promptText = getMessageText(branch[promptIndex], "user");
+		if (getGeneratedReviewPrNumber(promptText) !== prNumber) {
+			continue;
+		}
+
+		let endIndex = branch.length;
+		for (let index = promptIndex + 1; index < branch.length; index++) {
+			if (getMessageText(branch[index], "user")) {
+				endIndex = index;
+				break;
+			}
+		}
+
+		for (let index = endIndex - 1; index > promptIndex; index--) {
+			const text = getMessageText(branch[index], "assistant");
+			if (text) {
+				return truncateAutoNotes(text);
+			}
+		}
+	}
+
+	return undefined;
+}
+
 export default function prReviewExtension(pi: ExtensionAPI) {
 	let previousTools: string[] | undefined;
 	let reviewInProgress = false;
@@ -132,7 +224,7 @@ export default function prReviewExtension(pi: ExtensionAPI) {
 		args: string,
 		ctx: any,
 		options?: {
-			mode?: "review" | "rereview";
+			mode?: ReviewMode;
 			defaultNotes?: string;
 		},
 	): Promise<void> {
@@ -175,11 +267,21 @@ export default function prReviewExtension(pi: ExtensionAPI) {
 
 		let rereviewNotes = options?.defaultNotes ?? "";
 		if (mode === "rereview") {
-			rereviewNotes =
-				(await ctx.ui.input(
-					"Previously reported issues/comments to verify",
-					"e.g. null-check is missing in foo(), test coverage for empty input is missing",
-				))?.trim() ?? "";
+			const prNumberForNotes = Number(prNumberText);
+			if (!rereviewNotes && Number.isFinite(prNumberForNotes)) {
+				rereviewNotes = findLatestReviewOutput(ctx, prNumberForNotes) ?? "";
+				if (rereviewNotes) {
+					ctx.ui.notify("Auto-filled rereview context from the previous review in this session", "info");
+				}
+			}
+
+			if (!rereviewNotes) {
+				rereviewNotes =
+					(await ctx.ui.input(
+						"Previously reported issues/comments to verify",
+						"e.g. null-check is missing in foo(), test coverage for empty input is missing",
+					))?.trim() ?? "";
+			}
 		}
 
 		try {
@@ -242,7 +344,7 @@ export default function prReviewExtension(pi: ExtensionAPI) {
 	});
 
 	pi.registerCommand("pr-rereview", {
-		description: "Fetch a GitCode MR from remote 'alt' and rereview only its last commit after comments were addressed",
+		description: "Fetch a GitCode MR and rereview only its last commit, auto-filling prior concerns from this session",
 		handler: async (args, ctx) => {
 			await startReview(args, ctx, { mode: "rereview" });
 		},

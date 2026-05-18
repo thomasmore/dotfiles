@@ -1,0 +1,21 @@
+{
+  "subscriptions": [
+    {
+      "provider": "openai-codex",
+      "index": 2
+    }
+  ],
+  "pools": [
+    {
+      "name": "Codex",
+      "baseProvider": "openai-codex",
+      "members": [
+        "openai-codex",
+        "openai-codex-2"
+      ],
+      "enabled": true
+    }
+  ],
+  "chains": [],
+  "presets": []
+}
