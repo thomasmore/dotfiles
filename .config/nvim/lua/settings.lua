@@ -83,7 +83,7 @@ g.loaded_matchparen = 1
 set.diffopt = 'vertical'
 
 aucmd('TextYankPost', settings_augroup, '*', function()
-  vim.highlight.on_yank()
+  vim.hl.hl_op()
 end)
 
 -- highlight long lines and add more patterns for errorformat

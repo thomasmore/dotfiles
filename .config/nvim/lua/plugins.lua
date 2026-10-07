@@ -1,8 +1,10 @@
-local nmap = require('utils').nmap
-local vmap = require('utils').vmap
-local tmap = require('utils').tmap
-local xmap = require('utils').xmap
-local omap = require('utils').omap
+local utils = require('utils')
+local nmap = utils.nmap
+local vmap = utils.vmap
+local tmap = utils.tmap
+local xmap = utils.xmap
+local omap = utils.omap
+local aucmd = utils.aucmd
 
 require 'paq' {
   'thomasmore/paq-nvim',
@@ -60,23 +62,17 @@ require 'paq' {
   {
     'nvim-treesitter/nvim-treesitter',
     build = vim.cmd.TSUpdate,
-    branch = "master",
+    branch = "main",
     config = function()
-      require('nvim-treesitter.configs').setup {
-        ensure_installed = { 'lua', 'vim', 'c', 'cpp', 'java', 'ruby', 'python', 'cmake', 'bash', 'json',
-            'markdown', 'markdown_inline', },
-        highlight = {
-          enable = true,
-        },
-        incremental_selection = {
-          enable = true,
-          keymaps = {
-            init_selection = '<cr>',
-            node_incremental = '<cr>',
-            node_decremental = '<bs>',
-          }
-        }
+      require('nvim-treesitter').install {
+        'lua', 'vim', 'c', 'cpp', 'java', 'ruby', 'python', 'cmake', 'bash', 'json',
+        'markdown', 'markdown_inline',
       }
+      aucmd('FileType', 'mytreesitter', '*', function(args)
+        if not pcall(vim.treesitter.start, args.buf) then
+          return
+        end
+      end)
     end
   },
   'nvim-treesitter/nvim-treesitter-context',
@@ -96,14 +92,22 @@ require 'paq' {
     config = function()
       require('various-textobjs').setup {
         keymaps = {
-          useDefaults = true
+          useDefaults = true,
+          disabledDefaults = { 'in', 'an' }
         }
       }
     end
   },
   {
     'echasnovski/mini.ai',
-    config = function() require('mini.ai').setup() end
+    config = function() require('mini.ai').setup({
+      mappings = {
+        around_next = 'aN',
+        inside_next = 'iN',
+        around_last = 'aL',
+        inside_last = 'iL',
+      }
+    }) end
   },
   'David-Kunz/treesitter-unit',
 
