@@ -1,5 +1,5 @@
 {
-  "lastChangelogVersion": "1.0.4",
+  "lastChangelogVersion": "1.5.0",
   "packages": [
     "npm:pi-multi-pass",
     "git:github.com/cgxeiji/pi-emote",
@@ -7,15 +7,25 @@
     "npm:@juicesharp/rpiv-btw",
     "npm:pi-web-access",
     "npm:pi-schedule-prompt",
-    "npm:@gotgenes/pi-anthropic-auth"
+    "npm:@gotgenes/pi-anthropic-auth",
+    "npm:@narumitw/pi-retry"
   ],
   "defaultProvider": "devagent",
   "defaultModel": "cortex",
   "defaultThinkingLevel": "high",
+  "defaultTools": [
+    "+codemode"
+  ],
   "hideThinkingBlock": true,
   "theme": "dark",
   "terminal": {
     "showTerminalProgress": true
   },
-  "showCacheMissNotices": true
+  "showCacheMissNotices": true,
+  "extensionChangelogVersions": {
+    "{\"source\":\"git:github.com/cgxeiji/pi-emote\",\"scope\":\"user\"}": "0.3.0",
+    "{\"source\":\"npm:pi-web-access\",\"scope\":\"user\"}": "0.47.0",
+    "{\"source\":\"npm:pi-schedule-prompt\",\"scope\":\"user\"}": "0.4.1",
+    "{\"source\":\"npm:@gotgenes/pi-anthropic-auth\",\"scope\":\"user\"}": "3.4.4"
+  }
 }

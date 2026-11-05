@@ -24,3 +24,8 @@ abbr dt dotfiles
 abbr gco git checkout
 
 pienv --silent $HOME/workspace/panda/static_core
+
+# Arkestr credentials
+if test -f $HOME/.config/arkestr/env.fish
+    source $HOME/.config/arkestr/env.fish
+end
