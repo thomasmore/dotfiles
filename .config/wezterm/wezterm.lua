@@ -26,75 +26,6 @@ if wezterm.running_under_wsl() then
     default_domain = 'WSL:Ubuntu'
 end
 
-local function env_path(name, user_vars)
-    local value = user_vars and user_vars[name]
-    if value and value ~= '' then
-        return value
-    end
-
-    value = os.getenv(name)
-    if value and value ~= '' then
-        return value
-    end
-
-    wezterm.log_error(name .. ' is not set; falling back to $HOME')
-    return os.getenv('HOME') or '.'
-end
-
-local function spawn_tab(mux_window, title, cwd, args, env)
-    local opts = {
-        cwd = cwd,
-        set_environment_variables = env,
-    }
-    if args then
-        opts.args = args
-    end
-
-    local tab = mux_window:spawn_tab(opts)
-    tab:set_title(title)
-    return tab
-end
-
-local function create_dev_workspace_action()
-    return act.PromptInputLine {
-        description = 'New dev workspace name',
-        action = wezterm.action_callback(function(window, pane, line)
-            if not line or line == '' then
-                return
-            end
-
-            local workspace = line
-            local user_vars = pane:get_user_vars()
-            local frontend = env_path('PI_RESOURCE_FRONTEND_REPO', user_vars)
-            local build = env_path('PI_BUILD_DIR', user_vars)
-            local runtime = env_path('PI_RESOURCE_RUNTIME_REPO', user_vars)
-            local env = {
-                PI_RESOURCE_FRONTEND_REPO = frontend,
-                PI_RESOURCE_RUNTIME_REPO = runtime,
-                PI_BUILD_DIR = build,
-                PI_TEST_DIR = env_path('PI_TEST_DIR', user_vars),
-                PI_LANG_SPEC = env_path('PI_LANG_SPEC', user_vars),
-            }
-
-            local agent_tab, agent_pane, mux_window = mux.spawn_window {
-                workspace = workspace,
-                cwd = frontend,
-                args = { 'pi' },
-                set_environment_variables = env,
-            }
-            agent_tab:set_title('agent')
-
-            spawn_tab(mux_window, 'frontend', frontend, nil, env)
-            spawn_tab(mux_window, 'build', build, nil, env)
-            spawn_tab(mux_window, 'runtime', runtime, nil, env)
-
-            agent_tab:activate()
-            agent_pane:activate()
-            mux.set_active_workspace(workspace)
-        end),
-    }
-end
-
 local function rename_tab_action()
     return act.PromptInputLine {
         description = 'Rename current tab',
@@ -159,7 +90,6 @@ local config = {
         { key = 'r', mods = 'LEADER', action = act.ActivateTab(3) },
         { key = 'a', mods = 'LEADER', action = act.ShowLauncherArgs { flags = 'FUZZY|WORKSPACES' } },
         { key = 'z', mods = 'LEADER', action = act.SwitchToWorkspace { name = 'scratch' } },
-        { key = 'n', mods = 'LEADER', action = create_dev_workspace_action() },
         { key = 'm', mods = 'LEADER', action = rename_tab_action() },
         { key = 'M', mods = 'LEADER|SHIFT', action = rename_workspace_action() },
         { key = '<', mods = 'LEADER|SHIFT', action = act.MoveTabRelative(-1) },
