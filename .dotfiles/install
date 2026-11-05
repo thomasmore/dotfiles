@@ -19,8 +19,8 @@ npm i -g @earendil-works/pi-coding-agent
 git clone --depth 1 https://github.com/junegunn/fzf.git $HOME/.fzf
 $HOME/.fzf/install
 
-git clone --depth=1 https://github.com/thomasmore/paq-nvim.git "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/pack/paqs/start/paq-nvim
-nvim --headless -c 'autocmd User PaqDoneSync quitall' -c 'PaqSync'
+# vim.pack installs all plugins on first start (non-interactively in headless mode)
+nvim --headless -c 'quitall' </dev/null
 
 curl https://sh.rustup.rs -sSf | sh
 

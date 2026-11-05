@@ -6,8 +6,7 @@ local xmap = utils.xmap
 local omap = utils.omap
 local aucmd = utils.aucmd
 
-require 'paq' {
-  'thomasmore/paq-nvim',
+require 'pack' {
 
   'nvim-lua/popup.nvim',
   'nvim-lua/plenary.nvim',
@@ -310,6 +309,7 @@ require 'paq' {
 
   {
     'catppuccin/nvim',
+    as = 'catppuccin',
     config = function()
       require('catppuccin').setup {
         flavour = 'frappe',
