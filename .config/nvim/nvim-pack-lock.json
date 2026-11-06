@@ -66,7 +66,7 @@
     },
     "lualine.nvim": {
       "rev": "221ce6b2d999187044529f49da6554a92f740a96",
-      "src": "https://github.com/hoob3rt/lualine.nvim"
+      "src": "https://github.com/nvim-lualine/lualine.nvim"
     },
     "luatab.nvim": {
       "rev": "7ac54b014b542f02a73b62fcae65db7a2382a378",
@@ -150,7 +150,7 @@
     },
     "nvim-tree.lua": {
       "rev": "69eb0c34ed3d836d5a0d92d913b77dd73b054f2f",
-      "src": "https://github.com/kyazdani42/nvim-tree.lua"
+      "src": "https://github.com/nvim-tree/nvim-tree.lua"
     },
     "nvim-treesitter": {
       "rev": "610734c5d3e59761d5f79318d120633374537fa5",
@@ -166,12 +166,8 @@
       "src": "https://github.com/chrisgrieser/nvim-various-textobjs"
     },
     "nvim-web-devicons": {
-      "rev": "ec309a0eaff6ea967e58c275996155ab5c16938d",
-      "src": "https://github.com/kyazdani42/nvim-web-devicons"
-    },
-    "opencode.nvim": {
-      "rev": "4851ae503585dc5142ad66a98e8952a74e1f7b3a",
-      "src": "https://github.com/NickvanDyke/opencode.nvim"
+      "rev": "0dc0cfb0c6858041174a53c7aa4adaf65e994b3c",
+      "src": "https://github.com/nvim-tree/nvim-web-devicons"
     },
     "outline.nvim": {
       "rev": "03ce1482222dc2bf1f781559508301f05382936d",

@@ -15,7 +15,7 @@ require 'pack' {
     config = function() vim.notify = require('notify') end
   },
   'stevearc/dressing.nvim',
-  'kyazdani42/nvim-web-devicons',
+  'nvim-tree/nvim-web-devicons',
 
   'tpope/vim-repeat',
   'bogado/file-line',
@@ -92,7 +92,7 @@ require 'pack' {
       require('various-textobjs').setup {
         keymaps = {
           useDefaults = true,
-          disabledDefaults = { 'in', 'an' }
+          disabledDefaults = { 'in', 'an', 'Q' }
         }
       }
     end
@@ -217,7 +217,7 @@ require 'pack' {
   },
 
   {
-    'kyazdani42/nvim-tree.lua',
+    'nvim-tree/nvim-tree.lua',
     config = function()
       local ntree = require('nvim-tree')
       local api = require('nvim-tree.api')
@@ -323,7 +323,7 @@ require 'pack' {
   },
 
   {
-    'hoob3rt/lualine.nvim',
+    'nvim-lualine/lualine.nvim',
     config = function() require('config.statusline') end
   },
 
@@ -444,11 +444,11 @@ require 'pack' {
         },
         routes = {
           {
-            filter = { event = 'msg_show', kind = '', find = '^[%?/]' },
+            filter = { event = 'msg_show', kind = 'search_cmd' },
             opts = { skip = true },
           },
           {
-            filter = { event = 'msg_show', kind = '', find = 'written' },
+            filter = { event = 'msg_show', find = 'written' },
             opts = { skip = true },
           },
         },
@@ -510,23 +510,4 @@ require 'pack' {
       require('checkmate').setup()
     end
   },
-
-  {
-    'NickvanDyke/opencode.nvim',
-    config = function()
-      -- Required for `opts.events.reload`.
-      vim.o.autoread = true
-
-      -- Recommended/example keymaps.
-      nmap('<leader>aa', function() require('opencode').ask('', { submit = true }) end, 'Ask opencode')
-      xmap('<leader>aa', function() require('opencode').ask('', { submit = true }) end, 'Ask opencode')
-      nmap('<leader>as', function() require('opencode').select() end, 'Select opencode action…')
-      xmap('<leader>as', function() require('opencode').select() end, 'Select opencode action…')
-      nmap('<leader>at', function() require('opencode').toggle() end, 'Toggle opencode')
-
-      nmap('go', function() return require('opencode').operator('@this ') end, 'Add range to opencode', { expr = true })
-      xmap('go', function() return require('opencode').operator('@this ') end, 'Add range to opencode', { expr = true })
-      nmap('goo', function() return require('opencode').operator('@this ') .. '_' end, 'Add line to opencode', { expr = true })
-    end
-  }
 }

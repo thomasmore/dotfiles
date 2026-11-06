@@ -6,17 +6,26 @@ local on_attach = function(client, bufnr)
     navic.attach(client, bufnr)
   end
 
-  nmap('gD', vim.lsp.buf.declaration, 'Go to declaration')
-  nmap('H', vim.lsp.buf.hover, 'Hover window for word under cursor')
-  nmap('<c-LeftMouse>', '<LeftMouse><cmd>lua vim.lsp.buf.hover()<cr>', 'ctrl-click to hover word')
-  nmap('gp', function() vim.diagnostic.jump{ count = -1, float = true } end, 'Go to previous diagnostic')
-  nmap('gn', function() vim.diagnostic.jump{ count = 1, float = true } end, 'Go to next diagnostic')
-  nmap('<leader>q', vim.diagnostic.setloclist, 'Move diagnostic into location list')
-  nmap('<leader>ln', vim.diagnostic.open_float, 'Diagnostic for current line')
-  nmap('<leader>lf', function() vim.lsp.buf.format({ async = false }) end, 'Format code')
+  local function bmap(from, to, desc)
+    nmap(from, to, desc, { silent = true, buffer = bufnr })
+  end
+
+  bmap('gD', vim.lsp.buf.declaration, 'Go to declaration')
+  bmap('H', vim.lsp.buf.hover, 'Hover window for word under cursor')
+  bmap('<leader>q', vim.diagnostic.setloclist, 'Move diagnostic into location list')
+  bmap('<leader>ln', vim.diagnostic.open_float, 'Diagnostic for current line')
+  bmap('<leader>lf', function() vim.lsp.buf.format({ async = false }) end, 'Format code')
 end
 
 vim.diagnostic.config({
+  -- builtin ]d/[d/]D/[D show the float after jumping
+  jump = {
+    on_jump = function(diagnostic, bufnr)
+      if diagnostic then
+        vim.diagnostic.open_float({ bufnr = bufnr, scope = 'cursor', focus = false })
+      end
+    end,
+  },
   virtual_text = false,
   update_in_insert = false,
   underline = false,
@@ -36,9 +45,9 @@ vim.diagnostic.config({
   },
 })
 
-local capabilites = require('cmp_nvim_lsp').default_capabilities()
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
 local servers = { 'clangd', 'solargraph', 'bashls', 'lua_ls', 'pylsp', 'ts_ls' }
 for _, lsp in ipairs(servers) do
-  vim.lsp.config(lsp, { on_attach = on_attach, capabilites = capabilites })
+  vim.lsp.config(lsp, { on_attach = on_attach, capabilities = capabilities })
 end
 vim.lsp.enable(servers)

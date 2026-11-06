@@ -56,6 +56,8 @@ cmp.setup({
     ["<Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
+      elseif vim.snippet.active({ direction = 1 }) then
+        vim.snippet.jump(1)
       elseif has_words_before() then
         cmp.complete()
       else
@@ -63,9 +65,13 @@ cmp.setup({
       end
     end, { "i", "s" }),
 
-    ["<S-Tab>"] = cmp.mapping(function()
+    ["<S-Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_prev_item()
+      elseif vim.snippet.active({ direction = -1 }) then
+        vim.snippet.jump(-1)
+      else
+        fallback()
       end
     end, { "i", "s" }),
   },

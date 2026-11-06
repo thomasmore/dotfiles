@@ -29,8 +29,11 @@ nmap('dgr', '<cmd>diffget //3<cr>', 'Diff get right')
 nmap('Gd', 'gd', 'Goto local declaration')
 -- goto bottom without irritating delay
 nmap('GG', 'G', 'Goto the last line of file')
--- open file under cursor in previous window (used to open files from terminal output)
-nmap('gx', '<cmd>let _curf=expand("<cWORD>")<cr><c-w>p:execute("e "._curf)<cr>', 'Open file under cursor')
+-- open file under cursor in previous window (terminal only, keeps builtin gx elsewhere)
+aucmd('TermOpen', 'term_gx', '*', function(args)
+  nmap('gx', '<cmd>let _curf=expand("<cWORD>")<cr><c-w>p:execute("e "._curf)<cr>', 'Open file under cursor',
+    { silent = true, buffer = args.buf })
+end)
 nmap('<f2>', function()
   vim.cmd.nohlsearch()
   vim.cmd.diffupdate()

@@ -68,7 +68,14 @@ telescope.load_extension('zf-native')
 telescope.load_extension('live_grep_args')
 
 nmap('<c-p>', builtins.find_files, 'Find file')
-nmap('<c-l>', builtins.current_buffer_fuzzy_find, 'Live search in current file')
+nmap('<c-l>', function()
+  local ns = vim.api.nvim_create_namespace('nvim.multicursor')
+  if #vim.api.nvim_buf_get_extmarks(0, ns, 0, -1, { limit = 1 }) > 0 then
+    vim.api.nvim_buf_clear_namespace(0, ns, 0, -1)
+  else
+    builtins.current_buffer_fuzzy_find()
+  end
+end, 'Clear multicursors / live search in current file')
 nmap('<c-h>', builtins.oldfiles, 'Open recent file')
 nmap('<leader>gg', builtins.grep_string, 'Grep for word under the cursor')
 nmap('grr', builtins.lsp_references, 'List references')
